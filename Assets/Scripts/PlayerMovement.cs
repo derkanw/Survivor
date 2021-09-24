@@ -30,6 +30,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void FixedUpdate()
     {
-        _rigidBody.velocity = _position * Speed;
+        _rigidBody.MovePosition(transform.position + _position * Speed * Time.deltaTime);
     }
 }

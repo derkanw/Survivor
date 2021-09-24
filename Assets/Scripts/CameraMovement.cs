@@ -17,9 +17,9 @@ public class CameraMovement : MonoBehaviour
         _offset = transform.position;
     }
 
-    public void FixedUpdate()
+    public void LateUpdate()
     {
         Vector3 targetPos = Player.position + _offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref _velocity, SmoothSpeed);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref _velocity, SmoothSpeed * Time.deltaTime);
     }
 }
