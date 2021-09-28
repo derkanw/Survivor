@@ -376,6 +376,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7072444061591351794, guid: 910177ec26b76c14996c2d53627a6def, type: 3}
   m_PrefabInstance: {fileID: 1237600244}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1237600246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7072444061591711186, guid: 910177ec26b76c14996c2d53627a6def, type: 3}
+  m_PrefabInstance: {fileID: 1237600244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1237600247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237600246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc25c968a561a6499aa43416806cc6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 4807445477575413559, guid: d0c42cdbbda067d4baf7776f62a0d16e, type: 3}
+  ReloadTime: 10
+  ShootingSpeed: 2
+  ClipSize: 10
 --- !u!1001 &6431233809886917378
 PrefabInstance:
   m_ObjectHideFlags: 0

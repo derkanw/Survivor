@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float Speed = 3f;
+    internal Vector3 Direction;
 
     private Rigidbody _rigidBody;
-    private Vector3 _position = Vector3.zero, _offset;
+    private Vector3 _position, _offset;
 
     public void Start()
     {
         _rigidBody = gameObject.GetComponent<Rigidbody>();
-        _offset = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Vector3 cameraPos = Camera.main.transform.position;
+        _offset = new Vector3(0, 0, cameraPos.magnitude);
     }
 
     public void Update()
@@ -20,16 +22,13 @@ public class PlayerMovement : MonoBehaviour
         _position.x = Input.GetAxisRaw("Horizontal");
         _position.z = Input.GetAxisRaw("Vertical");
 
-        Vector3 mousePos = Input.mousePosition - _offset;
-        Vector3 point = new Vector3(-transform.position.x, Screen.height / 2 - transform.position.z, 0);
-
-        float angle = Vector3.Angle(mousePos, point);
-        float sign = (mousePos.x < point.x) ? -1.0f : 1.0f;
-        transform.rotation = Quaternion.Euler(0, sign * angle, 0);
+        Direction = Camera.main.ScreenToWorldPoint(Input.mousePosition + _offset);
+        Direction.y = 0;
+        transform.LookAt(Direction);
     }
 
     public void FixedUpdate()
     {
-        _rigidBody.MovePosition(transform.position + _position * Speed * Time.deltaTime);
+        _rigidBody.MovePosition(transform.position + _position * Speed * Time.fixedDeltaTime);
     }
 }
