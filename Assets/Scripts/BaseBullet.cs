@@ -4,10 +4,8 @@ using UnityEngine;
 
 public abstract class BaseBullet : MonoBehaviour
 {
-    [Range(0f, 50f)]
-    public float Speed, Power;
-
-    internal Vector3 Direction;
+    [Range(0f, 50f)] public float Speed, Power;
+    [HideInInspector] public Vector3 direction;
 
     protected abstract void Flying();
 
