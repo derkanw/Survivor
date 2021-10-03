@@ -12,5 +12,13 @@ public abstract class BaseBullet : MonoBehaviour
     public void FixedUpdate()
     {
         Flying();
+        if (transform.position.y <= 0)
+            Destroy(gameObject);
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Enemy")
+            Destroy(gameObject);
     }
 }

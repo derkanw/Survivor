@@ -6,8 +6,8 @@ public class MachineGun : BaseGun
 {
     protected override void InitBullet()
     {
-        GameObject bullet = Instantiate(BulletPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
-            transform.rotation * Quaternion.Euler(90f, 0f, 0f));
-        bullet.GetComponent<BaseBullet>().direction = gameObject.GetComponent<PlayerMovement>().direction;
+        Transform root = transform.root;
+        GameObject bullet = Instantiate(BulletPrefab, transform.position, root.rotation * Quaternion.Euler(90f, 0f, 0f));
+        bullet.GetComponent<BaseBullet>().direction = root.GetComponent<PlayerMovement>().direction;
     }
 }

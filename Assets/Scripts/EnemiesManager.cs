@@ -9,8 +9,10 @@ public class EnemiesManager : MonoBehaviour
     public float SpawnTime, EnemiesCount;
     private float _currentCount, _groundWidth;
 
-    void Start()
+    public void Start()
     {
+        StartCoroutine(InitEnemies(0));
+
         _currentCount = 0;
         _groundWidth = 9f;
     }
@@ -27,8 +29,8 @@ public class EnemiesManager : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Update()
     {
-        StartCoroutine(InitEnemies(0));
+
     }
 }

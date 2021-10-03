@@ -9,7 +9,7 @@ public class MachineBullet : BaseBullet
 
     protected override void Flying()
     {
-        _rigidBody.MovePosition(transform.position + (direction - _offset) * Speed * Time.fixedDeltaTime);
+        _rigidBody.AddForce((direction - _offset).normalized * Speed);
     }
 
     public void Start()
