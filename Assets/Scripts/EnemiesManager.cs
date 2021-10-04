@@ -13,9 +13,8 @@ public class EnemiesManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(InitEnemies(0));
-        _currentCount = 0;
         _groundWidth = 9f;
+        StartCoroutine(InitEnemies(0));
     }
 
     private IEnumerator InitEnemies(int number)
