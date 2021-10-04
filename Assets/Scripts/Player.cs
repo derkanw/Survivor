@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.tag == "Enemy")
             HP -= collider.gameObject.GetComponent<BaseEnemy>().Power;
-        if (HP == 0)
+        if (HP <= 0)
             Destroy(gameObject);
     }
 }

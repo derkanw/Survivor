@@ -25,7 +25,7 @@ public class BaseEnemy : MonoBehaviour
     {
         if (collider.gameObject.tag == "Bullet")
             HP -= collider.gameObject.GetComponent<BaseBullet>().Power;
-        if (HP == 0)
+        if (HP <= 0)
             Destroy(gameObject);
     }
 
