@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform Player;
+    [SerializeField] private Transform Player;
+    [SerializeField] [Range(0f, 1f)] private float SmoothSpeed;
 
-    [SerializeField]
-    [Range(0f, 1f)]
-    private float SmoothSpeed = 0.125f;
+    private Vector3 _offset;
+    private Vector3 _velocity = Vector3.zero;
 
-    private Vector3 _offset, _velocity = Vector3.zero;
-
-    public void Start()
+    private void Start()
     {
         _offset = transform.position;
     }
 
-    public void LateUpdate()
+    private void LateUpdate()
     {
         if (Player != null)
         {

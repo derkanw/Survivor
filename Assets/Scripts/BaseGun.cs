@@ -4,17 +4,20 @@ using UnityEngine;
 
 public abstract class BaseGun : MonoBehaviour
 {
-    public GameObject BulletPrefab;
-    [Range(0f, 50f)]
-    public float ReloadTime, ShootingSpeed, ClipSize;
-    protected bool isReloading, isShooting;
+    [SerializeField] protected GameObject BulletPrefab;
+    [SerializeField] [Range(0f, 50f)] private float ReloadTime;
+    [SerializeField] [Range(0f, 20f)] private float ShootingSpeed;
+    [SerializeField][Range(0f, 100f)] private float ClipSize;
+
+    private bool _isReloading;
+    private bool _isShooting;
     private float _bulletsCount;
 
     protected abstract void InitBullet();
 
-    protected IEnumerator Shooting()
+    private IEnumerator Shooting()
     {
-        isShooting = true;
+        _isShooting = true;
         while (_bulletsCount != 0 && Input.GetKeyDown(KeyCode.Mouse0))
         {
             InitBullet();
@@ -23,31 +26,31 @@ public abstract class BaseGun : MonoBehaviour
         }
     }
 
-    protected IEnumerator Reloading()
+    private IEnumerator Reloading()
     {
-        isReloading = true;
+        _isReloading = true;
         yield return new WaitForSeconds(ReloadTime);
         _bulletsCount = ClipSize;
     }
 
-    public void Start()
+    private void Start()
     {
         _bulletsCount = ClipSize;
-        isReloading = false;
-        isShooting = false;
+        _isReloading = false;
+        _isShooting = false;
     }
 
-    public void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
+        if (Input.GetKeyDown(KeyCode.R) && !_isReloading)
         {
             StartCoroutine(Reloading());
-            isReloading = false;
+            _isReloading = false;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isShooting)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !_isShooting)
         {
             StartCoroutine(Shooting());
-            isShooting = false;
+            _isShooting = false;
         }
     }
 }

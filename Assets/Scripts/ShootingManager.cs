@@ -6,12 +6,12 @@ public class ShootingManager : MonoBehaviour
 {
     private List<BaseGun> _guns;
 
-    void Start()
+    private void Start()
     {
         _guns = new List<BaseGun>();
     }
 
-    void Update()
+    private void Update()
     {
         /*if (Input.GetKeyDown("F"))
             _guns.Add();*/

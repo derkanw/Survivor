@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    [Range(0f, 10f)] public float Speed;
     [Range(0f, 100f)] public float HP;
     [HideInInspector] public Vector3 direction;
+    [SerializeField] [Range(0f, 10f)] private float Speed;
 
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _position;
 
-    public void Start()
+    private void Start()
     {
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
     }
 
-    public void Update()
+    private void Update()
     {
         _position.x = Input.GetAxisRaw("Horizontal");
         _position.z = Input.GetAxisRaw("Vertical");
@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
         transform.LookAt(direction);
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         if (_position == Vector3.zero)
             _animator.SetBool("isMoving", false);
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Enemy")
             HP -= collider.gameObject.GetComponent<BaseEnemy>().Power;

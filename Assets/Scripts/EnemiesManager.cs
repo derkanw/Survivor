@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class EnemiesManager : MonoBehaviour
 {
-    public List<GameObject> enemies;
-    [Range(0f, 50f)]
-    public float SpawnTime, EnemiesCount;
-    private float _currentCount, _groundWidth;
+    [SerializeField] private List<GameObject> enemies;
+    [SerializeField] [Range(0f, 20f)] private float SpawnTime;
+    [SerializeField] [Range(0f, 50f)] private float EnemiesCount;
 
-    public void Start()
+    private float _currentCount;
+    private float _groundWidth;
+
+    private void Start()
     {
         StartCoroutine(InitEnemies(0));
-
         _currentCount = 0;
         _groundWidth = 9f;
     }
@@ -27,10 +28,5 @@ public class EnemiesManager : MonoBehaviour
             ++_currentCount;
             yield return new WaitForSeconds(time);
         }
-    }
-
-    public void Update()
-    {
-
     }
 }

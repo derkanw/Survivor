@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
-    [Range(0f, 10f)] public float Speed;
-
-    [Range(0f, 100f)] public float HP, Power;
+    [Range(0f, 100f)] public float HP;
+    [Range(0f, 100f)] public float Power;
+    [SerializeField] [Range(0f, 10f)] private float Speed;
 
     private GameObject _player;
     private Rigidbody _rigidBody;
-    private Vector3 _position, _offset;
+    private Vector3 _position;
+    private Vector3 _offset;
     private Animator _animator;
 
-    public void Start()
+    private void Start()
     {
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
         _animator = gameObject.GetComponent<Animator>();
     }
 
-    public void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Bullet")
             HP -= collider.gameObject.GetComponent<BaseBullet>().Power;
@@ -28,14 +29,14 @@ public class BaseEnemy : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         /*if (collision.gameObject.tag == "Enemy")
         //need to fix collision between enemies
         */
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         if (_player != null)
         {

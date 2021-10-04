@@ -8,6 +8,6 @@ public class MachineGun : BaseGun
     {
         Transform root = transform.root;
         GameObject bullet = Instantiate(BulletPrefab, transform.position, root.rotation * Quaternion.Euler(90f, 0f, 0f));
-        bullet.GetComponent<BaseBullet>().direction = root.GetComponent<PlayerMovement>().direction;
+        bullet.GetComponent<BaseBullet>().direction = root.GetComponent<Player>().direction;
     }
 }
