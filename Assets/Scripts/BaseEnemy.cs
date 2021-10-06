@@ -34,7 +34,10 @@ public class BaseEnemy : MonoBehaviour
             _healthBar.fillAmount = _hp / MaxHP;
         }
         if (_hp <= 0)
+        {
+            GameObject.Find("manager").GetComponent<EnemiesManager>().KilledCount++;
             Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
