@@ -5,14 +5,13 @@ using UnityEngine;
 public abstract class BaseBullet : MonoBehaviour
 {
     [Range(0f, 50f)] public float Power;
-    [HideInInspector] public Vector3 direction;
     [SerializeField] [Range(0f, 20f)] protected float Speed;
 
-    protected abstract void Movement();
+    protected abstract void Move ();
 
     private void FixedUpdate()
     {
-        Movement();
+        Move();
         if (transform.position.y <= 0)
             Destroy(gameObject);
     }
@@ -23,3 +22,4 @@ public abstract class BaseBullet : MonoBehaviour
             Destroy(gameObject);
     }
 }
+ 
