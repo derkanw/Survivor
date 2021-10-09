@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemiesManager : MonoBehaviour
 {
+    [HideInInspector] public float KilledCount; // change to event system
+    [SerializeField] private Image Bar;
+
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] [Range(0f, 20f)] private float SpawnTime;
     [SerializeField] [Range(0f, 50f)] private float EnemiesCount;
@@ -15,6 +19,11 @@ public class EnemiesManager : MonoBehaviour
     {
         _groundWidth = 9f;
         StartCoroutine(InitEnemies(0));
+    }
+
+    private void Update()
+    {
+        Bar.fillAmount = KilledCount / EnemiesCount;
     }
 
     private IEnumerator InitEnemies(int number)
