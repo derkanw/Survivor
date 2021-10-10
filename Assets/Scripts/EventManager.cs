@@ -7,46 +7,48 @@ public class EventManager : MonoBehaviour
 {
     [SerializeField] private GameObject LevelUI;
     [SerializeField] private EnemiesManager ManagerForEnemies;
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private InputSystem Input;
     [SerializeField] private CameraMovement camera;
     [SerializeField] private GameObject GameOverUI;
 
+    private Player _playerParams;
+    private BaseGun _gun;
+
     private void Start()
     {
-        var _ui = Instantiate(LevelUI, Vector3.zero, Quaternion.identity);
-        var _uiManager = _ui.GetComponent<UIManager>();
-        ManagerForEnemies.OnChangedKilledCount += _uiManager.ChangeBulletBar;
-        var playerParams = Player.GetComponent<Player>();
-        playerParams.OnChangedHP += _uiManager.ChangeHealthBar;
-        playerParams.OnMoved += camera.ToPlayer;
-        playerParams.OnMoved += ManagerForEnemies.ToMoveEnemies;
-        playerParams.OnDied += PlayerDied;
-        playerParams.OnDied += camera.ToStay;
-        playerParams.OnDied += ManagerForEnemies.ToNotifyEnemies;
+        var ui = Instantiate(LevelUI, Vector3.zero, Quaternion.identity);
+        var uiManager = ui.GetComponent<UIManager>();
+        ManagerForEnemies.OnChangedKilledCount += uiManager.ChangeBulletBar;
+        var player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
+        _playerParams = player.GetComponent<Player>();
+        _playerParams.OnChangedHP += uiManager.ChangeHealthBar;
+        _playerParams.OnMoved += camera.ToPlayer;
+        _playerParams.OnMoved += ManagerForEnemies.ToMoveEnemies;
+        _playerParams.OnDied += PlayerDied;
+        _playerParams.OnDied += camera.ToStay;
+        _playerParams.OnDied += ManagerForEnemies.ToNotifyEnemies;
 
-        var _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
-        _gun.OnReload += _uiManager.ChangeReloadBar;
-        _gun.OnChangedBulletsCount += _uiManager.ChangeBulletsCount;
+        _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
+        _gun.OnReload += uiManager.ChangeReloadBar;
+        _gun.OnChangedBulletsCount += uiManager.ChangeBulletsCount;
 
-        Input.OnMouseMoved += playerParams.ToLook;
+        Input.OnMouseMoved += _playerParams.ToLook;
         Input.OnMouseMoved += _gun.ToLook;
-        Input.OnChangedPosition += playerParams.ToMove;
+        Input.OnChangedPosition += _playerParams.ToMove;
         Input.OnMouseClicked += _gun.ToMouseDown;
         Input.OnReloadingClicked += _gun.ToReloadingKeyDown;
     }
 
     public void PlayerDied()
     {
-        var playerParams = Player.GetComponent<Player>();
-        Input.OnMouseMoved -= playerParams.ToLook;
-        Input.OnChangedPosition -= playerParams.ToMove;
+        Input.OnMouseMoved -= _playerParams.ToLook;
+        Input.OnChangedPosition -= _playerParams.ToMove;
 
-        var _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
         Input.OnMouseMoved -= _gun.ToLook;
         Input.OnMouseClicked -= _gun.ToMouseDown;
         Input.OnReloadingClicked -= _gun.ToReloadingKeyDown;
 
-        var _ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
     }
 }

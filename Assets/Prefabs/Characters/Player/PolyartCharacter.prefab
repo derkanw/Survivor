@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2114753323912895902}
   m_Layer: 0
   m_Name: BulletPosition
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   ReloadTime: 10
   ShootingSpeed: 3
   ClipSize: 10
-  BulletsInfo: {fileID: 0}
 --- !u!1 &7072444061591710752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,9 +1830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 40
-  direction: {x: 0, y: 0, z: 0}
   Speed: 3
-  bar: {fileID: 2037365741446786068, guid: f46237671c81d124a93d2ea0e7e92989, type: 3}
 --- !u!54 &1492136937945167514
 Rigidbody:
   m_ObjectHideFlags: 0
