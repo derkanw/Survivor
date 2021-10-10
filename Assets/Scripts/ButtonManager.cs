@@ -8,7 +8,7 @@ public class ButtonManager : MonoBehaviour
 {
     public void OnRestartButton()
     {
-        SceneManager.LoadScene("Scenes/Main");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void OnExitButton()
