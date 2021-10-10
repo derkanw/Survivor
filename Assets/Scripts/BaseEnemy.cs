@@ -6,7 +6,7 @@ using System;
 
 public class BaseEnemy : MonoBehaviour
 {
-    public event Action OnEnemyDied;
+    public event Action<BaseEnemy> OnEnemyDied;
 
     [Range(0f, 100f)] public float MaxHP;
     [Range(0f, 100f)] public float Power;
@@ -18,6 +18,7 @@ public class BaseEnemy : MonoBehaviour
     private Animator _animator;
     private Image _healthBar;
     private float _hp;
+    private bool _isPlayerExist;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class BaseEnemy : MonoBehaviour
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _healthBar = transform.GetChild(0).transform.GetChild(1).GetComponent<Image>(); // change
+        _isPlayerExist = true;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -36,7 +38,7 @@ public class BaseEnemy : MonoBehaviour
         }
         if (_hp <= 0)
         {
-            OnEnemyDied?.Invoke();
+            OnEnemyDied?.Invoke(this);
             Destroy(gameObject);
         }
     }
@@ -50,15 +52,19 @@ public class BaseEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_targetPosition != Vector3.positiveInfinity)
+        if (_isPlayerExist)
         {
             Vector3 positionPerFrame = _targetPosition * Time.fixedDeltaTime;
             transform.rotation = Quaternion.LookRotation(positionPerFrame);
             _rigidBody.MovePosition(transform.position + positionPerFrame);
         }
-        else
-            _animator.SetBool("isMoving", false);
     }
 
     public void ToMove(Vector3 position) => _targetPosition = (position - transform.position) * Speed;
+
+    public void ToStay()
+    {
+        _isPlayerExist = false;
+        _animator.SetBool("isMoving", false);
+    }
 }

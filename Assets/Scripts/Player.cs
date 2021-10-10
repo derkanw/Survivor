@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public event Action<float> OnChangedHP;
     public event Action<Vector3> OnMoved;
+    public event Action OnDied;
 
     [Range(0f, 100f)] public float MaxHP;
     [SerializeField] [Range(0f, 10f)] private float Speed;
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour
         _hp = MaxHP;
     }
 
-    public void ToMove(Vector3 position) => _position = transform.position + position * Speed;
+    public void ToMove(Vector3 position) => _position = position * Speed;
 
     public void ToLook(Vector3 direction) => transform.LookAt(direction);
 
@@ -34,9 +35,9 @@ public class Player : MonoBehaviour
         else
         {
             _animator.SetBool("isMoving", true);
-            _rigidBody.MovePosition(_position * Time.fixedDeltaTime);
-            OnMoved?.Invoke(transform.position);
+            _rigidBody.MovePosition(transform.position + _position * Time.fixedDeltaTime);
         }
+        OnMoved?.Invoke(transform.position);
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -48,7 +49,7 @@ public class Player : MonoBehaviour
         }
         if (_hp <= 0)
         {
-            //OnMoved?.Invoke(Vector3.positiveInfinity);
+            OnDied?.Invoke();
             Destroy(gameObject);
         }
     }

@@ -7,6 +7,7 @@ public class EnemiesManager : MonoBehaviour
 {
     public event Action<float> OnChangedKilledCount;
     public event Action<Vector3> OnNotifiedEnemies;
+    public event Action OnPlayerDied;
 
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] [Range(0f, 20f)] private float SpawnTime;
@@ -22,8 +23,10 @@ public class EnemiesManager : MonoBehaviour
         StartCoroutine(InitEnemies(0));
     }
 
-    private void ChangeKilledCount()
+    private void ChangeKilledCount(BaseEnemy enemy)
     {
+        OnNotifiedEnemies -= enemy.ToMove;
+        OnPlayerDied -= enemy.ToStay;
         OnChangedKilledCount?.Invoke(++_killedCount / EnemiesCount);
     }
 
@@ -38,6 +41,7 @@ public class EnemiesManager : MonoBehaviour
 
             BaseEnemy enemyParams = enemy.GetComponent<BaseEnemy>();
             enemyParams.OnEnemyDied += ChangeKilledCount;
+            OnPlayerDied += enemyParams.ToStay;
             OnNotifiedEnemies += enemyParams.ToMove;
 
             yield return new WaitForSeconds(time);
@@ -45,4 +49,10 @@ public class EnemiesManager : MonoBehaviour
     }
 
     public void ToMoveEnemies(Vector3 position) => OnNotifiedEnemies?.Invoke(position);
+
+    public void ToNotifyEnemies()
+    {
+        EnemiesCount = _currentCount;
+        OnPlayerDied?.Invoke();
+    }
 }

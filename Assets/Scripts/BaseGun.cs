@@ -30,7 +30,6 @@ public abstract class BaseGun : MonoBehaviour
         {
             InitBullet();
             --_bulletsCount;
-            OnChangedBulletsCount?.Invoke(_bulletsCount + "\\" + ClipSize);
             yield return new WaitForSeconds(ShootingSpeed);
         }
         _isReloading = false;
@@ -43,7 +42,6 @@ public abstract class BaseGun : MonoBehaviour
         _bulletsCount = ClipSize;
         _isReloading = false;
         _isShooting = false;
-        OnChangedBulletsCount?.Invoke(_bulletsCount + "\\" + ClipSize);
     }
 
     private void Start()
@@ -68,6 +66,7 @@ public abstract class BaseGun : MonoBehaviour
             StartCoroutine(Shoot());
             _isShooting = false;
         }
+        OnChangedBulletsCount?.Invoke(_bulletsCount + "\\" + ClipSize);
     }
 
     public void ToMouseDown(bool value) => _isMouseDown = value;
