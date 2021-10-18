@@ -1766,6 +1766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7072444061591351794}
   - component: {fileID: 7072444061582351952}
+  - component: {fileID: 7340434886735810506}
   - component: {fileID: 1492136937945167514}
   - component: {fileID: 5615714592552549858}
   m_Layer: 0
@@ -1816,6 +1817,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7340434886735810506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1832,6 +1834,21 @@ MonoBehaviour:
   HP: 40
   direction: {x: 0, y: 0, z: 0}
 =======
+  Health:
+    BaseValue: 40
+    Rate: 0.05
+  Mana:
+    BaseValue: 10
+    Rate: 0.1
+  Rapidity:
+    BaseValue: 5
+    Rate: 0.05
+  Agility:
+    BaseValue: 1
+    Rate: -0.05
+  Power:
+    BaseValue: 1
+    Rate: 0.05
 >>>>>>> Stashed changes:Assets/Prefabs/Characters/Player/PolyartCharacter.prefab
 --- !u!54 &1492136937945167514
 Rigidbody:
