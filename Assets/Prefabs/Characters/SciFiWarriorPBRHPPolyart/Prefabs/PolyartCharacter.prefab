@@ -1766,7 +1766,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7072444061591351794}
   - component: {fileID: 7072444061582351952}
-  - component: {fileID: 3619359707785990161}
   - component: {fileID: 1492136937945167514}
   - component: {fileID: 5615714592552549858}
   m_Layer: 0
@@ -1817,7 +1816,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3619359707785990161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1829,9 +1827,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6ce66b6a71b7f4bb26ee3fc8f41182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Assets/Prefabs/Characters/SciFiWarriorPBRHPPolyart/Prefabs/PolyartCharacter.prefab
   Speed: 3
   HP: 40
   direction: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> Stashed changes:Assets/Prefabs/Characters/Player/PolyartCharacter.prefab
 --- !u!54 &1492136937945167514
 Rigidbody:
   m_ObjectHideFlags: 0

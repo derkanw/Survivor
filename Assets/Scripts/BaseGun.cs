@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public abstract class BaseGun : MonoBehaviour
 {
     [SerializeField] protected GameObject BulletPrefab;
+<<<<<<< Updated upstream
+=======
+    protected Vector3 _direction;
+    protected float _incPower;
+
+>>>>>>> Stashed changes
     [SerializeField] [Range(0f, 50f)] private float ReloadTime;
     [SerializeField] [Range(0f, 20f)] private float ShootingSpeed;
     [SerializeField][Range(0f, 100f)] private float ClipSize;
@@ -49,6 +55,7 @@ public abstract class BaseGun : MonoBehaviour
         _bulletsCount = ClipSize;
         _isReloading = false;
         _isShooting = false;
+        _incPower = 1;
     }
 
     private void Update()
@@ -68,4 +75,20 @@ public abstract class BaseGun : MonoBehaviour
         }
         _bulletText.text = _bulletsCount + "\\" + ClipSize;
     }
+<<<<<<< Updated upstream
+=======
+
+    public void ToMouseDown(bool value) => _isMouseDown = value;
+
+    public void ToReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
+
+    public void ToLook(Vector3 direction) => _direction = direction;
+
+    public void SetParams(float incAgility, float incPower)
+    {
+        _incPower = incPower;
+        ReloadTime *= incAgility;
+        ShootingSpeed *= incAgility;
+    }
+>>>>>>> Stashed changes
 }

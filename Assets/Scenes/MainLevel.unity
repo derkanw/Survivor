@@ -439,12 +439,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< Updated upstream:Assets/Scenes/Main.unity
   - component: {fileID: 1153112332}
   - component: {fileID: 1153112331}
   - component: {fileID: 1153112330}
   - component: {fileID: 1153112329}
   m_Layer: 5
   m_Name: Canvas
+=======
+  - component: {fileID: 1790698930}
+  - component: {fileID: 1790698929}
+  - component: {fileID: 1790698931}
+  - component: {fileID: 1790698932}
+  - component: {fileID: 1790698934}
+  - component: {fileID: 1790698933}
+  m_Layer: 0
+  m_Name: manager
+>>>>>>> Stashed changes:Assets/Scenes/MainLevel.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -479,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Assets/Scenes/Main.unity
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -492,12 +504,28 @@ MonoBehaviour:
   m_PresetInfoIsWorld: 0
 --- !u!223 &1153112331
 Canvas:
+=======
+  PointsTarget:
+    BaseValue: 20
+    Rate: 0.2
+  Stats: {fileID: 1790698933}
+  Enemies: {fileID: 1790698929}
+  Input: {fileID: 1790698932}
+  Pause: {fileID: 1790698934}
+  LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
+  PlayerPrefab: {fileID: 7072444061591711186, guid: 910177ec26b76c14996c2d53627a6def, type: 3}
+  MainCamera: {fileID: 963194229}
+  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148, type: 3}
+--- !u!114 &1790698932
+MonoBehaviour:
+>>>>>>> Stashed changes:Assets/Scenes/MainLevel.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153112328}
   m_Enabled: 1
+<<<<<<< Updated upstream:Assets/Scenes/Main.unity
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -513,10 +541,19 @@ Canvas:
   m_TargetDisplay: 0
 --- !u!224 &1153112332
 RectTransform:
+=======
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2c7801921cb5c489b5cebf2a62a726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1790698933
+MonoBehaviour:
+>>>>>>> Stashed changes:Assets/Scenes/MainLevel.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream:Assets/Scenes/Main.unity
   m_GameObject: {fileID: 1153112328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -813,6 +850,30 @@ RectTransform:
   m_PrefabInstance: {fileID: 1507043238}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1790698928
+=======
+  m_GameObject: {fileID: 1790698928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b77e8f234df1d448718854d0c14819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatsList: {fileID: 8388292282437781841, guid: 59e868aeb55f17244a2ca9f4c8190fd5, type: 3}
+  Points: {fileID: 5509398610302685676, guid: 73c6e1e5882446e43977f9e326674a17, type: 3}
+--- !u!114 &1790698934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790698928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe03033c408f3746a10c2f7c5bb7b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseUI: {fileID: 518130941881666523, guid: f085a0cbd21b04a4c811511234e4fee0, type: 3}
+--- !u!1 &1970111191
+>>>>>>> Stashed changes:Assets/Scenes/MainLevel.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
