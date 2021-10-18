@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProgressBar: {fileID: 4757303905574857382}
   HealthBar: {fileID: 2216345857558410038}
+  ManaBar: {fileID: 2216345857565670478}
   ReloadBar: {fileID: 2585061025122802678}
   BulletsCount: {fileID: 2585061025405377912}
   Points: {fileID: 8856632004775546879}
@@ -505,6 +506,17 @@ RectTransform:
 --- !u!114 &2216345857558410038 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2037365739864730234, guid: f46237671c81d124a93d2ea0e7e92989, type: 3}
+  m_PrefabInstance: {fileID: 181313350089398604}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2216345857565670478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2037365739870053634, guid: f46237671c81d124a93d2ea0e7e92989, type: 3}
   m_PrefabInstance: {fileID: 181313350089398604}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
