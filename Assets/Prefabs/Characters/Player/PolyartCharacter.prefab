@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2114753323912895902}
   m_Layer: 0
   m_Name: BulletPosition
-  m_TagString: Gun
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc25c968a561a6499aa43416806cc6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 6345374248301834764, guid: 48bd7a2d590cd0847b880569abeb329a, type: 3}
+  BulletPrefab: {fileID: 4807445477575413559, guid: d0c42cdbbda067d4baf7776f62a0d16e, type: 3}
   ReloadTime: 10
   ShootingSpeed: 3
   ClipSize: 10
@@ -1766,7 +1766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7072444061591351794}
   - component: {fileID: 7072444061582351952}
-  - component: {fileID: 3619359707785990161}
+  - component: {fileID: 7340434886735810506}
   - component: {fileID: 1492136937945167514}
   - component: {fileID: 5615714592552549858}
   m_Layer: 0
@@ -1783,7 +1783,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7072444061591711186}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
@@ -1797,7 +1797,7 @@ Transform:
   - {fileID: 1883940474439869855}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7072444061582351952
 Animator:
   serializedVersion: 3
@@ -1817,7 +1817,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3619359707785990161
+--- !u!114 &7340434886735810506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1829,8 +1829,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6ce66b6a71b7f4bb26ee3fc8f41182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 40
+<<<<<<< Updated upstream:Assets/Prefabs/Characters/SciFiWarriorPBRHPPolyart/Prefabs/PolyartCharacter.prefab
   Speed: 3
+  HP: 40
+  direction: {x: 0, y: 0, z: 0}
+=======
+  Health:
+    BaseValue: 40
+    Rate: 0.05
+  Mana:
+    BaseValue: 10
+    Rate: 0.1
+  Rapidity:
+    BaseValue: 5
+    Rate: 0.05
+  Agility:
+    BaseValue: 1
+    Rate: -0.05
+  Power:
+    BaseValue: 1
+    Rate: 0.05
+>>>>>>> Stashed changes:Assets/Prefabs/Characters/Player/PolyartCharacter.prefab
 --- !u!54 &1492136937945167514
 Rigidbody:
   m_ObjectHideFlags: 0

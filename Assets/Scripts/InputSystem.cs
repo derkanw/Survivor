@@ -10,6 +10,8 @@ public class InputSystem : MonoBehaviour
     public event Action<bool> OnMouseClicked;
     public event Action<bool> OnReloadingClicked;
 
+    private bool _isPaused = false;
+
     private void RotatePlayer()
     {
         Vector3 direction = Vector3.zero;
@@ -30,9 +32,14 @@ public class InputSystem : MonoBehaviour
 
     private void Update()
     {
+        if (_isPaused) return;
         MovePlayer();
         RotatePlayer();
         OnMouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
         OnReloadingClicked?.Invoke(Input.GetKeyDown(KeyCode.R));
     }
+
+    public void OnPause() => _isPaused = true;
+
+    public void OnResume() => _isPaused = false;
 }
