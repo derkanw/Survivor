@@ -19,12 +19,24 @@ public class PointsManager : MonoBehaviour
         set => PointsField.text = value.ToString();
     }
 
-    public Dictionary<StatsNames, int> UpdateStats()
+    public Dictionary<StatsNames, int> GetStats()
     {
         int size = Values.Count;
         var _stats = new Dictionary<StatsNames, int>(size);
         for (int index = 0; index < size; ++index)
             _stats.Add((StatsNames)index, int.Parse(Values[index].text));
         return _stats;
+    }
+
+    public void SetStats(int[] stats)
+    {
+        int size = Values.Count;
+        int[] data;
+        if (stats == null)
+            data = new int[size];
+        else
+            data = stats;
+        for (int index = 0; index < size; ++index)
+            Values[index].text = data[index].ToString();
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemiesManager Enemies;
     [SerializeField] private InputSystem Input;
     [SerializeField] private PauseUIManager Pause;
+    [SerializeField] private MainMenuManager Menu;
 
     [SerializeField] private GameObject LevelHUD;
     [SerializeField] private GameObject PlayerPrefab;
@@ -28,8 +30,9 @@ public class GameManager : MonoBehaviour
     private int _playerLevel;
     private int _gameLevel;
 
-    private void Start()
+    private void Awake()
     {
+        Menu.SetActive();
         PointsTarget.Init();
 
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviour
         _playerParams.OnDied += PlayerDied;
         _playerParams.OnDied += MainCamera.ToStay;
         _playerParams.OnDied += Enemies.ToNotifyEnemies;
+        _playerParams.OnDied += Menu.OnFailed;
 
         _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
         _gun.OnReload += hud.ChangeReloadBar;
@@ -66,6 +70,9 @@ public class GameManager : MonoBehaviour
         buttonManager.LooksStats += Stats.OnLooksStats;
         buttonManager.LooksStats += Input.OnPause;
 
+        Pause.SaveProgress += SaveParams;
+        Pause.SaveProgress += Stats.SaveStats;
+
         PlayerLevelUp += hud.OnLevelUp;
         ChangePoints += hud.OnChangedPoints;
 
@@ -73,6 +80,12 @@ public class GameManager : MonoBehaviour
         Stats.GetPoints += hud.OnChangedPoints;
         Stats.GetStats += _playerParams.OnLevelUp;
         LevelUp += Enemies.OnLevelUp;
+
+        _playerLevel = PlayerPrefs.GetInt("PlayerLevel", 0);
+        _gameLevel = PlayerPrefs.GetInt("GameLevel", 0);
+        _points = PlayerPrefs.GetFloat("PointsForNewLevel", 0);
+        PlayerLevelUp?.Invoke(_playerLevel);
+        PointsTarget.Modify(_playerLevel);
     }
 
     private void PlayerDied()
@@ -86,6 +99,8 @@ public class GameManager : MonoBehaviour
         Input.OnReloadingClicked -= _gun.ToReloadingKeyDown;
 
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        PlayerPrefs.DeleteAll();
+        File.Delete(SaveSystem.path);
     }
 
     private void OnSetPoints(float points)
@@ -99,5 +114,12 @@ public class GameManager : MonoBehaviour
             PointsTarget.Modify(_playerLevel);
             _points = 0;
         }
+    }
+
+    private void SaveParams()
+    {
+        PlayerPrefs.SetInt("PlayerLevel", _playerLevel);
+        PlayerPrefs.SetInt("GameLevel", _gameLevel);
+        PlayerPrefs.SetFloat("PointsForNewLevel", _points);
     }
 }

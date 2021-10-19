@@ -532,6 +532,7 @@ MonoBehaviour:
   Enemies: {fileID: 1688001195}
   Input: {fileID: 1688001193}
   Pause: {fileID: 1688001192}
+  Menu: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
   PlayerPrefab: {fileID: 7072444061591711186, guid: 910177ec26b76c14996c2d53627a6def, type: 3}
   MainCamera: {fileID: 761619248}
