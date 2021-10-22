@@ -5,12 +5,16 @@ using System;
 
 public class InputSystem : MonoBehaviour
 {
-    public event Action<Vector3> OnMouseMoved;
-    public event Action<Vector3> OnChangedPosition;
+    public event Action<Vector3> CursorMoved;
+    public event Action<Vector3> ChangedPosition;
     public event Action<bool> OnMouseClicked;
     public event Action<bool> OnReloadingClicked;
 
     private bool _isPaused = false;
+
+    public void OnPause() => _isPaused = true;
+
+    public void OnResume() => _isPaused = false;
 
     private void RotatePlayer()
     {
@@ -19,7 +23,7 @@ public class InputSystem : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit rh))
             direction = rh.point;
         direction.y = 0;
-        OnMouseMoved?.Invoke(direction);
+        CursorMoved?.Invoke(direction);
     }
 
     private void MovePlayer()
@@ -27,7 +31,7 @@ public class InputSystem : MonoBehaviour
         Vector3 position = Vector3.zero;
         position.x = Input.GetAxisRaw("Horizontal");
         position.z = Input.GetAxisRaw("Vertical");
-        OnChangedPosition?.Invoke(position);
+        ChangedPosition?.Invoke(position);
     }
 
     private void Update()
@@ -38,8 +42,4 @@ public class InputSystem : MonoBehaviour
         OnMouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
         OnReloadingClicked?.Invoke(Input.GetKeyDown(KeyCode.R));
     }
-
-    public void OnPause() => _isPaused = true;
-
-    public void OnResume() => _isPaused = false;
 }

@@ -8,8 +8,8 @@ public class PauseUIManager : MonoBehaviour
 {
     public event Action Resume;
     public event Action SaveProgress;
-    [SerializeField] private GameObject PauseUI;
 
+    [SerializeField] private GameObject PauseUI;
     private GameObject _pauseUI;
 
     public void OnPause() => _pauseUI.SetActive(true);

@@ -13,6 +13,8 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private Text Points;
     [SerializeField] private Text Level;
 
+    private float _clipSize;
+
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
     public void ChangeHealthBar(float count) => HealthBar.fillAmount = count;
@@ -25,9 +27,11 @@ public class LevelHUDManager : MonoBehaviour
             ReloadBar.fillAmount += count;
     }
 
-    public void ChangeBulletsCount(string str) => BulletsCount.text = str;
+    public void OnChangedBulletsCount(float count) => BulletsCount.text = count + "\\" + _clipSize;
 
     public void OnChangedPoints(int points) => Points.text = points.ToString();
 
     public void OnLevelUp(int level) => Level.text = level.ToString();
+
+    public void OnChangedClipSize(float size) => _clipSize = size;
 }

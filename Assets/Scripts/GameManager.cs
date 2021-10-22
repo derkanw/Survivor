@@ -38,26 +38,28 @@ public class GameManager : MonoBehaviour
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
         var hud = levelHud.GetComponent<LevelHUDManager>();
 
-        Enemies.OnChangedKilledCount += hud.ChangeBulletBar;
+        Enemies.ChangedKilledCount += hud.ChangeBulletBar;
         Enemies.SetPoints += OnSetPoints;
 
         var player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         _playerParams = player.GetComponent<Player>();
-        _playerParams.OnChangedHP += hud.ChangeHealthBar;
-        _playerParams.OnMoved += MainCamera.ToPlayer;
-        _playerParams.OnMoved += Enemies.ToMoveEnemies;
-        _playerParams.OnDied += PlayerDied;
-        _playerParams.OnDied += MainCamera.ToStay;
-        _playerParams.OnDied += Enemies.ToNotifyEnemies;
-        _playerParams.OnDied += Menu.OnFailed;
+        _playerParams.ChangedHP += hud.ChangeHealthBar;
+        _playerParams.Moved += MainCamera.Move;
+        _playerParams.Moved += Enemies.MoveEnemiesTo;
+        _playerParams.Died += OnPlayerDied;
+        _playerParams.Died += MainCamera.Stay;
+        _playerParams.Died += Enemies.NotifyEnemies;
+        _playerParams.Died += Menu.OnFailed;
 
         _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
-        _gun.OnReload += hud.ChangeReloadBar;
-        _gun.OnChangedBulletsCount += hud.ChangeBulletsCount;
+        _gun.ChangedClipSize += hud.OnChangedClipSize;
+        _gun.ChangedBulletsCount += hud.OnChangedBulletsCount;
+        _gun.Reloading += hud.ChangeReloadBar;
 
-        Input.OnMouseMoved += _playerParams.ToLook;
-        Input.OnMouseMoved += _gun.ToLook;
-        Input.OnChangedPosition += _playerParams.ToMove;
+        //
+        Input.CursorMoved += _playerParams.LookTo;
+        Input.CursorMoved += _gun.LookTo;
+        Input.ChangedPosition += _playerParams.MoveTo;
         Input.OnMouseClicked += _gun.ToMouseDown;
         Input.OnReloadingClicked += _gun.ToReloadingKeyDown;
 
@@ -88,13 +90,13 @@ public class GameManager : MonoBehaviour
         PointsTarget.Modify(_playerLevel);
     }
 
-    private void PlayerDied()
+    private void OnPlayerDied()
     {
-        Input.OnMouseMoved -= _playerParams.ToLook;
-        Input.OnChangedPosition -= _playerParams.ToMove;
+        Input.CursorMoved -= _playerParams.LookTo;
+        Input.ChangedPosition -= _playerParams.MoveTo;
         Stats.GetStats -= _playerParams.OnLevelUp;
 
-        Input.OnMouseMoved -= _gun.ToLook;
+        Input.CursorMoved -= _gun.LookTo;
         Input.OnMouseClicked -= _gun.ToMouseDown;
         Input.OnReloadingClicked -= _gun.ToReloadingKeyDown;
 

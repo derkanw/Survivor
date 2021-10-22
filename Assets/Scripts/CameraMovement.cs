@@ -11,6 +11,10 @@ public class CameraMovement : MonoBehaviour
     private Vector3 _toPlayer;
     private bool _isPlayerExist;
 
+    public void Move(Vector3 position) => _toPlayer = position;
+
+    public void Stay() => _isPlayerExist = false;
+
     private void Start()
     {
         _offset = transform.position;
@@ -25,8 +29,4 @@ public class CameraMovement : MonoBehaviour
             transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref _velocity, SmoothSpeed * Time.deltaTime);
         }
     }
-
-    public void ToPlayer(Vector3 position) => _toPlayer = position;
-
-    public void ToStay() => _isPlayerExist = false;
 }

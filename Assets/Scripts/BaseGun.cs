@@ -6,8 +6,9 @@ using System;
 
 public abstract class BaseGun : MonoBehaviour
 {
-    public event Action<string> OnChangedBulletsCount;
-    public event Action<float> OnReload;
+    public event Action<float> ChangedBulletsCount;
+    public event Action<float> ChangedClipSize;
+    public event Action<float> Reloading;
 
     [SerializeField] protected GameObject BulletPrefab;
     protected Vector3 _direction;
@@ -22,6 +23,19 @@ public abstract class BaseGun : MonoBehaviour
     private bool _isMouseDown;
     private bool _isReloadingKeyDown;
     private float _bulletsCount;
+
+    public void ToMouseDown(bool value) => _isMouseDown = value;
+
+    public void ToReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
+
+    public void LookTo(Vector3 direction) => _direction = direction;
+
+    public void SetParams(float incAgility, float incPower)
+    {
+        _incPower = incPower;
+        ReloadTime *= incAgility;
+        ShootingSpeed *= incAgility;
+    }
 
     protected abstract void InitBullet();
 
@@ -52,36 +66,25 @@ public abstract class BaseGun : MonoBehaviour
         _isReloading = false;
         _isShooting = false;
         _incPower = 1;
+        ChangedClipSize?.Invoke(ClipSize);
     }
 
     private void Update()
     {
+        // reloading image is filled wrong
         if (_isReloadingKeyDown && !_isReloading)
         {
             _isShooting = true;
             StartCoroutine(Reload());
-            OnReload?.Invoke(0f);
+            Reloading?.Invoke(0f);
         }
         if (_isReloading)
-            OnReload?.Invoke(Time.deltaTime / ReloadTime);
+            Reloading?.Invoke(Time.deltaTime / ReloadTime);
         if (_isMouseDown && !_isShooting)
         {
             StartCoroutine(Shoot());
             _isShooting = false;
         }
-        OnChangedBulletsCount?.Invoke(_bulletsCount + "\\" + ClipSize);
-    }
-
-    public void ToMouseDown(bool value) => _isMouseDown = value;
-
-    public void ToReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
-
-    public void ToLook(Vector3 direction) => _direction = direction;
-
-    public void SetParams(float incAgility, float incPower)
-    {
-        _incPower = incPower;
-        ReloadTime *= incAgility;
-        ShootingSpeed *= incAgility;
+        ChangedBulletsCount?.Invoke(_bulletsCount);
     }
 }

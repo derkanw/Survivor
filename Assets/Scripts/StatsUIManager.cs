@@ -13,10 +13,17 @@ public class StatsUIManager : MonoBehaviour
     [SerializeField] private GameObject StatsList;
     private GameObject _statsList;
     private PointsManager _pointsManager;
+    private string _fieldName = "PointsForStats";
 
     public void OnChangedPoints(int points) => _pointsManager.Points = points;
 
     public void OnLooksStats() => _statsList.SetActive(true);
+
+    public void SaveStats()
+    {
+        PlayerPrefs.SetInt(_fieldName, _pointsManager.Points);
+        SaveSystem.Save(_pointsManager.GetStats());
+    }
 
     private void Start()
     {
@@ -24,10 +31,10 @@ public class StatsUIManager : MonoBehaviour
         _statsList.SetActive(false);
         _statsList.GetComponent<ButtonManager>().Resume += OnResume;
         _pointsManager = _statsList.GetComponent<PointsManager>();
-        _pointsManager.Points = PlayerPrefs.GetInt("PointsForStats", 0);
+        _pointsManager.Points = PlayerPrefs.GetInt(_fieldName, 0);
         GetPoints?.Invoke(_pointsManager.Points);
         _pointsManager.SetStats(SaveSystem.Load());
-        //GetStats?.Invoke(_pointsManager.GetStats());
+        GetStats?.Invoke(_pointsManager.GetStats());
     }
 
     private void OnResume()
@@ -36,11 +43,5 @@ public class StatsUIManager : MonoBehaviour
         GetPoints?.Invoke(_pointsManager.Points);
         Resume?.Invoke();
         GetStats?.Invoke(_pointsManager.GetStats());
-    }
-
-    public void SaveStats()
-    {
-        PlayerPrefs.SetInt("PointsForStats", _pointsManager.Points);
-        SaveSystem.Save(_pointsManager.GetStats());
     }
 }
