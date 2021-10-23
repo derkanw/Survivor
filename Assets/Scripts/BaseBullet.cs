@@ -4,22 +4,27 @@ using UnityEngine;
 
 public abstract class BaseBullet : MonoBehaviour
 {
-    [Range(0f, 50f)] public float Power;
-    [HideInInspector] public Vector3 direction;
+    [SerializeField] [Range(0f, 50f)] protected float Power;
     [SerializeField] [Range(0f, 20f)] protected float Speed;
 
-    protected abstract void Movement();
+    protected abstract void Move();
 
     private void FixedUpdate()
     {
-        Movement();
+        Move();
         if (transform.position.y <= 0)
             Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Enemy")
+        var target = collider.gameObject;
+        if (target.tag == "Enemy")
+        {
+            target.GetComponent<BaseEnemy>().TakeDamage(Power);
             Destroy(gameObject);
+        }
     }
+
+    public void SetPower(float incPower) => Power *= incPower;
 }

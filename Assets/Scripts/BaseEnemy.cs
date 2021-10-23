@@ -2,40 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class BaseEnemy : MonoBehaviour
 {
-    [Range(0f, 100f)] public float MaxHP;
-    [Range(0f, 100f)] public float Power;
-    [SerializeField] [Range(0f, 10f)] private float Speed;
+    public event Action<BaseEnemy, float> OnEnemyDied;
 
-    private GameObject _player;
+    [SerializeField] private Stat Health;
+    [SerializeField] private Stat Rapidity;
+    [SerializeField] private Stat Power;
+    [SerializeField] private Stat DeathPoints;
+
     private Rigidbody _rigidBody;
-    private Vector3 _position;
-    private Vector3 _offset;
+    private Vector3 _targetPosition;
     private Animator _animator;
     private Image _healthBar;
     private float _hp;
+    private bool _isPlayerExist;
+
 
     private void Start()
     {
-        _hp = MaxHP;
+        Health.Init();
+        Rapidity.Init();
+        Power.Init();
+        DeathPoints.Init();
+
+        _hp = Health.Value;
+        _isPlayerExist = true;
         _rigidBody = gameObject.GetComponent<Rigidbody>();
-        _player = GameObject.FindWithTag("Player");
         _animator = gameObject.GetComponent<Animator>();
         _healthBar = transform.GetChild(0).transform.GetChild(1).GetComponent<Image>();
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Bullet")
-        {
-            _hp -= collider.gameObject.GetComponent<BaseBullet>().Power;
-            _healthBar.fillAmount = _hp / MaxHP;
-        }
+        var target = collider.gameObject;
+        if (target.tag == "Player")
+            target.GetComponent<Player>().TakeDamage(Power.Value);
         if (_hp <= 0)
         {
-            GameObject.Find("manager").GetComponent<EnemiesManager>().KilledCount++;
+            OnEnemyDied?.Invoke(this, DeathPoints.Value);
             Destroy(gameObject);
         }
     }
@@ -49,13 +56,33 @@ public class BaseEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_player != null)
+        if (_isPlayerExist)
         {
-            Vector3 targetPos = (_player.transform.position - transform.position) * Speed * Time.fixedDeltaTime;
+            Vector3 targetPos = _targetPosition * Time.fixedDeltaTime;
             transform.rotation = Quaternion.LookRotation(targetPos);
             _rigidBody.MovePosition(transform.position + targetPos);
         }
-        else
-            _animator.SetBool("isMoving", false);
+    }
+
+    public void TakeDamage(float power)
+    {
+        _hp -= power;
+        _healthBar.fillAmount = _hp / Health.Value;
+    }
+
+    public void OnLevelUp(int level)
+    {
+        Health.Modify(level);
+        Rapidity.Modify(level);
+        Power.Modify(level);
+        DeathPoints.Modify(level);
+    }
+
+    public void ToMove(Vector3 position) => _targetPosition = (position - transform.position) * Rapidity.Value;
+
+    public void ToStay()
+    {
+        _isPlayerExist = false;
+        _animator.SetBool("isMoving", false);
     }
 }

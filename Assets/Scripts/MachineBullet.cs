@@ -7,9 +7,9 @@ public class MachineBullet : BaseBullet
     private Rigidbody _rigidBody;
     private Vector3 _offset;
 
-    protected override void Movement()
+    protected override void Move()
     {
-        _rigidBody.AddForce((direction - _offset).normalized * Speed);
+        _rigidBody.AddForce(transform.forward * Speed);
     }
 
     private void Start()
