@@ -24,9 +24,9 @@ public abstract class BaseGun : MonoBehaviour
     private bool _isReloadingKeyDown;
     private float _bulletsCount;
 
-    public void ToMouseDown(bool value) => _isMouseDown = value;
+    public void OnMouseDown(bool value) => _isMouseDown = value;
 
-    public void ToReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
+    public void OnReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
 
     public void LookTo(Vector3 direction) => _direction = direction;
 
@@ -53,7 +53,6 @@ public abstract class BaseGun : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        _isReloading = true;
         yield return new WaitForSeconds(ReloadTime);
         _bulletsCount = ClipSize;
         _isReloading = false;
@@ -72,9 +71,11 @@ public abstract class BaseGun : MonoBehaviour
     private void Update()
     {
         // reloading image is filled wrong
-        if (_isReloadingKeyDown && !_isReloading)
+        // maybe it will be fixed after changing the input system
+        if (!_isReloading && _isReloadingKeyDown)
         {
             _isShooting = true;
+            _isReloading = true;
             StartCoroutine(Reload());
             Reloading?.Invoke(0f);
         }

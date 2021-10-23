@@ -7,8 +7,8 @@ public class InputSystem : MonoBehaviour
 {
     public event Action<Vector3> CursorMoved;
     public event Action<Vector3> ChangedPosition;
-    public event Action<bool> OnMouseClicked;
-    public event Action<bool> OnReloadingClicked;
+    public event Action<bool> MouseClicked;
+    public event Action<bool> Reloading;
 
     private bool _isPaused = false;
 
@@ -39,7 +39,7 @@ public class InputSystem : MonoBehaviour
         if (_isPaused) return;
         MovePlayer();
         RotatePlayer();
-        OnMouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
-        OnReloadingClicked?.Invoke(Input.GetKeyDown(KeyCode.R));
+        Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
+        MouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
     }
 }

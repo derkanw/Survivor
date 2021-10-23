@@ -56,12 +56,12 @@ public class GameManager : MonoBehaviour
         _gun.ChangedBulletsCount += hud.OnChangedBulletsCount;
         _gun.Reloading += hud.ChangeReloadBar;
 
-        //
+        // need to change
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _gun.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
-        Input.OnMouseClicked += _gun.ToMouseDown;
-        Input.OnReloadingClicked += _gun.ToReloadingKeyDown;
+        Input.MouseClicked += _gun.OnMouseDown;
+        Input.Reloading += _gun.OnReloadingKeyDown;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;
@@ -97,8 +97,8 @@ public class GameManager : MonoBehaviour
         Stats.GetStats -= _playerParams.OnLevelUp;
 
         Input.CursorMoved -= _gun.LookTo;
-        Input.OnMouseClicked -= _gun.ToMouseDown;
-        Input.OnReloadingClicked -= _gun.ToReloadingKeyDown;
+        Input.MouseClicked -= _gun.OnMouseDown;
+        Input.Reloading -= _gun.OnReloadingKeyDown;
 
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         PlayerPrefs.DeleteAll();
