@@ -7,6 +7,7 @@ public class EnemiesManager : MonoBehaviour
 {
     public event Action<float> ChangedKilledCount;
     public event Action<float> SetPoints;
+    public event Action PlayerWin;
 
     private event Action<Vector3> NotifiedEnemies;
     private event Action PlayerDied;
@@ -44,6 +45,8 @@ public class EnemiesManager : MonoBehaviour
 
         ChangedKilledCount?.Invoke(++_killedCount / EnemiesCount);
         SetPoints?.Invoke(points);
+        if (_killedCount == EnemiesCount)
+            PlayerWin?.Invoke();
     }
 
     private IEnumerator InitEnemies(int number)

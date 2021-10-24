@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private event Action<int> PlayerLevelUp;
-    private event Action<int> LevelUp;
-    private event Action<int> ChangePoints;
-
+    [SerializeField] private uint LevelsCount;
     [SerializeField] private Stat PointsTarget;
 
     [SerializeField] private StatsUIManager Stats;
@@ -18,10 +16,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PauseUIManager Pause;
     [SerializeField] private MainMenuManager Menu;
 
+    [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject LevelHUD;
     [SerializeField] private GameObject PlayerPrefab;
-    [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject GameOverUI;
+
+    private event Action<int> PlayerLevelUp;
+    private event Action<int> LevelUp;
+    private event Action<int> ChangePoints;
 
     private Player _playerParams;
     private BaseGun _gun;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
 
         Enemies.ChangedKilledCount += hud.ChangeBulletBar;
         Enemies.SetPoints += OnSetPoints;
+        Enemies.PlayerWin += LoadNextLevel;
 
         var player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         _playerParams = player.GetComponent<Player>();
@@ -75,19 +78,21 @@ public class GameManager : MonoBehaviour
         Pause.SaveProgress += SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
 
-        PlayerLevelUp += hud.OnLevelUp;
+        PlayerLevelUp += hud.OnPlayerLevelUp;
         ChangePoints += hud.OnChangedPoints;
 
         ChangePoints += Stats.OnChangedPoints;
         Stats.GetPoints += hud.OnChangedPoints;
         Stats.GetStats += _playerParams.OnLevelUp;
         LevelUp += Enemies.OnLevelUp;
+        LevelUp += hud.OnGameLevelUp;
 
         _playerLevel = PlayerPrefs.GetInt("PlayerLevel", 0);
         _gameLevel = PlayerPrefs.GetInt("GameLevel", 0);
         _points = PlayerPrefs.GetFloat("PointsForNewLevel", 0);
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
+        LevelUp?.Invoke(_gameLevel);
     }
 
     private void OnPlayerDied()
@@ -111,7 +116,7 @@ public class GameManager : MonoBehaviour
         if (_points >= PointsTarget.Value)
         {
             ++_playerLevel;
-            ChangePoints?.Invoke(_playerLevel * 2);
+            ChangePoints?.Invoke(_playerLevel);
             PlayerLevelUp?.Invoke(_playerLevel);
             PointsTarget.Modify(_playerLevel);
             _points = 0;
@@ -123,5 +128,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLevel", _playerLevel);
         PlayerPrefs.SetInt("GameLevel", _gameLevel);
         PlayerPrefs.SetFloat("PointsForNewLevel", _points);
+    }
+
+    private void LoadNextLevel()
+    {
+        SaveParams();
+        Stats.SaveStats();
+        SceneManager.LoadScene(++_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
     }
 }

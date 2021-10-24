@@ -124,7 +124,8 @@ MonoBehaviour:
   ReloadBar: {fileID: 2585061025122802678}
   BulletsCount: {fileID: 2585061025405377912}
   Points: {fileID: 8856632004775546879}
-  Level: {fileID: 2216345858080481215}
+  PlayerLevel: {fileID: 2216345858080481215}
+  GameLevel: {fileID: 4757303904404421481}
 --- !u!114 &8579186847924642180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,6 +632,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Progress
       objectReference: {fileID: 0}
+    - target: {fileID: 4648120785313851666, guid: 90df21d711a09b9478aab2b19e6a2074, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4648120785313851667, guid: 90df21d711a09b9478aab2b19e6a2074, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90df21d711a09b9478aab2b19e6a2074, type: 3}
 --- !u!224 &4757303904028900253 stripped
@@ -647,6 +656,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4757303904404421481 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648120785313851666, guid: 90df21d711a09b9478aab2b19e6a2074, type: 3}
+  m_PrefabInstance: {fileID: 181313350727586427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &181313350873668910

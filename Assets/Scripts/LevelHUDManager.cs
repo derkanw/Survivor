@@ -11,7 +11,8 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private Image ReloadBar;
     [SerializeField] private Text BulletsCount;
     [SerializeField] private Text Points;
-    [SerializeField] private Text Level;
+    [SerializeField] private Text PlayerLevel;
+    [SerializeField] private Text GameLevel;
 
     private float _clipSize;
 
@@ -31,7 +32,9 @@ public class LevelHUDManager : MonoBehaviour
 
     public void OnChangedPoints(int points) => Points.text = points.ToString();
 
-    public void OnLevelUp(int level) => Level.text = level.ToString();
+    public void OnPlayerLevelUp(int level) => PlayerLevel.text = level.ToString();
+
+    public void OnGameLevelUp(int level) => GameLevel.text = "Level " + ++level + " progress";
 
     public void OnChangedClipSize(float size) => _clipSize = size;
 }

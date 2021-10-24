@@ -26,6 +26,7 @@ public class BaseEnemy : MonoBehaviour
         Rapidity.Modify(level);
         Power.Modify(level);
         DeathPoints.Modify(level);
+        _hp = Health.Value;
     }
 
     public void MoveTo(Vector3 position) => _targetPosition = (position - transform.position) * Rapidity.Value;
