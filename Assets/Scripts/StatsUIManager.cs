@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
 public class StatsUIManager : MonoBehaviour
@@ -13,7 +12,7 @@ public class StatsUIManager : MonoBehaviour
     [SerializeField] private GameObject StatsList;
     private GameObject _statsList;
     private PointsManager _pointsManager;
-    private string _fieldName = "PointsForStats";
+    private readonly string _fieldName = "PointsForStats";
 
     public void OnChangedPoints(int points) => _pointsManager.Points = points;
 

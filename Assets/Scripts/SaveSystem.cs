@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SaveSystem
 {
     public static string path = Application.persistentDataPath + "/stats.info";
-    private static BinaryFormatter formatter = new BinaryFormatter();
+    private static readonly BinaryFormatter formatter = new BinaryFormatter();
 
     public static void Save(Dictionary<StatsNames, int> stats)
     {

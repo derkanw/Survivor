@@ -58,7 +58,7 @@ public class BaseEnemy : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         var target = collider.gameObject;
-        if (target.tag == "Player")
+        if (target.CompareTag("Player"))
             target.GetComponent<Player>().TakeDamage(Power.Value);
         if (_hp <= 0)
         {

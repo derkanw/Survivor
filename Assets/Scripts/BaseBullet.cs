@@ -21,7 +21,7 @@ public abstract class BaseBullet : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         var target = collider.gameObject;
-        if (target.tag == "Enemy")
+        if (target.CompareTag("Enemy"))
         {
             target.GetComponent<BaseEnemy>().TakeDamage(Power);
             Destroy(gameObject);

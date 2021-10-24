@@ -388,7 +388,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6431233808465330825, guid: 2d3c6b9f50c89e54ba3522574961321f, type: 3}
       propertyPath: m_Name
-      value: ground
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6431233808465330825, guid: 2d3c6b9f50c89e54ba3522574961321f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 1688001192}
   - component: {fileID: 1688001191}
   m_Layer: 0
-  m_Name: manager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
