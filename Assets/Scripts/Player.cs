@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -17,13 +18,17 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidBody;
     private Animator _animator;
     private Vector3 _position;
-    private BaseGun _gun;
     private float _hp;
+    private WeaponsManager _weaponsManager;
 
     public void TakeDamage(float power)
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
+        // 
+        //_animator.SetTrigger("Damage");
+        //_animator.ResetTrigger("Damage");
     }
 
     public void OnLevelUp(Dictionary<StatsNames, int> stats)
@@ -47,7 +52,7 @@ public class Player : MonoBehaviour
                     Power.Modify(stats[name]);
                     break;
             }
-        _gun.SetParams(Agility.Value, Power.Value);
+        _weaponsManager.SetGunParams(Agility.Value, Power.Value);
     }
 
     public void MoveTo(Vector3 position) => _position = position * Rapidity.Value;
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_hp <= 0) return;
         if (_position == Vector3.zero)
             _animator.SetBool("isMoving", false);
         else
@@ -66,13 +72,18 @@ public class Player : MonoBehaviour
         Moved?.Invoke(transform.position);
     }
 
+    private IEnumerator PlayerDied()
+    {
+        _animator.SetTrigger("Death");
+        yield return new WaitForSeconds(2f);
+        Died?.Invoke();
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if (_hp <= 0)
-        {
-            Died?.Invoke();
-            Destroy(gameObject);
-        }
+            StartCoroutine(PlayerDied());
     }
 
     private void Awake()
@@ -83,9 +94,9 @@ public class Player : MonoBehaviour
         Agility.Init();
         Power.Init();
 
-        _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>(); // how it will be changed if there is a list of weapons?
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = Health.Value;
+        _weaponsManager = gameObject.GetComponent<WeaponsManager>();
     }
 }

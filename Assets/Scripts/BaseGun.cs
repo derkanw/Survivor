@@ -9,10 +9,12 @@ public abstract class BaseGun : MonoBehaviour
     public event Action<float> ChangedBulletsCount;
     public event Action<float> ChangedClipSize;
     public event Action<float> Reloading;
+    public event Action Shooting;
 
     [SerializeField] protected GameObject BulletPrefab;
     protected Vector3 _direction;
     protected float _incPower;
+    protected Transform _offset;
 
     [SerializeField] [Range(0f, 50f)] private float ReloadTime;
     [SerializeField] [Range(0f, 20f)] private float ShootingSpeed;
@@ -41,9 +43,12 @@ public abstract class BaseGun : MonoBehaviour
 
     private IEnumerator Shoot()
     {
+        // no firing occurs when key is pressed for a long time
         _isShooting = true;
         while (_bulletsCount != 0 && _isMouseDown)
         {
+            Shooting?.Invoke();
+            yield return new WaitForSeconds(0.5f);
             InitBullet();
             --_bulletsCount;
             yield return new WaitForSeconds(ShootingSpeed);
@@ -66,6 +71,7 @@ public abstract class BaseGun : MonoBehaviour
         _isShooting = false;
         _incPower = 1;
         ChangedClipSize?.Invoke(ClipSize);
+        _offset = gameObject.transform.GetChild(0);
     }
 
     private void Update()
