@@ -26,9 +26,7 @@ public class Player : MonoBehaviour
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
-        // 
-        //_animator.SetTrigger("Damage");
-        //_animator.ResetTrigger("Damage");
+        _animator.SetTrigger("Damage");
     }
 
     public void OnLevelUp(Dictionary<StatsNames, int> stats)
