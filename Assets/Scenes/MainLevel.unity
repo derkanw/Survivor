@@ -536,7 +536,7 @@ MonoBehaviour:
   Menu: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}
   MainCamera: {fileID: 761619248}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
-  PlayerPrefab: {fileID: 7072444061591711186, guid: 910177ec26b76c14996c2d53627a6def, type: 3}
+  PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
   GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148, type: 3}
 --- !u!114 &1688001195
 MonoBehaviour:
@@ -553,4 +553,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 6598857572002110082, guid: 647062714461d0442bc749240130a2c5, type: 3}
   SpawnTime: 5
-  EnemiesCount: 10
+  EnemiesCount:
+    BaseValue: 10
+    Rate: 0.5

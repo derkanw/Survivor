@@ -26,8 +26,7 @@ public class GameManager : MonoBehaviour
     private event Action<int> ChangePoints;
 
     private Player _playerParams;
-    private BaseGun _gun;
-
+    private WeaponsManager _weaponsManager;
     private float _points;
     private int _playerLevel;
     private int _gameLevel;
@@ -54,17 +53,17 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += Enemies.NotifyEnemies;
         _playerParams.Died += Menu.OnFailed;
 
-        _gun = GameObject.FindWithTag("Gun").GetComponent<BaseGun>();
-        _gun.ChangedClipSize += hud.OnChangedClipSize;
-        _gun.ChangedBulletsCount += hud.OnChangedBulletsCount;
-        _gun.Reloading += hud.ChangeReloadBar;
+        _weaponsManager = player.GetComponent<WeaponsManager>();
+        _weaponsManager.ChangedClipSize += hud.OnChangedClipSize;
+        _weaponsManager.ChangedBulletsCount += hud.OnChangedBulletsCount;
+        _weaponsManager.Reloading += hud.ChangeReloadBar;
 
         // need to change
         Input.CursorMoved += _playerParams.LookTo;
-        Input.CursorMoved += _gun.LookTo;
+        Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
-        Input.MouseClicked += _gun.OnMouseDown;
-        Input.Reloading += _gun.OnReloadingKeyDown;
+        Input.MouseClicked += _weaponsManager.OnMouseDown;
+        Input.Reloading += _weaponsManager.OnReloadingKeyDown;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;
@@ -86,7 +85,10 @@ public class GameManager : MonoBehaviour
         Stats.GetStats += _playerParams.OnLevelUp;
         LevelUp += Enemies.OnLevelUp;
         LevelUp += hud.OnGameLevelUp;
+    }
 
+    private void Start()
+    {
         _playerLevel = PlayerPrefs.GetInt("PlayerLevel", 0);
         _gameLevel = PlayerPrefs.GetInt("GameLevel", 0);
         _points = PlayerPrefs.GetFloat("PointsForNewLevel", 0);
@@ -101,9 +103,9 @@ public class GameManager : MonoBehaviour
         Input.ChangedPosition -= _playerParams.MoveTo;
         Stats.GetStats -= _playerParams.OnLevelUp;
 
-        Input.CursorMoved -= _gun.LookTo;
-        Input.MouseClicked -= _gun.OnMouseDown;
-        Input.Reloading -= _gun.OnReloadingKeyDown;
+        Input.CursorMoved -= _weaponsManager.LookTo;
+        Input.MouseClicked -= _weaponsManager.OnMouseDown;
+        Input.Reloading -= _weaponsManager.OnReloadingKeyDown;
 
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         PlayerPrefs.DeleteAll();
@@ -132,8 +134,9 @@ public class GameManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
+        ++_gameLevel;
         SaveParams();
         Stats.SaveStats();
-        SceneManager.LoadScene(++_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
+        SceneManager.LoadScene(_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
     }
 }

@@ -15,25 +15,33 @@ public class EnemiesManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] [Range(0f, 20f)] private float SpawnTime;
-    [SerializeField] [Range(0f, 50f)] private float EnemiesCount;
+
+    [SerializeField] private Stat EnemiesCount;
 
     private float _currentCount;
     private float _groundWidth;
     private int _killedCount;
+    private bool _playerExists;
 
     public void MoveEnemiesTo(Vector3 position) => NotifiedEnemies?.Invoke(position);
 
     public void NotifyEnemies()
     {
-        EnemiesCount = _currentCount;
+        _playerExists = false;
         PlayerDied?.Invoke();
     }
 
-    public void OnLevelUp(int level) => LevelUp?.Invoke(level);
+    public void OnLevelUp(int level)
+    {
+        EnemiesCount.Modify(level);
+        LevelUp?.Invoke(level);
+    }
 
-    private void Start()
+    private void Awake()
     {
         _groundWidth = 9f;
+        _playerExists = true;
+        EnemiesCount.Init();
         StartCoroutine(InitEnemies(0));
     }
 
@@ -43,15 +51,15 @@ public class EnemiesManager : MonoBehaviour
         PlayerDied -= enemy.Stay;
         LevelUp -= enemy.OnLevelUp;
 
-        ChangedKilledCount?.Invoke(++_killedCount / EnemiesCount);
+        ChangedKilledCount?.Invoke(++_killedCount / EnemiesCount.Value);
         SetPoints?.Invoke(points);
-        if (_killedCount == EnemiesCount)
+        if (_killedCount == EnemiesCount.Value)
             PlayerWin?.Invoke();
     }
 
     private IEnumerator InitEnemies(int number)
     {
-        while (_currentCount < EnemiesCount)
+        while (_playerExists && _currentCount < EnemiesCount.Value)
         {
             float time = UnityEngine.Random.Range(0f, SpawnTime);
             Vector3 position = new Vector3(UnityEngine.Random.Range(-_groundWidth, _groundWidth), 0, UnityEngine.Random.Range(-_groundWidth, _groundWidth));
