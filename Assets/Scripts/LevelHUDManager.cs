@@ -13,6 +13,8 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private Text Points;
     [SerializeField] private Text PlayerLevel;
     [SerializeField] private Text GameLevel;
+    [SerializeField] private GameObject WeaponPoint;
+    [SerializeField] private List<Image> WeaponsIcons;
 
     private float _clipSize;
 
@@ -37,4 +39,14 @@ public class LevelHUDManager : MonoBehaviour
     public void OnGameLevelUp(int level) => GameLevel.text = "Level " + ++level + " progress";
 
     public void OnChangedClipSize(float size) => _clipSize = size;
+
+    public void OnChangedWeapon(int index)
+    {
+        WeaponPoint.transform.position = WeaponsIcons[index].transform.position + new Vector3(-20f, -20f, 0); // change
+    }
+
+    private void Start()
+    {
+        OnChangedWeapon(0);
+    }
 }

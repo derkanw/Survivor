@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         _weaponsManager.ChangedClipSize += hud.OnChangedClipSize;
         _weaponsManager.ChangedBulletsCount += hud.OnChangedBulletsCount;
         _weaponsManager.Reloading += hud.ChangeReloadBar;
+        _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
 
         // need to change
         Input.CursorMoved += _playerParams.LookTo;
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.MouseClicked += _weaponsManager.OnMouseDown;
         Input.Reloading += _weaponsManager.OnReloadingKeyDown;
+        Input.ChangeWeapon += _weaponsManager.SetArsenal;
+        Input.ChangeWeapon += hud.OnChangedWeapon;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;

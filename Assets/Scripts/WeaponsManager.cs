@@ -14,9 +14,7 @@ public struct Arsenal
 
 public class WeaponsManager : MonoBehaviour
 {
-    public event Action<List<string>> GetWeapons;
-    public event Action<int> ChangedWeapon;
-
+    public event Action<int> GetWeaponsCount;
     public event Action<float> ChangedBulletsCount;
     public event Action<float> ChangedClipSize;
     public event Action<float> Reloading;
@@ -28,6 +26,8 @@ public class WeaponsManager : MonoBehaviour
     private List<BaseGun> _guns;
     private int _currentGun;
     private Animator _animator;
+    private int _gunsCount;
+    private int _skillsCount;
 
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
     public void OnMouseDown(bool value) => _guns[_currentGun].OnMouseDown(value);
@@ -47,17 +47,22 @@ public class WeaponsManager : MonoBehaviour
 
     private void Awake()
     {
-        _guns = new List<BaseGun>(Arsenal.Length);
+        _gunsCount = Arsenal.Length;
+        _guns = new List<BaseGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
+    }
+
+    private void Start()
+    {
         _currentGun = 0;
-        if (Arsenal.Length > 0)
+        if (_gunsCount > 0)
             SetArsenal(_currentGun);
+        GetWeaponsCount?.Invoke(_gunsCount + _skillsCount);
     }
 
     private void InitArsenal()
     {
-        List<string> weaponsNames = new List<string>(Arsenal.Length);
         foreach (Arsenal hand in Arsenal)
         {
             if (hand.RightGun != null)
@@ -73,7 +78,6 @@ public class WeaponsManager : MonoBehaviour
                 gun.Reloading += OnReloading;
                 gun.Shooting += OnShooting;
                 _guns.Add(gun);
-                weaponsNames.Add(hand.Name);
             }
             /*if (hand.leftGun != null)
             {
@@ -83,11 +87,12 @@ public class WeaponsManager : MonoBehaviour
                 newLeftGun.transform.localRotation = Quaternion.Euler(90, 0, 0);
             }*/
         }
-        GetWeapons?.Invoke(weaponsNames);
     }
 
-    private void SetArsenal(int index)
+    public void SetArsenal(int index)
     {
+        //print(index);
+        //print(_guns.Count);
         for (int i = 0; i < _guns.Count; ++i)
         {
             if (i == index)
@@ -99,6 +104,5 @@ public class WeaponsManager : MonoBehaviour
                 _guns[i].gameObject.SetActive(false);
         }
         _animator.runtimeAnimatorController = Arsenal[index].Controller;
-        ChangedWeapon?.Invoke(index);
     }
 }
