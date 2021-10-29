@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
 public abstract class BaseGun : MonoBehaviour
@@ -22,13 +21,13 @@ public abstract class BaseGun : MonoBehaviour
 
     private bool _isReloading;
     private bool _isShooting;
-    private bool _isMouseDown;
-    private bool _isReloadingKeyDown;
+    private bool _isCursorClicked;
+    private bool _isReloadingClicked;
     private float _bulletsCount;
 
-    public void OnMouseDown(bool value) => _isMouseDown = value;
+    public void SetShooting(bool value) => _isCursorClicked = value;
 
-    public void OnReloadingKeyDown(bool value) => _isReloadingKeyDown = value;
+    public void SetReloading(bool value) => _isReloadingClicked = value;
 
     public void LookTo(Vector3 direction) => _direction = direction;
 
@@ -43,9 +42,8 @@ public abstract class BaseGun : MonoBehaviour
 
     private IEnumerator Shoot()
     {
-        // no firing occurs when key is pressed for a long time
         _isShooting = true;
-        while (_bulletsCount != 0 && _isMouseDown)
+        while (_bulletsCount > 0 && _isCursorClicked)
         {
             Shooting?.Invoke();
             yield return new WaitForSeconds(0.5f);
@@ -53,7 +51,7 @@ public abstract class BaseGun : MonoBehaviour
             --_bulletsCount;
             yield return new WaitForSeconds(ShootingSpeed);
         }
-        _isReloading = false;
+        _isShooting = false;
     }
 
     private IEnumerator Reload()
@@ -76,9 +74,7 @@ public abstract class BaseGun : MonoBehaviour
 
     private void Update()
     {
-        // reloading image is filled wrong
-        // maybe it will be fixed after changing the input system
-        if (!_isReloading && _isReloadingKeyDown)
+        if (!_isReloading && _isReloadingClicked)
         {
             _isShooting = true;
             _isReloading = true;
@@ -87,11 +83,8 @@ public abstract class BaseGun : MonoBehaviour
         }
         if (_isReloading)
             Reloading?.Invoke(Time.deltaTime / ReloadTime);
-        if (_isMouseDown && !_isShooting)
-        {
+        if (!_isShooting && _isCursorClicked)
             StartCoroutine(Shoot());
-            _isShooting = false;
-        }
         ChangedBulletsCount?.Invoke(_bulletsCount);
     }
 }

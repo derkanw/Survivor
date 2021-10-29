@@ -30,8 +30,8 @@ public class WeaponsManager : MonoBehaviour
     private int _skillsCount;
 
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
-    public void OnMouseDown(bool value) => _guns[_currentGun].OnMouseDown(value);
-    public void OnReloadingKeyDown(bool value) => _guns[_currentGun].OnReloadingKeyDown(value);
+    public void SetShooting(bool value) => _guns[_currentGun].SetShooting(value);
+    public void SetReloading(bool value) => _guns[_currentGun].SetReloading(value);
 
     private void OnChangedBulletCount(float count) => ChangedBulletsCount?.Invoke(count);
     private void OnChangedClipSize(float count) => ChangedClipSize?.Invoke(count);
