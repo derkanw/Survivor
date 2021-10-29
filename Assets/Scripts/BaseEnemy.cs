@@ -6,8 +6,9 @@ using System;
 
 public class BaseEnemy : MonoBehaviour
 {
-    public event Action<BaseEnemy, float> OnEnemyDied;
+    public event Action<BaseEnemy, float> EnemyDied;
 
+    [SerializeField] private Image HealthBar;
     [SerializeField] private Stat Health;
     [SerializeField] private Stat Rapidity;
     [SerializeField] private Stat Power;
@@ -16,10 +17,31 @@ public class BaseEnemy : MonoBehaviour
     private Rigidbody _rigidBody;
     private Vector3 _targetPosition;
     private Animator _animator;
-    private Image _healthBar;
-    private float _hp;
     private bool _isPlayerExist;
+    private float _hp;
 
+    public void OnLevelUp(int level)
+    {
+        Health.Modify(level);
+        Rapidity.Modify(level);
+        Power.Modify(level);
+        DeathPoints.Modify(level);
+        _hp = Health.Value;
+    }
+
+    public void MoveTo(Vector3 position) => _targetPosition = (position - transform.position) * Rapidity.Value;
+
+    public void Stay()
+    {
+        _isPlayerExist = false;
+        _animator.SetBool("isMoving", false);
+    }
+
+    public void TakeDamage(float power)
+    {
+        _hp -= power;
+        HealthBar.fillAmount = _hp / Health.Value;
+    }
 
     private void Start()
     {
@@ -28,21 +50,20 @@ public class BaseEnemy : MonoBehaviour
         Power.Init();
         DeathPoints.Init();
 
-        _hp = Health.Value;
         _isPlayerExist = true;
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
-        _healthBar = transform.GetChild(0).transform.GetChild(1).GetComponent<Image>();
+        _hp = Health.Value;
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         var target = collider.gameObject;
-        if (target.tag == "Player")
+        if (target.CompareTag("Player"))
             target.GetComponent<Player>().TakeDamage(Power.Value);
         if (_hp <= 0)
         {
-            OnEnemyDied?.Invoke(this, DeathPoints.Value);
+            EnemyDied?.Invoke(this, DeathPoints.Value);
             Destroy(gameObject);
         }
     }
@@ -62,27 +83,5 @@ public class BaseEnemy : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(targetPos);
             _rigidBody.MovePosition(transform.position + targetPos);
         }
-    }
-
-    public void TakeDamage(float power)
-    {
-        _hp -= power;
-        _healthBar.fillAmount = _hp / Health.Value;
-    }
-
-    public void OnLevelUp(int level)
-    {
-        Health.Modify(level);
-        Rapidity.Modify(level);
-        Power.Modify(level);
-        DeathPoints.Modify(level);
-    }
-
-    public void ToMove(Vector3 position) => _targetPosition = (position - transform.position) * Rapidity.Value;
-
-    public void ToStay()
-    {
-        _isPlayerExist = false;
-        _animator.SetBool("isMoving", false);
     }
 }

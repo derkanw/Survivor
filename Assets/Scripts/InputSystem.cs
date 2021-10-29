@@ -1,16 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class InputSystem : MonoBehaviour
 {
-    public event Action<Vector3> OnMouseMoved;
-    public event Action<Vector3> OnChangedPosition;
-    public event Action<bool> OnMouseClicked;
-    public event Action<bool> OnReloadingClicked;
+    public event Action<Vector3> CursorMoved;
+    public event Action<Vector3> ChangedPosition;
+    public event Action<bool> MouseClicked;
+    public event Action<bool> Reloading;
+    public event Action<int> ChangeWeapon;
 
     private bool _isPaused = false;
+    private int _weaponsCount;
+    private int _currentIndex;
+
+    public void OnPause() => _isPaused = true;
+
+    public void OnResume() => _isPaused = false;
+
+    public void SetWeaponCount(int value) => _weaponsCount = value;
 
     private void RotatePlayer()
     {
@@ -19,7 +26,7 @@ public class InputSystem : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit rh))
             direction = rh.point;
         direction.y = 0;
-        OnMouseMoved?.Invoke(direction);
+        CursorMoved?.Invoke(direction);
     }
 
     private void MovePlayer()
@@ -27,7 +34,59 @@ public class InputSystem : MonoBehaviour
         Vector3 position = Vector3.zero;
         position.x = Input.GetAxisRaw("Horizontal");
         position.z = Input.GetAxisRaw("Vertical");
-        OnChangedPosition?.Invoke(position);
+        ChangedPosition?.Invoke(position);
+    }
+
+    private void GetWeaponInput()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            if (_currentIndex < _weaponsCount - 1)
+                ++_currentIndex;
+            else
+                _currentIndex = 0;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+            
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            if(_currentIndex > 0)
+                --_currentIndex;
+            else
+                _currentIndex = _weaponsCount - 1;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && _weaponsCount >= 1)
+        {
+            _currentIndex = 0;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && _weaponsCount >= 2)
+        {
+            _currentIndex = 1;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && _weaponsCount >= 3)
+        {
+            _currentIndex = 2;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && _weaponsCount >= 4)
+        {
+            _currentIndex = 3;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5) && _weaponsCount >= 5)
+        {
+            _currentIndex = 4;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6) && _weaponsCount >= 6)
+        {
+            _currentIndex = 5;
+            ChangeWeapon?.Invoke(_currentIndex);
+        }
     }
 
     private void Update()
@@ -35,11 +94,8 @@ public class InputSystem : MonoBehaviour
         if (_isPaused) return;
         MovePlayer();
         RotatePlayer();
-        OnMouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
-        OnReloadingClicked?.Invoke(Input.GetKeyDown(KeyCode.R));
+        GetWeaponInput();
+        Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
+        MouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
     }
-
-    public void OnPause() => _isPaused = true;
-
-    public void OnResume() => _isPaused = false;
 }

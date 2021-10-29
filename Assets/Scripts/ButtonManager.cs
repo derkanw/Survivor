@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
+using System.IO;
 
 public class ButtonManager : MonoBehaviour
 {
     public event Action Pause;
     public event Action Resume;
     public event Action LooksStats;
+    public event Action GoToMenu;
 
     public void OnRestartButton()
     {
@@ -20,6 +22,7 @@ public class ButtonManager : MonoBehaviour
     public void OnMainMenuButton()
     {
         Time.timeScale = 1f;
+        GoToMenu?.Invoke();
         SceneManager.LoadScene("Scenes/MainMenu");
     }
 
@@ -53,5 +56,12 @@ public class ButtonManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         LooksStats?.Invoke();
+    }
+
+    public void OnResetButton()
+    {
+        PlayerPrefs.DeleteAll();
+        File.Delete(SaveSystem.path);
+        SceneManager.LoadScene("Scenes/MainLevel");
     }
 }

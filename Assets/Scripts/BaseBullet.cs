@@ -7,6 +7,8 @@ public abstract class BaseBullet : MonoBehaviour
     [SerializeField] [Range(0f, 50f)] protected float Power;
     [SerializeField] [Range(0f, 20f)] protected float Speed;
 
+    public void SetPower(float incPower) => Power *= incPower;
+
     protected abstract void Move();
 
     private void FixedUpdate()
@@ -19,12 +21,10 @@ public abstract class BaseBullet : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         var target = collider.gameObject;
-        if (target.tag == "Enemy")
+        if (target.CompareTag("Enemy"))
         {
             target.GetComponent<BaseEnemy>().TakeDamage(Power);
             Destroy(gameObject);
         }
     }
-
-    public void SetPower(float incPower) => Power *= incPower;
 }
