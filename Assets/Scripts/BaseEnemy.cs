@@ -18,7 +18,9 @@ public class BaseEnemy : MonoBehaviour
     private Vector3 _targetPosition;
     private Animator _animator;
     private bool _isPlayerExist;
+    private bool _isAttacking;
     private float _hp;
+    private float _attackSpeed;
 
     public void OnLevelUp(int level)
     {
@@ -39,8 +41,12 @@ public class BaseEnemy : MonoBehaviour
 
     public void TakeDamage(float power)
     {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         HealthBar.fillAmount = _hp / Health.Value;
+        _animator.SetTrigger("Damage");
+        if (_hp <= 0)
+            StartCoroutine(Died());
     }
 
     private void Start()
@@ -54,19 +60,39 @@ public class BaseEnemy : MonoBehaviour
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = Health.Value;
+        _attackSpeed = 3f;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private IEnumerator Died()
     {
-        var target = collider.gameObject;
-        if (target.CompareTag("Player"))
-            target.GetComponent<Player>().TakeDamage(Power.Value);
-        if (_hp <= 0)
+        EnemyDied?.Invoke(this, DeathPoints.Value);
+        _animator.SetTrigger("Death");
+        yield return new WaitForSeconds(0.8f);
+        Destroy(gameObject);
+    }
+
+    private IEnumerator Attack(GameObject target)
+    {
+        while (_isAttacking)
         {
-            EnemyDied?.Invoke(this, DeathPoints.Value);
-            Destroy(gameObject);
+            if (target == null || _animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) yield break;
+            _animator.SetTrigger("Attack");
+            target.GetComponent<Player>().TakeDamage(Power.Value);
+            yield return new WaitForSeconds(_attackSpeed);
         }
     }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        var target = collider.gameObject;
+        if (target.CompareTag("Player") && !_isAttacking)
+        {
+            _isAttacking = true;
+            StartCoroutine(Attack(target));
+        }
+    }
+
+    private void OnTriggerExit(Collider collider) => _isAttacking = false;
 
     private void OnCollisionEnter(Collision collision)
     {

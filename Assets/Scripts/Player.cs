@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
         _animator.SetTrigger("Damage");
+        if (_hp <= 0)
+            StartCoroutine(PlayerDied());
     }
 
     public void OnLevelUp(Dictionary<StatsNames, int> stats)
@@ -76,12 +78,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Died?.Invoke();
         Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (_hp <= 0)
-            StartCoroutine(PlayerDied());
     }
 
     private void Awake()
