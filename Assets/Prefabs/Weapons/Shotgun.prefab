@@ -48,7 +48,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 6345374248301834764, guid: 48bd7a2d590cd0847b880569abeb329a,
     type: 3}
   ReloadTime: 10
-  ShootingSpeed: 3
+  ShootingSpeed: 1
   ClipSize: 10
   WeaponEffect: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
