@@ -5,8 +5,6 @@ using System;
 
 public abstract class BaseGun : MonoBehaviour
 {
-    public event Action<float> ChangedBulletsCount;
-    public event Action<float> ChangedClipSize;
     public event Action<float> Reloading;
     public event Action Shooting;
 
@@ -23,12 +21,22 @@ public abstract class BaseGun : MonoBehaviour
     private bool _isShooting;
     private bool _isCursorClicked;
     private bool _isReloadingClicked;
+    //private bool _isContinueReloading;
     private float _bulletsCount;
+    private float _reloadProgress;
 
     public void SetShooting(bool value) => _isCursorClicked = value;
-
     public void SetReloading(bool value) => _isReloadingClicked = value;
-
+    /*public void ContinueReloading()
+    {
+        if (_reloadProgress <= 1f)
+            _reloadProgress = 0f;
+        else
+            _isContinueReloading = true;
+    }*/
+    public float GetBulletsCount() => _bulletsCount;
+    public float GetClipSize() => ClipSize;
+    
     public void LookTo(Vector3 direction) => _direction = direction;
 
     public void SetParams(float incAgility, float incPower)
@@ -43,7 +51,7 @@ public abstract class BaseGun : MonoBehaviour
     private IEnumerator Shoot()
     {
         _isShooting = true;
-        while (_bulletsCount > 0 && _isCursorClicked)
+        while (_bulletsCount != 0 && _isCursorClicked)
         {
             Shooting?.Invoke();
             yield return new WaitForSeconds(0.5f);
@@ -53,10 +61,12 @@ public abstract class BaseGun : MonoBehaviour
         }
         _isShooting = false;
     }
-
     private IEnumerator Reload()
     {
-        yield return new WaitForSeconds(ReloadTime);
+        _isShooting = true;
+        _isReloading = true;
+        while (_reloadProgress < 1f)
+            yield return new WaitForEndOfFrame();
         _bulletsCount = ClipSize;
         _isReloading = false;
         _isShooting = false;
@@ -68,23 +78,27 @@ public abstract class BaseGun : MonoBehaviour
         _isReloading = false;
         _isShooting = false;
         _incPower = 1;
-        ChangedClipSize?.Invoke(ClipSize);
+        _reloadProgress = 1f;
         _offset = gameObject.transform.GetChild(0);
     }
 
+
+    // TODO: fix reloading after switch between weapons
     private void Update()
     {
-        if (!_isReloading && _isReloadingClicked)
+        if (!_isReloading/* || _isContinueReloading)*/ && _isReloadingClicked)
         {
-            _isShooting = true;
-            _isReloading = true;
+            //ContinueReloading();
+            _reloadProgress = 0f;
+            Reloading?.Invoke(_reloadProgress);
             StartCoroutine(Reload());
-            Reloading?.Invoke(0f);
         }
         if (_isReloading)
-            Reloading?.Invoke(Time.deltaTime / ReloadTime);
+        {
+            _reloadProgress += Time.deltaTime / ReloadTime;
+            Reloading?.Invoke(_reloadProgress);
+        }
         if (!_isShooting && _isCursorClicked)
             StartCoroutine(Shoot());
-        ChangedBulletsCount?.Invoke(_bulletsCount);
     }
 }

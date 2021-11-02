@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.CursorClicked += _weaponsManager.SetShooting;
-        Input.ReloadingClicked += _weaponsManager.SetReloading;
+        Input.Reloading += _weaponsManager.SetReloading;
         Input.ChangeWeapon += _weaponsManager.SetArsenal;
         Input.ChangeWeapon += hud.OnChangedWeapon;
 
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 
         Input.CursorMoved -= _weaponsManager.LookTo;
         Input.CursorClicked -= _weaponsManager.SetShooting;
-        Input.ReloadingClicked -= _weaponsManager.SetReloading;
+        Input.Reloading -= _weaponsManager.SetReloading;
 
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         PlayerPrefs.DeleteAll();
