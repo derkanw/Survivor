@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: ecf1d865449c22646835babf6ce9def3
+=======
+<<<<<<< HEAD:Assets/Data/Materials/Weapons.meta
+guid: 088fea9bba0abd44781c0ccdb1a05547
+=======
+guid: 3e7d0432740ec9e43a9f1c2711cae1c6
+>>>>>>> feature/enemies-life-cycle:Assets/Data/Shaders.meta
+>>>>>>> feature/enemies-life-cycle
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

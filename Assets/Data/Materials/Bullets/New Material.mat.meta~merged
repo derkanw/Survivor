@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 7c9e91544f083db48b21580835b5e4cb
+=======
+guid: 8c501afedebb21c448a5343245f112fc
+>>>>>>> feature/enemies-life-cycle
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
