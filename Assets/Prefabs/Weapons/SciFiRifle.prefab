@@ -98,7 +98,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 1634767862067424, guid: 007c57e2df8e9b144b99f471b84f3d56,
     type: 3}
   ReloadTime: 20
-  ShootingSpeed: 5
+  ShootingSpeed: 3
   ClipSize: 5
 --- !u!1 &5688894896921002644
 GameObject:
