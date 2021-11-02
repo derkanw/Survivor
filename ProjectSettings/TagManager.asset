@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - Enemy
+  - Gun
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Raycast
   - Water
   - UI
   - 

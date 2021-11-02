@@ -19,6 +19,20 @@ public class BaseEnemy : MonoBehaviour
     private Animator _animator;
     private bool _isPlayerExist;
     private float _hp;
+    private float _attackSpeed;
+    private int _level;
+
+    public IEnumerator DecreaseSpeed(int inc, float time)
+    {
+        Rapidity.Modify(inc);
+        while (Rapidity.Value < 0)
+        {
+            inc %= 2;
+            Rapidity.Modify(inc);
+        }
+        yield return new WaitForSeconds(time);
+        Rapidity.Modify(_level);
+    }
 
     public void OnLevelUp(int level)
     {
@@ -27,6 +41,7 @@ public class BaseEnemy : MonoBehaviour
         Power.Modify(level);
         DeathPoints.Modify(level);
         _hp = Health.Value;
+        _level = level;
     }
 
     public void MoveTo(Vector3 position) => _targetPosition = (position - transform.position) * Rapidity.Value;
