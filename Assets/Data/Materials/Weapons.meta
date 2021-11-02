@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<< HEAD:Assets/Data/Materials/Weapons.meta
 guid: 088fea9bba0abd44781c0ccdb1a05547
+=======
+guid: 3e7d0432740ec9e43a9f1c2711cae1c6
+>>>>>>> main:Assets/Data/Shaders.meta
+=======
+guid: 088fea9bba0abd44781c0ccdb1a05547
+>>>>>>> main
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
