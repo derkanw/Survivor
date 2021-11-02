@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     private Player _playerParams;
     private WeaponsManager _weaponsManager;
+    private LevelHUDManager _hud;
+    private ButtonManager _buttonManager;
     private float _points;
     private int _playerLevel;
     private int _gameLevel;
@@ -37,15 +39,15 @@ public class GameManager : MonoBehaviour
         PointsTarget.Init();
 
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
-        var hud = levelHud.GetComponent<LevelHUDManager>();
+        _hud = levelHud.GetComponent<LevelHUDManager>();
 
-        Enemies.ChangedKilledCount += hud.ChangeBulletBar;
+        Enemies.ChangedKilledCount += _hud.ChangeBulletBar;
         Enemies.SetPoints += OnSetPoints;
         Enemies.PlayerWin += LoadNextLevel;
 
         var player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         _playerParams = player.GetComponent<Player>();
-        _playerParams.ChangedHP += hud.ChangeHealthBar;
+        _playerParams.ChangedHP += _hud.ChangeHealthBar;
         _playerParams.Moved += MainCamera.Move;
         _playerParams.Moved += Enemies.MoveEnemiesTo;
         _playerParams.Died += OnPlayerDied;
@@ -54,9 +56,9 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += Menu.OnFailed;
 
         _weaponsManager = player.GetComponent<WeaponsManager>();
-        _weaponsManager.ChangedClipSize += hud.OnChangedClipSize;
-        _weaponsManager.ChangedBulletsCount += hud.OnChangedBulletsCount;
-        _weaponsManager.Reloading += hud.ChangeReloadBar;
+        _weaponsManager.ChangedClipSize += _hud.OnChangedClipSize;
+        _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
+        _weaponsManager.Reloading += _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
 
         Input.CursorMoved += _playerParams.LookTo;
@@ -65,28 +67,29 @@ public class GameManager : MonoBehaviour
         Input.CursorClicked += _weaponsManager.SetShooting;
         Input.Reloading += _weaponsManager.SetReloading;
         Input.ChangeWeapon += _weaponsManager.SetArsenal;
-        Input.ChangeWeapon += hud.OnChangedWeapon;
+        Input.ChangeWeapon += _hud.OnChangedWeapon;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;
 
-        var buttonManager = levelHud.GetComponent<ButtonManager>();
-        buttonManager.Pause += Pause.OnPause;
-        buttonManager.Pause += Input.OnPause;
-        buttonManager.LooksStats += Stats.OnLooksStats;
-        buttonManager.LooksStats += Input.OnPause;
+        _buttonManager = levelHud.GetComponent<ButtonManager>();
+        _buttonManager.Pause += Pause.OnPause;
+        _buttonManager.Pause += Input.OnPause;
+        _buttonManager.Restart += OnDisable;
+        _buttonManager.LooksStats += Stats.OnLooksStats;
+        _buttonManager.LooksStats += Input.OnPause;
 
         Pause.SaveProgress += SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
 
-        PlayerLevelUp += hud.OnPlayerLevelUp;
-        ChangePoints += hud.OnChangedPoints;
+        PlayerLevelUp += _hud.OnPlayerLevelUp;
+        ChangePoints += _hud.OnChangedPoints;
 
         ChangePoints += Stats.OnChangedPoints;
-        Stats.GetPoints += hud.OnChangedPoints;
+        Stats.GetPoints += _hud.OnChangedPoints;
         Stats.GetStats += _playerParams.OnLevelUp;
         LevelUp += Enemies.OnLevelUp;
-        LevelUp += hud.OnGameLevelUp;
+        LevelUp += _hud.OnGameLevelUp;
     }
 
     private void Start()
@@ -99,16 +102,58 @@ public class GameManager : MonoBehaviour
         LevelUp?.Invoke(_gameLevel);
     }
 
-    private void OnPlayerDied()
+    private void OnDisable()
     {
-        Input.CursorMoved -= _playerParams.LookTo;
-        Input.ChangedPosition -= _playerParams.MoveTo;
-        Stats.GetStats -= _playerParams.OnLevelUp;
+        Enemies.PlayerWin -= LoadNextLevel;
+        Enemies.ChangedKilledCount -= _hud.ChangeBulletBar;
+        Enemies.SetPoints -= OnSetPoints;
 
+        _playerParams.ChangedHP -= _hud.ChangeHealthBar;
+        _playerParams.Moved -= MainCamera.Move;
+        _playerParams.Moved -= Enemies.MoveEnemiesTo;
+        _playerParams.Died -= OnPlayerDied;
+        _playerParams.Died -= MainCamera.Stay;
+        _playerParams.Died -= Enemies.NotifyEnemies;
+        _playerParams.Died -= Menu.OnFailed;
+
+        _weaponsManager.ChangedClipSize -= _hud.OnChangedClipSize;
+        _weaponsManager.ChangedBulletsCount -= _hud.OnChangedBulletsCount;
+        _weaponsManager.Reloading -= _hud.ChangeReloadBar;
+        _weaponsManager.GetWeaponsCount -= Input.SetWeaponCount;
+
+        Input.CursorMoved -= _playerParams.LookTo;
         Input.CursorMoved -= _weaponsManager.LookTo;
+        Input.ChangedPosition -= _playerParams.MoveTo;
         Input.CursorClicked -= _weaponsManager.SetShooting;
         Input.Reloading -= _weaponsManager.SetReloading;
+        Input.ChangeWeapon -= _weaponsManager.SetArsenal;
+        Input.ChangeWeapon -= _hud.OnChangedWeapon;
 
+        Pause.SaveProgress -= SaveParams;
+        Pause.SaveProgress -= Stats.SaveStats;
+        Pause.Resume -= Input.OnResume;
+        Stats.Resume -= Input.OnResume;
+
+        _buttonManager.Pause -= Pause.OnPause;
+        _buttonManager.Pause -= Input.OnPause;
+        _buttonManager.Restart -= OnDisable;
+        _buttonManager.LooksStats -= Stats.OnLooksStats;
+        _buttonManager.LooksStats -= Input.OnPause;
+
+        PlayerLevelUp -= _hud.OnPlayerLevelUp;
+        ChangePoints -= _hud.OnChangedPoints;
+
+        ChangePoints -= Stats.OnChangedPoints;
+        Stats.GetPoints -= _hud.OnChangedPoints;
+        Stats.GetStats -= _playerParams.OnLevelUp;
+
+        LevelUp -= Enemies.OnLevelUp;
+        LevelUp -= _hud.OnGameLevelUp;
+    }
+
+    private void OnPlayerDied()
+    {
+        OnDisable();
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         PlayerPrefs.DeleteAll();
         File.Delete(SaveSystem.path);
@@ -132,6 +177,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerLevel", _playerLevel);
         PlayerPrefs.SetInt("GameLevel", _gameLevel);
         PlayerPrefs.SetFloat("PointsForNewLevel", _points);
+        OnDisable();
     }
 
     private void LoadNextLevel()

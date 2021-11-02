@@ -8,6 +8,7 @@ public class FlameBullet : BaseBullet
     private int _mask;
     private float _damageTime;
     private float _attackTime;
+    private float _maxDistance;
 
     protected override void Move() => StartCoroutine(Damage());
 
@@ -17,6 +18,7 @@ public class FlameBullet : BaseBullet
         _mask = 1 << 3;
         _damageTime = 1f;
         _attackTime = 1f;
+        _maxDistance = 30f;
         Move();
     }
 
@@ -25,7 +27,7 @@ public class FlameBullet : BaseBullet
         float time = 0f;
         while (time <= _attackTime)
         {
-            if (Physics.Raycast(_startPosition, transform.forward, out RaycastHit hit, 30f, _mask))
+            if (Physics.Raycast(_startPosition, transform.forward, out RaycastHit hit, _maxDistance, _mask))
                 hit.collider.gameObject.GetComponent<BaseEnemy>().TakeDamage(Power);
             time += _damageTime;
             yield return new WaitForSeconds(_damageTime);

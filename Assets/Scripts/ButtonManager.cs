@@ -12,6 +12,7 @@ public class ButtonManager : MonoBehaviour
     public event Action Resume;
     public event Action LooksStats;
     public event Action GoToMenu;
+    public event Action Restart;
 
     public void OnRestartButton()
     {
