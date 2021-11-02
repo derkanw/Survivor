@@ -8,6 +8,6 @@ public class FlameGun : BaseGun
     {
         GameObject bullet = Instantiate(BulletPrefab, _offset.position, Quaternion.identity);
         bullet.transform.LookAt(_direction);
-        //bullet.GetComponent<BaseBullet>().SetPower(_incPower);
+        bullet.GetComponent<BaseBullet>().SetPower(_incPower);
     }
 }

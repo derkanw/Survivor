@@ -17,18 +17,13 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private List<Image> WeaponsIcons;
 
     private float _clipSize;
+    private Vector3 _offset;
 
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
     public void ChangeHealthBar(float count) => HealthBar.fillAmount = count;
 
-    public void ChangeReloadBar(float count)
-    {
-        if (count == 0)
-            ReloadBar.fillAmount = count;
-        else
-            ReloadBar.fillAmount += count;
-    }
+    public void ChangeReloadBar(float count) => ReloadBar.fillAmount = count;
 
     public void OnChangedBulletsCount(float count) => BulletsCount.text = count + "\\" + _clipSize;
 
@@ -40,13 +35,11 @@ public class LevelHUDManager : MonoBehaviour
 
     public void OnChangedClipSize(float size) => _clipSize = size;
 
-    public void OnChangedWeapon(int index)
-    {
-        WeaponPoint.transform.position = WeaponsIcons[index].transform.position + new Vector3(-20f, -20f, 0); // change
-    }
+    public void OnChangedWeapon(int index) => WeaponPoint.transform.position = WeaponsIcons[index].transform.position + _offset;
 
     private void Start()
     {
+        _offset = new Vector3(-20f, -20f, 0);
         OnChangedWeapon(0);
     }
 }
