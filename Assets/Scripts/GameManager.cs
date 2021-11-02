@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
         _weaponsManager.Reloading += hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
 
-        // need to change
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;

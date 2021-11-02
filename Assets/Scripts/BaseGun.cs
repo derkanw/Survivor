@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
 public abstract class BaseGun : MonoBehaviour
@@ -90,6 +89,7 @@ public abstract class BaseGun : MonoBehaviour
         if (!_isReloading/* || _isContinueReloading)*/ && _isReloadingClicked)
         {
             //ContinueReloading();
+            _reloadProgress = 0f;
             Reloading?.Invoke(_reloadProgress);
             StartCoroutine(Reload());
         }
