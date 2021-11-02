@@ -51,9 +51,8 @@ public abstract class BaseGun : MonoBehaviour
 
     private IEnumerator Shoot()
     {
-        // no firing occurs when key is pressed for a long time
         _isShooting = true;
-        while (_bulletsCount != 0 && _isMouseDown)
+        while (_bulletsCount != 0 && _isCursorClicked)
         {
             Shooting?.Invoke();
             yield return new WaitForSeconds(0.5f);
@@ -61,7 +60,7 @@ public abstract class BaseGun : MonoBehaviour
             --_bulletsCount;
             yield return new WaitForSeconds(ShootingSpeed);
         }
-        _isReloading = false;
+        _isShooting = false;
     }
     private IEnumerator Reload()
     {

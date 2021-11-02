@@ -5,7 +5,7 @@ public class InputSystem : MonoBehaviour
 {
     public event Action<Vector3> CursorMoved;
     public event Action<Vector3> ChangedPosition;
-    public event Action<bool> MouseClicked;
+    public event Action<bool> CursorClicked;
     public event Action<bool> Reloading;
     public event Action<int> ChangeWeapon;
 
@@ -96,6 +96,6 @@ public class InputSystem : MonoBehaviour
         RotatePlayer();
         GetWeaponInput();
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
-        MouseClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
+        CursorClicked?.Invoke(Input.GetKeyDown(KeyCode.Mouse0));
     }
 }

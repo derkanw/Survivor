@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
-        Input.MouseClicked += _weaponsManager.OnMouseDown;
-        Input.Reloading += _weaponsManager.OnReloadingKeyDown;
+        Input.CursorClicked += _weaponsManager.SetShooting;
+        Input.Reloading += _weaponsManager.SetReloading;
         Input.ChangeWeapon += _weaponsManager.SetArsenal;
         Input.ChangeWeapon += hud.OnChangedWeapon;
 
@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
         Stats.GetStats -= _playerParams.OnLevelUp;
 
         Input.CursorMoved -= _weaponsManager.LookTo;
-        Input.MouseClicked -= _weaponsManager.OnMouseDown;
-        Input.Reloading -= _weaponsManager.OnReloadingKeyDown;
+        Input.CursorClicked -= _weaponsManager.SetShooting;
+        Input.Reloading -= _weaponsManager.SetReloading;
 
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         PlayerPrefs.DeleteAll();
