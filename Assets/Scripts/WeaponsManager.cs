@@ -24,6 +24,7 @@ public class WeaponsManager : MonoBehaviour
     [SerializeField] private Transform RightGunBone;
     //[SerializeField] private Transform LeftGunBone;
     [SerializeField] private Arsenal[] Arsenal;
+    [SerializeField] private GameObject[] Skills;
 
     private List<BaseGun> _guns;
     private int _currentGun;
@@ -48,6 +49,7 @@ public class WeaponsManager : MonoBehaviour
     private void Awake()
     {
         _gunsCount = Arsenal.Length;
+        //_skillsCount = Skills.Length;
         _guns = new List<BaseGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
@@ -89,7 +91,20 @@ public class WeaponsManager : MonoBehaviour
         }
     }
 
-    public void SetArsenal(int index)
+    public void SetWeapon(int index)
+    {
+        if (index >= _gunsCount)
+            SetSkill(index);
+        else
+            SetArsenal(index);
+    }
+
+    private void SetSkill(int index)
+    {
+
+    }
+
+    private void SetArsenal(int index)
     {
         if (_guns[index] == null)
             return;

@@ -18,6 +18,7 @@ public class ButtonManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Restart?.Invoke();
     }
 
     public void OnMainMenuButton()

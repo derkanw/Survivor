@@ -6,6 +6,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     public event Action<float> ChangedHP;
+    public event Action<float> ChangedMana;
     public event Action<Vector3> Moved;
     public event Action Died;
 
@@ -19,7 +20,35 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private Vector3 _position;
     private float _hp;
+    private float _mana;
     private WeaponsManager _weaponsManager;
+
+
+    // TODO: auto replenishment of mana
+    public bool SpendMana(float count)
+    {
+        if (_mana < count)
+            return false;
+        _mana -= count;
+        ChangedMana?.Invoke(_mana / Mana.Value);
+        return true;
+    }
+
+    public void TopUpMana(float incMana)
+    {
+        _mana += incMana;
+        if (_mana > Mana.Value)
+            _mana = Mana.Value;
+        ChangedMana?.Invoke(_mana / Mana.Value);
+    }
+
+    public void Heal(float incHP)
+    {
+        _hp += incHP;
+        if (_hp > Health.Value)
+            _hp = Health.Value;
+        ChangedHP?.Invoke(_hp / Health.Value);
+    }
 
     public void TakeDamage(float power)
     {

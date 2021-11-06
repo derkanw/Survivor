@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.CursorClicked += _weaponsManager.SetShooting;
         Input.Reloading += _weaponsManager.SetReloading;
-        Input.ChangeWeapon += _weaponsManager.SetArsenal;
+        Input.ChangeWeapon += _weaponsManager.SetWeapon;
         Input.ChangeWeapon += _hud.OnChangedWeapon;
 
         Pause.Resume += Input.OnResume;
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         Input.ChangedPosition -= _playerParams.MoveTo;
         Input.CursorClicked -= _weaponsManager.SetShooting;
         Input.Reloading -= _weaponsManager.SetReloading;
-        Input.ChangeWeapon -= _weaponsManager.SetArsenal;
+        Input.ChangeWeapon -= _weaponsManager.SetWeapon;
         Input.ChangeWeapon -= _hud.OnChangedWeapon;
 
         Pause.SaveProgress -= SaveParams;
