@@ -63,7 +63,7 @@ public class WeaponsManager : MonoBehaviour
     private void Awake()
     {
         _gunsCount = Arsenal.Length - 1;
-        _skillsCount = Skills.Length;
+        //_skillsCount = Skills.Length;
         _guns = new List<BaseGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
