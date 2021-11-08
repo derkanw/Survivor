@@ -26,12 +26,10 @@ public class Grenade : BaseBullet
         Move();
         if (transform.position.y <= 0)
         {
-            var explosion = Instantiate(Explosion, transform.position, Quaternion.identity);
-            if (Physics.SphereCast(transform.position, Radius, Vector3.zero, out RaycastHit hit, _mask))
-            {
-                hit.collider.gameObject.GetComponent<BaseEnemy>().TakeDamage(Power);
-                print(1);
-            }
+            Instantiate(Explosion, transform.position, Quaternion.identity);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, Radius, _mask);
+            foreach (var hitCollider in hitColliders)
+                hitCollider.gameObject.GetComponent<BaseEnemy>().TakeDamage(Power);
             Destroy(gameObject);
         }
     }

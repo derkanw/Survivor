@@ -18,10 +18,13 @@ public class LevelHUDManager : MonoBehaviour
 
     private float _clipSize;
     private Vector3 _offset;
+    private int _index;
 
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
     public void ChangeHealthBar(float count) => HealthBar.fillAmount = count;
+
+    public void ChangeManaBar(float count) => ManaBar.fillAmount = count;
 
     public void ChangeReloadBar(float count) => ReloadBar.fillAmount = count;
 
@@ -35,7 +38,13 @@ public class LevelHUDManager : MonoBehaviour
 
     public void OnChangedClipSize(float size) => _clipSize = size;
 
-    public void OnChangedWeapon(int index) => WeaponPoint.transform.position = WeaponsIcons[index].transform.position + _offset;
+    public void OnChangedWeapon(int index)
+    {
+        WeaponPoint.transform.position = WeaponsIcons[index].transform.position + _offset;
+        _index = index;
+    }
+
+    public void HideWeapon() => WeaponsIcons[_index].enabled = false;
 
     private void Start()
     {

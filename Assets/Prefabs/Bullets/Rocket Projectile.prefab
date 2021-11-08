@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Power: 15
   Speed: 1
-  Radius: 5
+  Radius: 2
   Explosion: {fileID: 1764654978243476, guid: a98b15aa948478849b54661e4d9a317e, type: 3}
   FireTail: {fileID: 1764654978243476, guid: b3c4dea4e11db384fb9b4d2fc188d380, type: 3}
   TailPosition: {fileID: 1370971448522947283}
