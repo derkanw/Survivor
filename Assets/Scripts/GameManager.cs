@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -97,9 +96,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _playerLevel = PlayerPrefs.GetInt("PlayerLevel", 0);
-        _gameLevel = PlayerPrefs.GetInt("GameLevel", 0);
-        _points = PlayerPrefs.GetFloat("PointsForNewLevel", 0);
+        _playerLevel = SaveSystem.Load<int>("PlayerLevel");
+        _gameLevel = SaveSystem.Load<int>("GameLevel");
+        _points = SaveSystem.Load<float>("PointsForNewLevel");
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
         LevelUp?.Invoke(_gameLevel);
@@ -161,8 +160,7 @@ public class GameManager : MonoBehaviour
     {
         OnDisable();
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
-        PlayerPrefs.DeleteAll();
-        File.Delete(SaveSystem.path);
+        SaveSystem.DeleteAll();
     }
 
     private void OnSetPoints(float points)
@@ -180,9 +178,9 @@ public class GameManager : MonoBehaviour
 
     private void SaveParams()
     {
-        PlayerPrefs.SetInt("PlayerLevel", _playerLevel);
-        PlayerPrefs.SetInt("GameLevel", _gameLevel);
-        PlayerPrefs.SetFloat("PointsForNewLevel", _points);
+        SaveSystem.Save<int>("PlayerLevel", _playerLevel);
+        SaveSystem.Save<int>("GameLevel", _gameLevel);
+        SaveSystem.Save<float>("PointsForNewLevel", _points);
         OnDisable();
     }
 
@@ -190,7 +188,7 @@ public class GameManager : MonoBehaviour
     {
         ++_gameLevel;
         SaveParams();
-        Stats.SaveStats();
+        //Stats.SaveStats();
         SceneManager.LoadScene(_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
     }
 }

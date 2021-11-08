@@ -98,6 +98,6 @@ public class InputSystem : MonoBehaviour
         GetWeaponInput();
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
         CursorClicked?.Invoke(Input.GetKey(KeyCode.Mouse0));
-        //UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
+        UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
     }
 }

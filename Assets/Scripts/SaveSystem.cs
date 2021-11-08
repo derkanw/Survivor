@@ -1,15 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static string path = Application.persistentDataPath + "/stats.info";
-    private static readonly BinaryFormatter formatter = new BinaryFormatter();
+    /*public static string path = Application.persistentDataPath + "/stats.info";
+    private static readonly BinaryFormatter formatter = new BinaryFormatter();*/
 
-    public static void Save(Dictionary<StatsNames, int> stats)
+    public static void Save<T>(string key, T data)
+    {
+        if (data == null) return;
+        string json;
+        if (typeof(T).IsPrimitive)
+            json = data.ToString();
+        else
+            json = JsonUtility.ToJson(data);
+        if (string.IsNullOrEmpty(json) || string.IsNullOrWhiteSpace(key)) return;
+        PlayerPrefs.SetString(key, json);
+    }
+
+    public static T Load<T>(string key)
+    {
+        if (string.IsNullOrWhiteSpace(key)) return default;
+        var json = PlayerPrefs.GetString(key);
+        if (string.IsNullOrEmpty(json)) return default;
+        if (typeof(T).IsPrimitive)
+            return default;
+        return JsonUtility.FromJson<T>(json);
+    }
+
+    public static void DeleteAll() => PlayerPrefs.DeleteAll();
+
+    /*public static void Save(Dictionary<StatsNames, int> stats)
     {
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -32,5 +54,5 @@ public static class SaveSystem
             stream.Close();
         }
         return data;
-    }
+    }*/
 }

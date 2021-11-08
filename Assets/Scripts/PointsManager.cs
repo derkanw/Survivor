@@ -28,15 +28,14 @@ public class PointsManager : MonoBehaviour
         return _stats;
     }
 
-    public void SetStats(int[] stats)
+    public void SetStats(Dictionary<StatsNames, int> stats)
     {
         int size = Values.Count;
-        int[] data;
-        if (stats == null)
-            data = new int[size];
+        if (stats == null || stats.Count != size)
+            for (int index = 0; index < size; ++index)
+                Values[index].text = "0";
         else
-            data = stats;
-        for (int index = 0; index < size; ++index)
-            Values[index].text = data[index].ToString();
+            for (int index = 0; index < size; ++index)
+                Values[index].text = stats[(StatsNames)index].ToString();
     }
 }

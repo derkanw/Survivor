@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
-using System.IO;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -62,8 +61,7 @@ public class ButtonManager : MonoBehaviour
 
     public void OnResetButton()
     {
-        PlayerPrefs.DeleteAll();
-        File.Delete(SaveSystem.path);
+        SaveSystem.DeleteAll();
         SceneManager.LoadScene("Scenes/MainLevel");
     }
 }
