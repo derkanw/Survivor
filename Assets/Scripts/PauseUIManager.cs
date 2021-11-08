@@ -10,6 +10,7 @@ public class PauseUIManager : MonoBehaviour
 
     [SerializeField] private GameObject PauseUI;
     private GameObject _pauseUI;
+    private ButtonManager _manager;
 
     public void OnPause() => _pauseUI.SetActive(true);
     public void OnGoToMenu() => SaveProgress?.Invoke();
@@ -18,14 +19,20 @@ public class PauseUIManager : MonoBehaviour
     {
         _pauseUI = Instantiate(PauseUI, Vector3.zero, Quaternion.identity);
         _pauseUI.SetActive(false);
-        var manager = _pauseUI.GetComponent<ButtonManager>();
-        manager.Resume += OnResume;
-        manager.GoToMenu += OnGoToMenu;
+        _manager = _pauseUI.GetComponent<ButtonManager>();
+        _manager.Resume += OnResume;
+        _manager.GoToMenu += OnGoToMenu;
     }
 
     private void OnResume()
     {
         _pauseUI.SetActive(false);
         Resume?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        _manager.Resume -= OnResume;
+        _manager.GoToMenu -= OnGoToMenu;
     }
 }

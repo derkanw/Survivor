@@ -94,6 +94,7 @@ public class WeaponsManager : MonoBehaviour
                 BaseGun gun = newRightGun.GetComponent<BaseGun>();
                 gun.Reloading += OnReloading;
                 gun.Shooting += OnShooting;
+                ChangedWeapon += gun.StopReloading;
                 _guns.Add(gun);
             }
             /*if (hand.leftGun != null)
@@ -145,9 +146,20 @@ public class WeaponsManager : MonoBehaviour
         _animator.runtimeAnimatorController = Arsenal[index].Controller;
         var gun = _guns[_currentGun];
         ChangedClipSize?.Invoke(gun.GetClipSize());
+        ChangedWeapon?.Invoke();
         Reloading?.Invoke(1f);
     }
     private void OnShooting() => _animator.SetTrigger("Attack");
 
     private void OnReloading(float count) => Reloading?.Invoke(count);
+
+    private void OnDisable()
+    {
+        foreach (BaseGun gun in _guns)
+        {
+            gun.Reloading -= OnReloading;
+            gun.Shooting -= OnShooting;
+            ChangedWeapon -= gun.StopReloading;
+        }
+    }
 }
