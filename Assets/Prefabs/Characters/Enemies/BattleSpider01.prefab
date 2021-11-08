@@ -137,9 +137,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6598857572001941152}
   - component: {fileID: 6598857571992627526}
-  - component: {fileID: 3222146867158710817}
   - component: {fileID: 8737800551181183167}
   - component: {fileID: 8971599067539149771}
+  - component: {fileID: 5188626230411395385}
   m_Layer: 3
   m_Name: BattleSpider01
   m_TagString: Enemy
@@ -183,31 +183,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3222146867158710817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6598857572002110082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64d661ed26cbb9a4e8cc0f0cde9db14f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthBar: {fileID: 7322458032386055652}
-  Health:
-    BaseValue: 20
-    Rate: 0.1
-  Rapidity:
-    BaseValue: 1
-    Rate: 0.05
-  Power:
-    BaseValue: 10
-    Rate: 0.1
-  DeathPoints:
-    BaseValue: 5
-    Rate: 0.1
 --- !u!65 &8737800551181183167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -237,6 +212,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 36
   m_CollisionDetection: 0
+--- !u!114 &5188626230411395385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6598857572002110082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18faf09dbe7b59e45860c66c58528986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 7322458032386055652}
+  Health:
+    BaseValue: 20
+    Rate: 0.1
+  Rapidity:
+    BaseValue: 1
+    Rate: 0.1
+  Power:
+    BaseValue: 10
+    Rate: 0.05
+  DeathPoints:
+    BaseValue: 5
+    Rate: 0.1
 --- !u!1 &6598857572002110084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,16 +2358,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6598857572001941152}
     m_Modifications:
-    - target: {fileID: 6362202160502859129, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202160502859130, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2412,21 +2402,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
         type: 3}
@@ -2492,21 +2467,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyHealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202160502859135, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202161771495099, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6362202162040994677, guid: ac79e899493771840acea71c6f5170f8,
-        type: 3}
-      propertyPath: m_Layer
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac79e899493771840acea71c6f5170f8, type: 3}
