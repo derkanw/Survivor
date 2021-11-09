@@ -21,19 +21,11 @@ public abstract class BaseGun : MonoBehaviour
     private bool _isShooting;
     private bool _isCursorClicked;
     private bool _isReloadingClicked;
-    //private bool _isContinueReloading;
     private float _bulletsCount;
     private float _reloadProgress;
 
     public void SetShooting(bool value) => _isCursorClicked = value;
     public void SetReloading(bool value) => _isReloadingClicked = value;
-    /*public void ContinueReloading()
-    {
-        if (_reloadProgress <= 1f)
-            _reloadProgress = 0f;
-        else
-            _isContinueReloading = true;
-    }*/
     public float GetBulletsCount() => _bulletsCount;
     public float GetClipSize() => ClipSize;
     
@@ -86,9 +78,8 @@ public abstract class BaseGun : MonoBehaviour
     // TODO: fix reloading after switch between weapons
     private void Update()
     {
-        if (!_isReloading/* || _isContinueReloading)*/ && _isReloadingClicked)
+        if (!_isReloading && _isReloadingClicked)
         {
-            //ContinueReloading();
             _reloadProgress = 0f;
             Reloading?.Invoke(_reloadProgress);
             StartCoroutine(Reload());

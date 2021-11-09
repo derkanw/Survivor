@@ -7,6 +7,7 @@ public class InputSystem : MonoBehaviour
     public event Action<Vector3> ChangedPosition;
     public event Action<bool> CursorClicked;
     public event Action<bool> Reloading;
+    public event Action<bool> UseSkill;
     public event Action<int> ChangeWeapon;
 
     private bool _isPaused = false;
@@ -97,5 +98,6 @@ public class InputSystem : MonoBehaviour
         GetWeaponInput();
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
         CursorClicked?.Invoke(Input.GetKey(KeyCode.Mouse0));
+        //UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
     }
 }

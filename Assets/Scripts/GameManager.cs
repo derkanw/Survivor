@@ -54,20 +54,23 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += MainCamera.Stay;
         _playerParams.Died += Enemies.NotifyEnemies;
         _playerParams.Died += Menu.OnFailed;
+        _playerParams.ChangedMana += _hud.ChangeManaBar;
 
         _weaponsManager = player.GetComponent<WeaponsManager>();
         _weaponsManager.ChangedClipSize += _hud.OnChangedClipSize;
         _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading += _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
+        _weaponsManager.SkillUsed += _hud.HideWeapon;
 
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.CursorClicked += _weaponsManager.SetShooting;
         Input.Reloading += _weaponsManager.SetReloading;
-        Input.ChangeWeapon += _weaponsManager.SetArsenal;
+        Input.ChangeWeapon += _weaponsManager.SetWeapon;
         Input.ChangeWeapon += _hud.OnChangedWeapon;
+        Input.UseSkill += _weaponsManager.UseSkill;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;
@@ -115,19 +118,22 @@ public class GameManager : MonoBehaviour
         _playerParams.Died -= MainCamera.Stay;
         _playerParams.Died -= Enemies.NotifyEnemies;
         _playerParams.Died -= Menu.OnFailed;
+        _playerParams.ChangedMana -= _hud.ChangeManaBar;
 
         _weaponsManager.ChangedClipSize -= _hud.OnChangedClipSize;
         _weaponsManager.ChangedBulletsCount -= _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading -= _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount -= Input.SetWeaponCount;
+        _weaponsManager.SkillUsed -= _hud.HideWeapon;
 
         Input.CursorMoved -= _playerParams.LookTo;
         Input.CursorMoved -= _weaponsManager.LookTo;
         Input.ChangedPosition -= _playerParams.MoveTo;
         Input.CursorClicked -= _weaponsManager.SetShooting;
         Input.Reloading -= _weaponsManager.SetReloading;
-        Input.ChangeWeapon -= _weaponsManager.SetArsenal;
+        Input.ChangeWeapon -= _weaponsManager.SetWeapon;
         Input.ChangeWeapon -= _hud.OnChangedWeapon;
+        Input.UseSkill -= _weaponsManager.UseSkill;
 
         Pause.SaveProgress -= SaveParams;
         Pause.SaveProgress -= Stats.SaveStats;

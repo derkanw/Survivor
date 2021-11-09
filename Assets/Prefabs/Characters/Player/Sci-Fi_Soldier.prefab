@@ -1684,7 +1684,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 36
   m_CollisionDetection: 0
 --- !u!65 &-2026692774081941059
 BoxCollider:
@@ -1723,3 +1723,13 @@ MonoBehaviour:
     RightGun: {fileID: 721251049506504188, guid: 1dd9c91418d7d5b498ffdbb303c2b9cf,
       type: 3}
     Controller: {fileID: 9100000, guid: 8bbca7fa0e7d6cf45b625c38120c55a4, type: 2}
+  - Name: GrenadeLauncher
+    RightGun: {fileID: 6303800952307445489, guid: c854c03c5fb10774ca672c6ffa0d44ad,
+      type: 3}
+    Controller: {fileID: 9100000, guid: dffbd9326394a8d47a87a1e2aec70a59, type: 2}
+  - Name: Default
+    RightGun: {fileID: 0}
+    Controller: {fileID: 9100000, guid: e4d38f097ea35254fb4b833d568bb089, type: 2}
+  Skills:
+  - {fileID: 3704043939434660809, guid: 21175f3f79ace26409082c2479477486, type: 3}
+  - {fileID: 2659595016875214964, guid: 4813f66904fb44e4b84bb2225a4cddb5, type: 3}
