@@ -38,6 +38,12 @@ public abstract class BaseGun : MonoBehaviour
         ShootingSpeed *= incAgility;
     }
 
+    public void StopReloading()
+    {
+        StopAllCoroutines();
+        Clear();
+    }
+
     protected abstract void InitBullet();
 
     private IEnumerator Shoot()
@@ -66,14 +72,18 @@ public abstract class BaseGun : MonoBehaviour
 
     private void Start()
     {
+        Clear();
         _bulletsCount = ClipSize;
-        _isReloading = false;
-        _isShooting = false;
         _incPower = 1;
-        _reloadProgress = 1f;
         _offset = gameObject.transform.GetChild(0);
     }
 
+    private void Clear()
+    {
+        _isReloading = false;
+        _isShooting = false;
+        _reloadProgress = 1f;
+    }
 
     // TODO: fix reloading after switch between weapons
     private void Update()

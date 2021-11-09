@@ -43,4 +43,6 @@ public class StatsUIManager : MonoBehaviour
         Resume?.Invoke();
         GetStats?.Invoke(_pointsManager.GetStats());
     }
+
+    private void OnDestroy() => _statsList.GetComponent<ButtonManager>().Resume -= OnResume;
 }
