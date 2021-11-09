@@ -22,4 +22,14 @@ public class BomberEnemy : BaseEnemy
         if (target.CompareTag("Player"))
             StartCoroutine(Attack(target));
     }
+
+    private void FixedUpdate()
+    {
+        if (_isPlayerExists)
+        {
+            Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.LookRotation(targetPos);
+            _rigidBody.MovePosition(transform.position + targetPos);
+        }
+    }
 }

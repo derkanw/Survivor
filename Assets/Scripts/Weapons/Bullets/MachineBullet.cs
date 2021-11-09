@@ -9,7 +9,6 @@ public class MachineBullet : BaseBullet
     private Rigidbody _rigidBody;
     protected override void Move() => _rigidBody.AddForce(transform.forward * Speed);
 
-    protected virtual void DamageEffect(BaseEnemy enemy) {}
     private void Start() => _rigidBody = gameObject.GetComponent<Rigidbody>();
 
     private void OnTriggerEnter(Collider collider)
@@ -19,10 +18,10 @@ public class MachineBullet : BaseBullet
         {
             var enemy = target.GetComponent<BaseEnemy>();
             enemy.TakeDamage(Power);
-            DamageEffect(enemy);
             Destroy(gameObject);
         }
     }
+
     private void FixedUpdate()
     {
         Move();

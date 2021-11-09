@@ -33,4 +33,15 @@ public class MeleeEnemy : BaseEnemy
         _isAttacking = false;
         _animator.SetBool("isMoving", true);
     }
+
+    private void FixedUpdate()
+    {
+        if (_isPlayerExists)
+        {
+            Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
+            transform.rotation = Quaternion.LookRotation(targetPos);
+            if (!_isAttacking)
+                _rigidBody.MovePosition(transform.position + targetPos);
+        }
+    }
 }

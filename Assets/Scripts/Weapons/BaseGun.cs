@@ -85,7 +85,6 @@ public abstract class BaseGun : MonoBehaviour
         _reloadProgress = 1f;
     }
 
-    // TODO: fix reloading after switch between weapons
     private void Update()
     {
         if (!_isReloading && _isReloadingClicked)
