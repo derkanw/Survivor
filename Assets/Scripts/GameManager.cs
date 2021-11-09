@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
 
         Pause.SaveProgress += SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
+        Pause.SaveProgress += Enemies.SaveParams;
 
         PlayerLevelUp += _hud.OnPlayerLevelUp;
         ChangePoints += _hud.OnChangedPoints;
@@ -96,9 +97,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _playerLevel = SaveSystem.Load<int>("PlayerLevel");
-        _gameLevel = SaveSystem.Load<int>("GameLevel");
-        _points = SaveSystem.Load<float>("PointsForNewLevel");
+        _playerLevel = SaveSystem.Load<int>(Tokens.PlayerLevel);
+        _gameLevel = SaveSystem.Load<int>(Tokens.GameLevel);
+        _points = SaveSystem.Load<float>(Tokens.Points);
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
         LevelUp?.Invoke(_gameLevel);
@@ -136,6 +137,7 @@ public class GameManager : MonoBehaviour
 
         Pause.SaveProgress -= SaveParams;
         Pause.SaveProgress -= Stats.SaveStats;
+        Pause.SaveProgress -= Enemies.SaveParams;
         Pause.Resume -= Input.OnResume;
         Stats.Resume -= Input.OnResume;
 
@@ -178,9 +180,9 @@ public class GameManager : MonoBehaviour
 
     private void SaveParams()
     {
-        SaveSystem.Save<int>("PlayerLevel", _playerLevel);
-        SaveSystem.Save<int>("GameLevel", _gameLevel);
-        SaveSystem.Save<float>("PointsForNewLevel", _points);
+        SaveSystem.Save<int>(Tokens.PlayerLevel, _playerLevel);
+        SaveSystem.Save<int>(Tokens.GameLevel, _gameLevel);
+        SaveSystem.Save<float>(Tokens.Points, _points);
         OnDisable();
     }
 
@@ -188,7 +190,7 @@ public class GameManager : MonoBehaviour
     {
         ++_gameLevel;
         SaveParams();
-        //Stats.SaveStats();
+        Stats.SaveStats();
         SceneManager.LoadScene(_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
     }
 }

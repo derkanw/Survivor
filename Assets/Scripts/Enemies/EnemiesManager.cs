@@ -22,6 +22,9 @@ public class EnemiesManager : MonoBehaviour
     private float _groundWidth;
     private int _killedCount;
     private bool _playerExists;
+    private int _index;
+
+    public void SaveParams() => SaveSystem.Save<int>(Tokens.EnemyIndex, _index);
 
     public void MoveEnemiesTo(Vector3 position) => NotifiedEnemies?.Invoke(position);
 
@@ -35,6 +38,7 @@ public class EnemiesManager : MonoBehaviour
     {
         EnemiesCount.Modify(level);
         LevelUp?.Invoke(level);
+        SaveSystem.Delete(Tokens.EnemyIndex);
     }
 
     private void Awake()
@@ -42,8 +46,8 @@ public class EnemiesManager : MonoBehaviour
         _groundWidth = 9f;
         _playerExists = true;
         EnemiesCount.Init();
-        var index = UnityEngine.Random.Range(0, enemies.Count);
-        StartCoroutine(InitEnemies(index));
+        _index = (SaveSystem.IsExists(Tokens.EnemyIndex)) ? SaveSystem.Load<int>(Tokens.EnemyIndex) : UnityEngine.Random.Range(0, enemies.Count);
+        StartCoroutine(InitEnemies(_index));
     }
 
     private void OnChangeKilledCount(BaseEnemy enemy, float points)

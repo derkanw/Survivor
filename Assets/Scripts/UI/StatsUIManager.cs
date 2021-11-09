@@ -12,8 +12,6 @@ public class StatsUIManager : MonoBehaviour
     [SerializeField] private GameObject StatsList;
     private GameObject _statsList;
     private PointsManager _pointsManager;
-    private readonly string _pointsField = "PointsForStats";
-    private readonly string _statsField = "PlayerStats";
 
     public void OnChangedPoints(int points) => _pointsManager.Points = points;
 
@@ -21,8 +19,8 @@ public class StatsUIManager : MonoBehaviour
 
     public void SaveStats()
     {
-        SaveSystem.Save(_pointsField, _pointsManager.Points);
-        SaveSystem.Save(_statsField, _pointsManager.GetStats());
+        SaveSystem.Save(Tokens.StatsPoints, _pointsManager.Points);
+        SaveSystem.Save(Tokens.Stats, _pointsManager.GetStats());
     }
 
     private void Start()
@@ -31,9 +29,9 @@ public class StatsUIManager : MonoBehaviour
         _statsList.SetActive(false);
         _statsList.GetComponent<ButtonManager>().Resume += OnResume;
         _pointsManager = _statsList.GetComponent<PointsManager>();
-        _pointsManager.Points = SaveSystem.Load<int>(_pointsField);
+        _pointsManager.Points = SaveSystem.Load<int>(Tokens.StatsPoints);
         GetPoints?.Invoke(_pointsManager.Points);
-        _pointsManager.SetStats(SaveSystem.Load<Dictionary<StatsNames, int>>(_statsField));
+        _pointsManager.SetStats(SaveSystem.Load<Dictionary<StatsNames, int>>(Tokens.Stats));
         GetStats?.Invoke(_pointsManager.GetStats());
     }
 

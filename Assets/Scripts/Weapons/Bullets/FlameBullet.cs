@@ -27,7 +27,8 @@ public class FlameBullet : BaseBullet
         float time = 0f;
         while (time <= _attackTime)
         {
-            if (Physics.Raycast(_startPosition, transform.forward, out RaycastHit hit, _maxDistance, _mask))
+            RaycastHit[] hits = Physics.RaycastAll(_startPosition, transform.forward, _maxDistance, _mask);
+            foreach (var hit in hits)
                 hit.collider.gameObject.GetComponent<BaseEnemy>().TakeDamage(Power);
             time += _damageTime;
             yield return new WaitForSeconds(_damageTime);
