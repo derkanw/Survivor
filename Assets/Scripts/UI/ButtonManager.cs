@@ -24,7 +24,7 @@ public class ButtonManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         GoToMenu?.Invoke();
-        SceneManager.LoadScene("Scenes/MainMenu");
+        SceneManager.LoadScene(Tokens.MainMenu);
     }
 
     public void OnExitButton()
@@ -38,7 +38,7 @@ public class ButtonManager : MonoBehaviour
 
     public void OnPlayButton()
     {
-        SceneManager.LoadScene("Scenes/MainLevel");
+        SceneManager.LoadScene(Tokens.LevelName);
     }
 
     public void OnResumeButton()
@@ -62,6 +62,6 @@ public class ButtonManager : MonoBehaviour
     public void OnResetButton()
     {
         SaveSystem.DeleteAll();
-        SceneManager.LoadScene("Scenes/MainLevel");
+        SceneManager.LoadScene(Tokens.LevelName);
     }
 }
