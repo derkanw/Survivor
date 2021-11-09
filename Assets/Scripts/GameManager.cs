@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -84,6 +83,7 @@ public class GameManager : MonoBehaviour
 
         Pause.SaveProgress += SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
+        Pause.SaveProgress += Enemies.SaveParams;
 
         PlayerLevelUp += _hud.OnPlayerLevelUp;
         ChangePoints += _hud.OnChangedPoints;
@@ -97,9 +97,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _playerLevel = PlayerPrefs.GetInt("PlayerLevel", 0);
-        _gameLevel = PlayerPrefs.GetInt("GameLevel", 0);
-        _points = PlayerPrefs.GetFloat("PointsForNewLevel", 0);
+        _playerLevel = SaveSystem.Load<int>(Tokens.PlayerLevel);
+        _gameLevel = SaveSystem.Load<int>(Tokens.GameLevel);
+        _points = SaveSystem.Load<float>(Tokens.Points);
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
         LevelUp?.Invoke(_gameLevel);
@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
 
         Pause.SaveProgress -= SaveParams;
         Pause.SaveProgress -= Stats.SaveStats;
+        Pause.SaveProgress -= Enemies.SaveParams;
         Pause.Resume -= Input.OnResume;
         Stats.Resume -= Input.OnResume;
 
@@ -161,8 +162,7 @@ public class GameManager : MonoBehaviour
     {
         OnDisable();
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
-        PlayerPrefs.DeleteAll();
-        File.Delete(SaveSystem.path);
+        SaveSystem.DeleteAll();
     }
 
     private void OnSetPoints(float points)
@@ -180,9 +180,9 @@ public class GameManager : MonoBehaviour
 
     private void SaveParams()
     {
-        PlayerPrefs.SetInt("PlayerLevel", _playerLevel);
-        PlayerPrefs.SetInt("GameLevel", _gameLevel);
-        PlayerPrefs.SetFloat("PointsForNewLevel", _points);
+        SaveSystem.Save<int>(Tokens.PlayerLevel, _playerLevel);
+        SaveSystem.Save<int>(Tokens.GameLevel, _gameLevel);
+        SaveSystem.Save<float>(Tokens.Points, _points);
         OnDisable();
     }
 

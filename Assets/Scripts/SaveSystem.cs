@@ -1,36 +1,32 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static string path = Application.persistentDataPath + "/stats.info";
-    private static readonly BinaryFormatter formatter = new BinaryFormatter();
+    /*public static string path = Application.persistentDataPath + "/stats.info";
+    private static readonly BinaryFormatter formatter = new BinaryFormatter();*/
 
-    public static void Save(Dictionary<StatsNames, int> stats)
+    public static void Save<T>(string key, T data)
     {
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        int size = stats.Count;
-        int[] data = new int[size];
-        for (int index = 0; index < size; ++index)
-            data[index] = stats[(StatsNames)index];
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        if (data == null) return;
+        var json = JsonConvert.SerializeObject(data);
+        if (string.IsNullOrEmpty(json) || string.IsNullOrWhiteSpace(key)) return;
+        PlayerPrefs.SetString(key, json);
     }
 
-    public static int[] Load()
+    public static T Load<T>(string key)
     {
-        int[] data = null;
-        if (File.Exists(path))
-        {
-            FileStream stream = new FileStream(path, FileMode.Open);
-            data = formatter.Deserialize(stream) as int[];
-            stream.Close();
-        }
-        return data;
+        if (string.IsNullOrWhiteSpace(key) || !IsExists(key)) return default;
+        var json = PlayerPrefs.GetString(key);
+        if (string.IsNullOrEmpty(json)) return default;
+        return JsonConvert.DeserializeObject<T>(json);
     }
+
+    public static void DeleteAll() => PlayerPrefs.DeleteAll();
+
+    public static void Delete(string key) => PlayerPrefs.DeleteKey(key);
+
+    public static bool IsExists(string key) => PlayerPrefs.HasKey(key);
 }

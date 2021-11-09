@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6362202160502859130}
   - component: {fileID: 6362202160502859129}
   - component: {fileID: 6362202160502859128}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: EnemyHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 6362202160502859135}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_Children:
   - {fileID: 6362202161771495092}
   - {fileID: 6362202162040994678}
@@ -49,7 +49,7 @@ Canvas:
   m_GameObject: {fileID: 6362202160502859135}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6362202160502859128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 6362202161771495092}
   - component: {fileID: 6362202161771495094}
   - component: {fileID: 6362202161771495093}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 6362202162040994678}
   - component: {fileID: 6362202162040994672}
   - component: {fileID: 6362202162040994679}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 5718cb91168bd0b4a9b84fd4a7ae8650, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 5718cb91168bd0b4a9b84fd4a7ae8650,
+    type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
