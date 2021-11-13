@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class InputSystem : MonoBehaviour
 {
@@ -9,16 +10,26 @@ public class InputSystem : MonoBehaviour
     public event Action<bool> Reloading;
     public event Action<bool> UseSkill;
     public event Action<int> ChangeWeapon;
+    public event Action<int> ChangeSkill;
 
-    private bool _isPaused = false;
+    private bool _isPaused;
     private int _weaponsCount;
-    private int _currentIndex;
+    private int _skillsCount;
+    private int _currentWeapon;
+    private int _currentSkill = -1;
+    private List<bool> _isSkillsExists;
 
     public void OnPause() => _isPaused = true;
-
     public void OnResume() => _isPaused = false;
-
+    public void DisableSkillsUsing(int index, bool value) => _isSkillsExists[index] = value;
     public void SetWeaponCount(int value) => _weaponsCount = value;
+    public void SetSkillsCount(int value)
+    {
+        _skillsCount = value;
+        _isSkillsExists = new List<bool>(_skillsCount);
+        for (int index = 0; index < _skillsCount; ++index)
+            _isSkillsExists.Add(false);
+    }
 
     private void RotatePlayer()
     {
@@ -38,55 +49,59 @@ public class InputSystem : MonoBehaviour
         ChangedPosition?.Invoke(position);
     }
 
+    private void GetSkillInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha5) && _skillsCount >= 1)
+        {
+            _currentSkill = 0;
+            ChangeSkill?.Invoke(_currentSkill);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6) && _skillsCount >= 2)
+        {
+            _currentSkill = 1;
+            ChangeSkill?.Invoke(_currentSkill);
+        }
+    }
+
     private void GetWeaponInput()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            if (_currentIndex < _weaponsCount - 1)
-                ++_currentIndex;
+            if (_currentWeapon < _weaponsCount - 1)
+                ++_currentWeapon;
             else
-                _currentIndex = 0;
-            ChangeWeapon?.Invoke(_currentIndex);
+                _currentWeapon = 0;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
             
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            if(_currentIndex > 0)
-                --_currentIndex;
+            if(_currentWeapon > 0)
+                --_currentWeapon;
             else
-                _currentIndex = _weaponsCount - 1;
-            ChangeWeapon?.Invoke(_currentIndex);
+                _currentWeapon = _weaponsCount - 1;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && _weaponsCount >= 1)
         {
-            _currentIndex = 0;
-            ChangeWeapon?.Invoke(_currentIndex);
+            _currentWeapon = 0;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && _weaponsCount >= 2)
         {
-            _currentIndex = 1;
-            ChangeWeapon?.Invoke(_currentIndex);
+            _currentWeapon = 1;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && _weaponsCount >= 3)
         {
-            _currentIndex = 2;
-            ChangeWeapon?.Invoke(_currentIndex);
+            _currentWeapon = 2;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) && _weaponsCount >= 4)
         {
-            _currentIndex = 3;
-            ChangeWeapon?.Invoke(_currentIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5) && _weaponsCount >= 5)
-        {
-            _currentIndex = 4;
-            ChangeWeapon?.Invoke(_currentIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6) && _weaponsCount >= 6)
-        {
-            _currentIndex = 5;
-            ChangeWeapon?.Invoke(_currentIndex);
+            _currentWeapon = 3;
+            ChangeWeapon?.Invoke(_currentWeapon);
         }
     }
 
@@ -98,6 +113,8 @@ public class InputSystem : MonoBehaviour
         GetWeaponInput();
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
         CursorClicked?.Invoke(Input.GetKey(KeyCode.Mouse0));
-        UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
+        GetSkillInput();
+        if (_currentSkill >= 0 &&_isSkillsExists[_currentSkill])
+            UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
     }
 }

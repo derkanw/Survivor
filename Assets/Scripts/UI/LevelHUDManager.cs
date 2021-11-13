@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +12,13 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private Text Points;
     [SerializeField] private Text PlayerLevel;
     [SerializeField] private Text GameLevel;
-    [SerializeField] private GameObject WeaponPoint;
+    [SerializeField] private GameObject WeaponsPoint;
     [SerializeField] private List<Image> WeaponsIcons;
+    [SerializeField] private GameObject SkillsPoint;
+    [SerializeField] private List<Image> SkillsIcons;
 
     private float _clipSize;
     private Vector3 _offset;
-    private int _index;
 
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
@@ -38,13 +38,16 @@ public class LevelHUDManager : MonoBehaviour
 
     public void OnChangedClipSize(float size) => _clipSize = size;
 
-    public void OnChangedWeapon(int index)
+    public void OnChangedWeapon(int index) => WeaponsPoint.transform.position = WeaponsIcons[index].transform.position + _offset;
+
+    public void OnChangedSkill(int index)
     {
-        WeaponPoint.transform.position = WeaponsIcons[index].transform.position + _offset;
-        _index = index;
+        if (SkillsPoint.activeSelf == false)
+            SkillsPoint.SetActive(true);
+        SkillsPoint.transform.position = SkillsIcons[index].transform.position + _offset;
     }
 
-    public void HideWeapon() => WeaponsIcons[_index].enabled = false;
+    public void ViewSkill(int index, bool value) => SkillsIcons[index].enabled = value;
 
     private void Start()
     {
