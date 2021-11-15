@@ -1600,6 +1600,7 @@ GameObject:
   - component: {fileID: 4321600416890167494}
   - component: {fileID: -2026692774081941059}
   - component: {fileID: 755549380957951406}
+  - component: {fileID: 486981018631466427}
   m_Layer: 0
   m_Name: Sci-Fi_Soldier
   m_TagString: Player
@@ -1730,6 +1731,18 @@ MonoBehaviour:
   - Name: Default
     RightGun: {fileID: 0}
     Controller: {fileID: 9100000, guid: e4d38f097ea35254fb4b833d568bb089, type: 2}
-  Skills:
-  - {fileID: 3704043939434660809, guid: 21175f3f79ace26409082c2479477486, type: 3}
-  - {fileID: 2659595016875214964, guid: 4813f66904fb44e4b84bb2225a4cddb5, type: 3}
+--- !u!114 &486981018631466427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf3e0efa27315a48a990352ca6229f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillObjects:
+  - {fileID: 3704043939434660811, guid: 21175f3f79ace26409082c2479477486, type: 3}
+  - {fileID: 2659595016875214966, guid: 4813f66904fb44e4b84bb2225a4cddb5, type: 3}

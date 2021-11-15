@@ -10,16 +10,16 @@ public class BaseEnemy : MonoBehaviour
 
     [SerializeField] private Image HealthBar;
     [SerializeField] private Stat Health;
-    [SerializeField] private Stat Rapidity;
+    [SerializeField] protected Stat Rapidity;
     [SerializeField] protected Stat Power;
     [SerializeField] private Stat DeathPoints;
 
     protected bool _isPlayerExists;
     protected bool _isAttacking;
     protected Animator _animator;
+    protected Rigidbody _rigidBody;
+    protected Vector3 _targetPosition;
 
-    private Rigidbody _rigidBody;
-    private Vector3 _targetPosition;
     private float _hp;
     private int _level;
 
@@ -88,16 +88,5 @@ public class BaseEnemy : MonoBehaviour
         _animator.SetTrigger("Death");
         yield return new WaitForSeconds(0.8f);
         Destroy(gameObject);
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isPlayerExists)
-        {
-            Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.LookRotation(targetPos);
-            if (!_isAttacking)
-                _rigidBody.MovePosition(transform.position + targetPos);
-        }
     }
 }

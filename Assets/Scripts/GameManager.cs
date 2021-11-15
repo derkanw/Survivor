@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private Player _playerParams;
     private WeaponsManager _weaponsManager;
+    private SkillsManager _skillsManager;
     private LevelHUDManager _hud;
     private ButtonManager _buttonManager;
     private float _points;
@@ -60,16 +61,22 @@ public class GameManager : MonoBehaviour
         _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading += _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
-        _weaponsManager.SkillUsed += _hud.HideWeapon;
+
+        _skillsManager = player.GetComponent<SkillsManager>();
+        _skillsManager.GetSkillsCount += Input.SetSkillsCount;
+        _skillsManager.SkillExists += _hud.ViewSkill;
+        _skillsManager.SkillExists += Input.DisableSkillsUsing;
 
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.CursorClicked += _weaponsManager.SetShooting;
         Input.Reloading += _weaponsManager.SetReloading;
-        Input.ChangeWeapon += _weaponsManager.SetWeapon;
+        Input.ChangeWeapon += _weaponsManager.SetArsenal;
         Input.ChangeWeapon += _hud.OnChangedWeapon;
-        Input.UseSkill += _weaponsManager.UseSkill;
+        Input.ChangeSkill += _hud.OnChangedSkill;
+        Input.ChangeSkill += _skillsManager.SetSkill;
+        Input.UseSkill += _skillsManager.UseSkill;
 
         Pause.Resume += Input.OnResume;
         Stats.Resume += Input.OnResume;
@@ -124,16 +131,20 @@ public class GameManager : MonoBehaviour
         _weaponsManager.ChangedBulletsCount -= _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading -= _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount -= Input.SetWeaponCount;
-        _weaponsManager.SkillUsed -= _hud.HideWeapon;
+        _skillsManager.SkillExists -= _hud.ViewSkill;
+        _skillsManager.SkillExists -= Input.DisableSkillsUsing;
+        _skillsManager.GetSkillsCount += Input.SetSkillsCount;
 
         Input.CursorMoved -= _playerParams.LookTo;
         Input.CursorMoved -= _weaponsManager.LookTo;
         Input.ChangedPosition -= _playerParams.MoveTo;
         Input.CursorClicked -= _weaponsManager.SetShooting;
         Input.Reloading -= _weaponsManager.SetReloading;
-        Input.ChangeWeapon -= _weaponsManager.SetWeapon;
+        Input.ChangeWeapon -= _weaponsManager.SetArsenal;
         Input.ChangeWeapon -= _hud.OnChangedWeapon;
-        Input.UseSkill -= _weaponsManager.UseSkill;
+        Input.ChangeSkill -= _hud.OnChangedSkill;
+        Input.ChangeSkill -= _skillsManager.SetSkill;
+        Input.UseSkill -= _skillsManager.UseSkill;
 
         Pause.SaveProgress -= SaveParams;
         Pause.SaveProgress -= Stats.SaveStats;

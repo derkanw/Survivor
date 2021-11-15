@@ -11,7 +11,7 @@ public class Skill : MonoBehaviour
 
     public void UseSkill(Player player)
     {
-        Instantiate(Effect, player.gameObject.transform.position, Quaternion.identity); //player position
+        Instantiate(Effect, transform.position, Quaternion.identity);
         switch(Name)
         {
             case "Health":
@@ -23,6 +23,6 @@ public class Skill : MonoBehaviour
             default:
                 return;
         }
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
