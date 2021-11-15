@@ -19,19 +19,18 @@ public class ShooterEnemy : BaseEnemy
     {
         Instantiate(Effect, BulletSpawn.position, transform.rotation * Quaternion.Euler(90f, 0f, 90f));
         GameObject bullet = Instantiate(BulletPrefab, BulletSpawn.position, Quaternion.identity);
-        bullet.transform.LookAt(_targetPosition);
+        bullet.transform.LookAt(_playerPosition);
         bullet.GetComponent<BaseBullet>().SetPower(Power.Value);
     }
 
     private void Awake() => _bulletsCount = ClipSize;
-
     private IEnumerator Attack()
     {
         _isAttacking = true;
         _animator.SetBool("isMoving", false);
         while (_close)
         {
-            while (_isPlayerExists && _bulletsCount != 0)
+            while (_close && _isPlayerExists && _bulletsCount != 0)
             {
                 _animator.SetTrigger("Attack");
                 InitBullet();
@@ -51,7 +50,7 @@ public class ShooterEnemy : BaseEnemy
         {
             Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
             transform.rotation = Quaternion.LookRotation(targetPos);
-            _close = (_targetPosition - transform.position).magnitude <= Distance;
+            _close = (_playerPosition - transform.position).magnitude <= Distance;
             if (!_close)
                 _rigidBody.MovePosition(transform.position + targetPos);
             else

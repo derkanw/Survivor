@@ -19,6 +19,7 @@ public class BaseEnemy : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody _rigidBody;
     protected Vector3 _targetPosition;
+    protected Vector3 _playerPosition;
 
     private float _hp;
     private int _level;
@@ -47,6 +48,7 @@ public class BaseEnemy : MonoBehaviour
 
     public void MoveTo(Vector3 position)
     {
+        _playerPosition = position;
         _targetPosition = position - transform.position;
         if (_targetPosition.magnitude >= 1)
             _targetPosition = _targetPosition.normalized;
