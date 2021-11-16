@@ -11,6 +11,7 @@ public class MeleeEnemy : BaseEnemy
         {
             _animator.SetTrigger("Attack");
             yield return new WaitForSeconds(0.8f);
+            AudioManager.PlaySound(SoundNames.EnemyAttack);
             if (target != null)
                 target.GetComponent<Player>().TakeDamage(Power.Value);
             yield return new WaitForSeconds(_attackSpeed);

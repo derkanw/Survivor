@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        AudioManager.PlaySound(SoundNames.MainTheme);
         Menu.SetActive();
         PointsTarget.Init();
 
@@ -181,6 +182,7 @@ public class GameManager : MonoBehaviour
         _points += points;
         if (_points >= PointsTarget.Value)
         {
+            AudioManager.PlaySound(SoundNames.PlayerLevel);
             ++_playerLevel;
             ChangePoints?.Invoke(_playerLevel);
             PlayerLevelUp?.Invoke(_playerLevel);

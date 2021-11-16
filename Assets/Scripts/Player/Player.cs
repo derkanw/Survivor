@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
     public void TopUpMana(float incMana)
     {
+        AudioManager.PlaySound(SoundNames.ManaSound);
         _mana += incMana;
         if (_mana > Mana.Value)
             _mana = Mana.Value;
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour
 
     public void Heal(float incHP)
     {
+        AudioManager.PlaySound(SoundNames.HealSound);
         _hp += incHP;
         if (_hp > Health.Value)
             _hp = Health.Value;
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(float power)
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+        AudioManager.PlaySound(SoundNames.PlayerHit);
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
         _animator.SetTrigger("Damage");
@@ -103,6 +106,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerDied()
     {
+        AudioManager.PlaySound(SoundNames.PlayerDie);
         _animator.SetTrigger("Death");
         yield return new WaitForSeconds(2f);
         Died?.Invoke();

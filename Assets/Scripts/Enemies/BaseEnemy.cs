@@ -64,6 +64,7 @@ public class BaseEnemy : MonoBehaviour
     {
         // TODO: when an enemy dies, sometimes it deals damage or the death animation doesn't play
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+        AudioManager.PlaySound(SoundNames.EnemyHit);
         _hp -= power;
         HealthBar.fillAmount = _hp / Health.Value;
         _animator.SetTrigger("Damage");
@@ -86,6 +87,7 @@ public class BaseEnemy : MonoBehaviour
 
     protected IEnumerator Died()
     {
+        AudioManager.PlaySound(SoundNames.EnemyDie);
         EnemyDied?.Invoke(this, DeathPoints.Value);
         _animator.SetTrigger("Death");
         yield return new WaitForSeconds(0.8f);

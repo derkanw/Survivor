@@ -10,6 +10,7 @@ public class BomberEnemy : BaseEnemy
     {
         _animator.SetTrigger("Attack");
         Instantiate(Effect, transform.position, Quaternion.identity);
+        AudioManager.PlaySound(SoundNames.GrenadeExplosion);
         if (target != null)
             target.GetComponent<Player>().TakeDamage(Power.Value);
         yield return new WaitForSeconds(0.5f);

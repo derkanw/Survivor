@@ -19,6 +19,7 @@ public class Grenade : BaseBullet
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         var _fireTail = Instantiate(FireTail, TailPosition.position, transform.rotation * Quaternion.Euler(0f, 90f, 0f));
         _fireTail.transform.SetParent(TailPosition);
+        AudioManager.PlaySound(SoundNames.GrenadeLauncher);
     }
 
     private void FixedUpdate()
@@ -27,6 +28,7 @@ public class Grenade : BaseBullet
         if (transform.position.y <= 0)
         {
             Instantiate(Explosion, transform.position, Quaternion.identity);
+            AudioManager.PlaySound(SoundNames.GrenadeExplosion);
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, Radius, _mask);
             foreach (var hitCollider in hitColliders)
                 hitCollider.gameObject.GetComponent<BaseEnemy>().TakeDamage(Power);

@@ -9,4 +9,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnFailed() => ContinueButton.SetActive(false);
 
     public void SetActive() => ContinueButton.SetActive(true);
+
+    private void Start() => AudioManager.PlaySound(SoundNames.MainTheme);
+
 }
