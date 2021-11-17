@@ -623,21 +623,6 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
   GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
     type: 3}
-  Sounds:
-  - Name: 15
-    Clip: {fileID: 8300000, guid: 2d81d1624e0a548e1830b956bd9d973f, type: 3}
-  - Name: 0
-    Clip: {fileID: 0}
-  - Name: 0
-    Clip: {fileID: 0}
-  - Name: 0
-    Clip: {fileID: 0}
-  - Name: 0
-    Clip: {fileID: 0}
-  - Name: 0
-    Clip: {fileID: 0}
-  - Name: 0
-    Clip: {fileID: 0}
 --- !u!114 &1688001195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,7 +640,7 @@ MonoBehaviour:
   - {fileID: 100066, guid: 98976c6360cf0ef42bc60d4aa956e765, type: 3}
   - {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
   - {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 3}
-  SpawnTime: 3
+  SpawnTime: 6
   EnemiesCount:
     BaseValue: 10
     Rate: 0.5

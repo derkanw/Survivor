@@ -19,7 +19,7 @@ public enum SoundNames
     HealSound,
     ManaSound,
     MainTheme,
-    ButtonOver,
+    ButtonHover,
     ButtonClick,
     DoorOpen,
     ChestOpen
