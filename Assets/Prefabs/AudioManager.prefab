@@ -123,8 +123,8 @@ MonoBehaviour:
     AllowedTime: 0
     Loop: 0
   - Name: 13
-    Clip: {fileID: 0}
-    Volume: 0
+    Clip: {fileID: 8300000, guid: fdab7bdb9e49c4748b1d5d1fee49fe24, type: 3}
+    Volume: 1
     AllowedTime: 0
     Loop: 0
   - Name: 14
@@ -149,7 +149,7 @@ MonoBehaviour:
     Loop: 0
   - Name: 18
     Clip: {fileID: 8300000, guid: 2d81d1624e0a548e1830b956bd9d973f, type: 3}
-    Volume: 1
+    Volume: 0.8
     AllowedTime: 0
     Loop: 1
   - Name: 19

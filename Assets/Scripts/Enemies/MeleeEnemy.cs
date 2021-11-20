@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
-    private float _attackSpeed = 3f;
+    private float _attackSpeed = 5f;
     private IEnumerator Damage(GameObject target)
     {
         while (_isPlayerExists && _isAttacking)

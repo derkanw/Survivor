@@ -5,11 +5,11 @@ public class AudioManager : MonoBehaviour
 {
     private static AudioManager _instance;
     private static AudioList _list;
-    private static readonly HashSet<SoundNames> PersistantSounds = new HashSet<SoundNames>();
+    private static readonly HashSet<SoundNames> _persistantSounds = new HashSet<SoundNames>();
 
     public static void PlaySound(SoundNames name, string objectName = "Sound", bool doNotDestroy = false)
     {
-        if (PersistantSounds.Contains(name)) return;
+        if (_persistantSounds.Contains(name)) return;
 
         var soundObject = new GameObject(objectName);
         var audioSource = soundObject.AddComponent<AudioSource>();
@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
             if (doNotDestroy)
             {
                 DontDestroyOnLoad(soundObject);
-                PersistantSounds.Add(name);
+                _persistantSounds.Add(name);
             }
             else
                 Destroy(soundObject, sound.Clip.length);

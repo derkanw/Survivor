@@ -3429,6 +3429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corner
       objectReference: {fileID: 0}
+    - target: {fileID: 2136746014020260199, guid: ae1d1ee1bab059845bcde88598d0dfd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae1d1ee1bab059845bcde88598d0dfd3, type: 3}
 --- !u!1 &4762742768321383891 stripped
