@@ -1,34 +1,43 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
-    private static GameObject _soundObject;
-    private static AudioSource _audioSource;
     private static AudioManager _instance;
     private static AudioList _list;
+    private static readonly HashSet<SoundNames> PersistantSounds = new HashSet<SoundNames>();
 
-    public static void PlaySound(SoundNames name)
+    public static void PlaySound(SoundNames name, string objectName = "Sound", bool doNotDestroy = false)
     {
-        if (_soundObject == null)
+        if (PersistantSounds.Contains(name)) return;
+
+        var soundObject = new GameObject(objectName);
+        var audioSource = soundObject.AddComponent<AudioSource>();
+
+        var sound = GetSound(name);
+        if (sound != null && sound.Clip != null)
         {
-            _soundObject = new GameObject("Sound");
-            _audioSource = _soundObject.AddComponent<AudioSource>();
-        }
-        AudioClip clip = GetClip(name);
-        if (clip == null) return;
-        // TODO: music restarts
-        _audioSource.PlayOneShot(clip);
-    }
-    
-    private static AudioClip GetClip(SoundNames name)
-    {
-        foreach (Sound sound in _list.Sounds)
-            if (sound.Name == name)
+            audioSource.clip = sound.Clip;
+            audioSource.volume = sound.Volume;
+            audioSource.loop = sound.Loop;
+            audioSource.Play();
+            if (doNotDestroy)
             {
-                _audioSource.loop = sound.Loop;
-                _audioSource.volume = sound.Volume;
-                return sound.Clip;
+                DontDestroyOnLoad(soundObject);
+                PersistantSounds.Add(name);
             }
+            else
+                Destroy(soundObject, sound.Clip.length);
+        }
+        else
+            Destroy(soundObject);
+    }
+
+    private static Sound GetSound(SoundNames name)
+    {
+        foreach (var sound in _list.Sounds)
+            if (sound.Name == name)
+                return sound;
         return null;
     }
 

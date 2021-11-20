@@ -10,6 +10,5 @@ public class MainMenuManager : MonoBehaviour
 
     public void SetActive() => ContinueButton.SetActive(true);
 
-    private void Start() => AudioManager.PlaySound(SoundNames.MainTheme);
-
+    private void Start() => AudioManager.PlaySound(SoundNames.MainTheme, "PersistentSound", true);
 }

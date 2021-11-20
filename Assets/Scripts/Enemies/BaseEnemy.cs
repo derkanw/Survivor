@@ -87,6 +87,7 @@ public class BaseEnemy : MonoBehaviour
 
     protected IEnumerator Died()
     {
+        HealthBar.fillAmount = 0;
         AudioManager.PlaySound(SoundNames.EnemyDie);
         EnemyDied?.Invoke(this, DeathPoints.Value);
         _animator.SetTrigger("Death");

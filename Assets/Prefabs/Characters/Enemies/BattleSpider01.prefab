@@ -232,7 +232,7 @@ MonoBehaviour:
     BaseValue: 1
     Rate: 0.1
   Power:
-    BaseValue: 10
+    BaseValue: 2
     Rate: 0.05
   DeathPoints:
     BaseValue: 5

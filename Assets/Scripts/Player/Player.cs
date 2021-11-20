@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     private float _mana;
     private WeaponsManager _weaponsManager;
 
-
-    // TODO: auto replenishment of mana
     public bool SpendMana(float count)
     {
         if (_mana < count)
@@ -124,6 +122,7 @@ public class Player : MonoBehaviour
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = Health.Value;
+        _mana = Mana.Value;
         _weaponsManager = gameObject.GetComponent<WeaponsManager>();
     }
 }
