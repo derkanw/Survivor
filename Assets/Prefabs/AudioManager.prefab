@@ -59,47 +59,116 @@ MonoBehaviour:
   Sounds:
   - Name: 0
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0
   - Name: 1
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0
   - Name: 2
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0
   - Name: 3
     Clip: {fileID: 8300000, guid: 34f9cbd28a9740349b6cc2f5e280dda3, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 4
     Clip: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 5
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0
   - Name: 6
     Clip: {fileID: 8300000, guid: ac6034ade498bb94b87620cdf6eac48b, type: 3}
+    Volume: 0.2
+    AllowedTime: 0.1
+    Loop: 0
   - Name: 7
     Clip: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
+    Volume: 0.2
+    AllowedTime: 0.1
+    Loop: 0
   - Name: 8
     Clip: {fileID: 8300000, guid: 2b401956f2477ee4ca8e20a498d35dae, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 9
     Clip: {fileID: 8300000, guid: c3430338b7987524d96ce1f63db280cd, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 10
     Clip: {fileID: 8300000, guid: bb2e2714f962491428dcb0b38598b251, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 11
     Clip: {fileID: 8300000, guid: e11a5a019377fbd4c81caa0adcb4c236, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 12
     Clip: {fileID: 8300000, guid: 12f536f578dc7724f9cbc2029916cd13, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 13
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0
   - Name: 14
     Clip: {fileID: 8300000, guid: 40e71b0f7bd610849b40f150553f4702, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 15
     Clip: {fileID: 8300000, guid: 07d86f38d24ec394398898718fd5e4fb, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 16
     Clip: {fileID: 8300000, guid: 8e4c20c22245e8541b51e126ce0229e0, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 17
     Clip: {fileID: 8300000, guid: c7b761b3087f3e649a81dd6e8f31f90d, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 18
     Clip: {fileID: 8300000, guid: 2d81d1624e0a548e1830b956bd9d973f, type: 3}
+    Volume: 1
+    AllowedTime: 0
+    Loop: 1
   - Name: 19
-    Clip: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 0bc9e79038d2a426a83645ea55edb122, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 20
-    Clip: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 8ddbb3cb406d045698e3f086efb20942, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 21
     Clip: {fileID: 8300000, guid: 070779cdcfbe3ff4688691fb33bc3e4e, type: 3}
+    Volume: 0.2
+    AllowedTime: 0
+    Loop: 0
   - Name: 22
     Clip: {fileID: 0}
+    Volume: 0
+    AllowedTime: 0
+    Loop: 0

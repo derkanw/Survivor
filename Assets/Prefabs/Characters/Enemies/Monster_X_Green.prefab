@@ -1494,7 +1494,7 @@ MonoBehaviour:
     BaseValue: 50
     Rate: 0.1
   Rapidity:
-    BaseValue: 0.8
+    BaseValue: 0.5
     Rate: 0.1
   Power:
     BaseValue: 15

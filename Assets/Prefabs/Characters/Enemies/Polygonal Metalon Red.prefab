@@ -180,7 +180,7 @@ MonoBehaviour:
     BaseValue: 30
     Rate: 0.1
   Rapidity:
-    BaseValue: 1.5
+    BaseValue: 2
     Rate: 0.05
   Power:
     BaseValue: 15

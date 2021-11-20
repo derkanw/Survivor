@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioList : MonoBehaviour
 {
     public Sound[] Sounds;
-    private AudioList _instance;
+    private static AudioList _instance;
 
     public AudioList List
     {

@@ -2,66 +2,89 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 using System;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    public event Action Pause;
-    public event Action Resume;
-    public event Action LooksStats;
     public event Action GoToMenu;
+    public event Action Resume;
+    public event Action Pause;
+    public event Action LooksStats;
     public event Action Restart;
 
-    public void OnRestartButton()
+    [SerializeField] private Button PauseButton;
+    [SerializeField] private Button StatsButton;
+    [SerializeField] private Button RestartButton;
+    [SerializeField] private Button MenuButton;
+    [SerializeField] private Button ResumeButton;
+
+    public static void SetUpButton(Button button, UnityAction function)
+    {
+        if (button != null && function != null)
+        {
+            button.onClick.AddListener(function);
+            SetUpHover(button.gameObject.GetComponent<EventTrigger>());
+            SetUpClick(button.gameObject.GetComponent<EventTrigger>());
+        }
+    }
+
+    private static void SetUpHover(EventTrigger trigger)
+    {
+        var entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener(data => { AudioManager.PlaySound(SoundNames.ButtonHover); });
+        trigger.triggers.Add(entry);
+    }
+
+    private static void SetUpClick(EventTrigger trigger)
+    {
+        var click = new EventTrigger.Entry();
+        click.eventID = EventTriggerType.PointerDown;
+        click.callback.AddListener(data => { AudioManager.PlaySound(SoundNames.ButtonClick); });
+        trigger.triggers.Add(click);
+    }
+
+    private void Awake()
+    {
+        SetUpButton(PauseButton, PauseLevel);
+        SetUpButton(StatsButton, ViewStats);
+        SetUpButton(RestartButton, RestartLevel);
+        SetUpButton(ResumeButton, ResumeLevel);
+        SetUpButton(MenuButton, ToMainMenu);
+    }
+
+    private void RestartLevel()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Restart?.Invoke();
     }
 
-    public void OnMainMenuButton()
+    private void ToMainMenu()
     {
         Time.timeScale = 1f;
         GoToMenu?.Invoke();
         SceneManager.LoadScene(Tokens.MainMenu);
     }
 
-    public void OnExitButton()
-    {
-        #if UNITY_EDITOR
-            EditorApplication.ExitPlaymode();
-        #else
-            Application.Quit();
-        #endif
-    }
-
-    public void OnPlayButton()
-    {
-        SceneManager.LoadScene(Tokens.LevelName);
-    }
-
-    public void OnResumeButton()
+    private void ResumeLevel()
     {
         Time.timeScale = 1f;
         Resume?.Invoke();
     }
 
-    public void OnPauseButton()
+    private void PauseLevel()
     {
         Time.timeScale = 0f;
         Pause?.Invoke();
     }
 
-    public void OnStatsButton()
+    private void ViewStats()
     {
         Time.timeScale = 0f;
         LooksStats?.Invoke();
-    }
-
-    public void OnResetButton()
-    {
-        SaveSystem.DeleteAll();
-        SceneManager.LoadScene(Tokens.LevelName);
     }
 }
