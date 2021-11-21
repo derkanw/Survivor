@@ -98,6 +98,7 @@ public class Player : MonoBehaviour
         {
             _animator.SetBool("isMoving", true);
             _rigidBody.MovePosition(transform.position + _position * Time.fixedDeltaTime);
+            AudioManager.PlaySound(SoundNames.PlayerMove);
         }
         Moved?.Invoke(transform.position);
     }

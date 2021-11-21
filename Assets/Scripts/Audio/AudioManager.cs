@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     private static AudioList _list;
     private static readonly HashSet<SoundNames> _persistantSounds = new HashSet<SoundNames>();
+    private static Dictionary<SoundNames, float> _soundsTimer;
 
     public static void PlaySound(SoundNames name, string objectName = "Sound", bool doNotDestroy = false)
     {
@@ -20,7 +21,10 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = sound.Clip;
             audioSource.volume = sound.Volume;
             audioSource.loop = sound.Loop;
-            audioSource.Play();
+            if (sound.AllowedTime > 0f && !_soundsTimer.ContainsKey(name))
+                _soundsTimer.Add(sound.Name,  0f);
+            if (CanPlaySound(sound.Name, sound.AllowedTime))
+                audioSource.Play();
             if (doNotDestroy)
             {
                 DontDestroyOnLoad(soundObject);
@@ -31,6 +35,18 @@ public class AudioManager : MonoBehaviour
         }
         else
             Destroy(soundObject);
+    }
+
+    private static bool CanPlaySound(SoundNames name, float allowedTime)
+    {
+        if (_soundsTimer.ContainsKey(name))
+        {
+            float lastTime = _soundsTimer[name];
+            if (lastTime + allowedTime >= Time.time)
+                return false;
+            _soundsTimer[name] = Time.time;
+        }
+        return true;
     }
 
     private static Sound GetSound(SoundNames name)
@@ -52,5 +68,6 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         _list = gameObject.GetComponent<AudioList>().List;
+        _soundsTimer = new Dictionary<SoundNames, float>();
     }
 }
