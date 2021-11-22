@@ -52,6 +52,7 @@ public class LevelHUDManager : MonoBehaviour
     private void Start()
     {
         _offset = new Vector3(-20f, -20f, 0);
+        SkillsPoint.SetActive(false);
         OnChangedWeapon(0);
     }
 }

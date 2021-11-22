@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Skill : MonoBehaviour
 {
@@ -11,7 +8,7 @@ public class Skill : MonoBehaviour
 
     public void UseSkill(Player player)
     {
-        Instantiate(Effect, transform.position, Quaternion.identity);
+        Instantiate(Effect, transform.position, Quaternion.identity).transform.SetParent(player.gameObject.transform);
         switch(Name)
         {
             case "Health":

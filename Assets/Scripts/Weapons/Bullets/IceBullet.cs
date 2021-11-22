@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IceBullet : MachineBullet
@@ -7,6 +5,8 @@ public class IceBullet : MachineBullet
     [SerializeField] [Range(0f, 20f)] private float FreezeTime;
     [SerializeField] [Range(-10f, 0f)] private int FreezeIncSpeed;
     [SerializeField] private GameObject Effect;
+
+    private void Awake() => AudioManager.PlaySound(SoundNames.IceGun);
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -16,6 +16,7 @@ public class IceBullet : MachineBullet
             var enemy = target.GetComponent<BaseEnemy>();
             enemy.TakeDamage(Power);
             Instantiate(Effect, transform.position, Quaternion.identity);
+            AudioManager.PlaySound(SoundNames.IceExplosion);
             StartCoroutine(enemy.DecreaseSpeed(FreezeIncSpeed, FreezeTime));
             Destroy(gameObject);
         }

@@ -1,16 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
-    private float _attackSpeed = 3f;
+    private float _attackSpeed = 5f;
     private IEnumerator Damage(GameObject target)
     {
         while (_isPlayerExists && _isAttacking)
         {
             _animator.SetTrigger("Attack");
             yield return new WaitForSeconds(0.8f);
+            AudioManager.PlaySound(SoundNames.EnemyAttack);
             if (target != null)
                 target.GetComponent<Player>().TakeDamage(Power.Value);
             yield return new WaitForSeconds(_attackSpeed);

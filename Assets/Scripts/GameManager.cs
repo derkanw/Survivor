@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
@@ -35,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Menu.SetActive();
+        Menu.SetActive(true);
         PointsTarget.Init();
 
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
@@ -53,7 +51,6 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += OnPlayerDied;
         _playerParams.Died += MainCamera.Stay;
         _playerParams.Died += Enemies.NotifyEnemies;
-        _playerParams.Died += Menu.OnFailed;
         _playerParams.ChangedMana += _hud.ChangeManaBar;
 
         _weaponsManager = player.GetComponent<WeaponsManager>();
@@ -84,7 +81,6 @@ public class GameManager : MonoBehaviour
         _buttonManager = levelHud.GetComponent<ButtonManager>();
         _buttonManager.Pause += Pause.OnPause;
         _buttonManager.Pause += Input.OnPause;
-        _buttonManager.Restart += OnDisable;
         _buttonManager.LooksStats += Stats.OnLooksStats;
         _buttonManager.LooksStats += Input.OnPause;
 
@@ -124,7 +120,6 @@ public class GameManager : MonoBehaviour
         _playerParams.Died -= OnPlayerDied;
         _playerParams.Died -= MainCamera.Stay;
         _playerParams.Died -= Enemies.NotifyEnemies;
-        _playerParams.Died -= Menu.OnFailed;
         _playerParams.ChangedMana -= _hud.ChangeManaBar;
 
         _weaponsManager.ChangedClipSize -= _hud.OnChangedClipSize;
@@ -154,7 +149,6 @@ public class GameManager : MonoBehaviour
 
         _buttonManager.Pause -= Pause.OnPause;
         _buttonManager.Pause -= Input.OnPause;
-        _buttonManager.Restart -= OnDisable;
         _buttonManager.LooksStats -= Stats.OnLooksStats;
         _buttonManager.LooksStats -= Input.OnPause;
 
@@ -172,6 +166,7 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDied()
     {
         OnDisable();
+        Menu.SetActive(false);
         var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         SaveSystem.DeleteAll();
     }
@@ -181,6 +176,7 @@ public class GameManager : MonoBehaviour
         _points += points;
         if (_points >= PointsTarget.Value)
         {
+            AudioManager.PlaySound(SoundNames.PlayerLevel);
             ++_playerLevel;
             ChangePoints?.Invoke(_playerLevel);
             PlayerLevelUp?.Invoke(_playerLevel);

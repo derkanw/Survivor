@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -92,6 +91,7 @@ public abstract class BaseGun : MonoBehaviour
             _reloadProgress = 0f;
             Reloading?.Invoke(_reloadProgress);
             StartCoroutine(Reload());
+            AudioManager.PlaySound(SoundNames.Reload);
         }
         if (_isReloading)
         {

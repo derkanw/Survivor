@@ -5,9 +5,6 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    /*public static string path = Application.persistentDataPath + "/stats.info";
-    private static readonly BinaryFormatter formatter = new BinaryFormatter();*/
-
     public static void Save<T>(string key, T data)
     {
         if (data == null) return;

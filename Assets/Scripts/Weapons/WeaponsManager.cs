@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -34,7 +33,7 @@ public class WeaponsManager : MonoBehaviour
     {
         if (_guns[index] == null)
             return;
-
+        AudioManager.PlaySound(SoundNames.Equip);
         for (int i = 0; i < _guns.Count; ++i)
         {
             if (_guns[i] == null)

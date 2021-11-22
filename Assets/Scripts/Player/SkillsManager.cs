@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -25,7 +24,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (_skills[index] == null)
             return;
-
+        AudioManager.PlaySound(SoundNames.Equip);
         for (int i = 0; i < _skillsCount; ++i)
         {
             if (_skills[i] == null)
