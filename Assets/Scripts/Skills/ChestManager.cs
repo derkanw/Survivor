@@ -22,7 +22,7 @@ public class ChestManager : MonoBehaviour
 
     private void Awake()
     {
-        _groundWidth = 8f;
+        _groundWidth = 22f;
         _playerExists = true;
         BoxesCount.Init();
         StartCoroutine(InitBoxes());
