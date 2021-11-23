@@ -52,7 +52,7 @@ public class EnemiesManager : MonoBehaviour
 
     private void OnChangeKilledCount(BaseEnemy enemy, float points)
     {
-        enemy.EnemyDied += OnChangeKilledCount;
+        enemy.EnemyDied -= OnChangeKilledCount;
         NotifiedEnemies -= enemy.MoveTo;
         PlayerDied -= enemy.Stay;
         LevelUp -= enemy.OnLevelUp;

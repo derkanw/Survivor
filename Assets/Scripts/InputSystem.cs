@@ -17,18 +17,18 @@ public class InputSystem : MonoBehaviour
     private int _skillsCount;
     private int _currentWeapon;
     private int _currentSkill = -1;
-    private List<bool> _isSkillsExists;
+    private List<int> _SkillsExists;
 
     public void OnPause() => _isPaused = true;
     public void OnResume() => _isPaused = false;
-    public void DisableSkillsUsing(int index, bool value) => _isSkillsExists[index] = value;
+    public void OnChangedSkillCount(int index, int count) => _SkillsExists[index] = count;
     public void SetWeaponCount(int value) => _weaponsCount = value;
     public void SetSkillsCount(int value)
     {
         _skillsCount = value;
-        _isSkillsExists = new List<bool>(_skillsCount);
+        _SkillsExists = new List<int>(_skillsCount);
         for (int index = 0; index < _skillsCount; ++index)
-            _isSkillsExists.Add(false);
+            _SkillsExists.Add(0);
     }
 
     private void RotatePlayer()
@@ -59,6 +59,11 @@ public class InputSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha6) && _skillsCount >= 2)
         {
             _currentSkill = 1;
+            ChangeSkill?.Invoke(_currentSkill);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7) && _skillsCount >= 3)
+        {
+            _currentSkill = 2;
             ChangeSkill?.Invoke(_currentSkill);
         }
     }
@@ -114,7 +119,7 @@ public class InputSystem : MonoBehaviour
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
         CursorClicked?.Invoke(Input.GetKey(KeyCode.Mouse0));
         GetSkillInput();
-        if (_currentSkill >= 0 &&_isSkillsExists[_currentSkill])
+        if (_currentSkill >= 0 && _SkillsExists[_currentSkill] > 0)
             UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
     }
 }

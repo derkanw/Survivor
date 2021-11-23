@@ -1659,9 +1659,6 @@ MonoBehaviour:
   Health:
     BaseValue: 40
     Rate: 0.05
-  Mana:
-    BaseValue: 10
-    Rate: 0.1
   Rapidity:
     BaseValue: 3
     Rate: 0.05
@@ -1728,9 +1725,6 @@ MonoBehaviour:
     RightGun: {fileID: 6303800952307445489, guid: c854c03c5fb10774ca672c6ffa0d44ad,
       type: 3}
     Controller: {fileID: 9100000, guid: dffbd9326394a8d47a87a1e2aec70a59, type: 2}
-  - Name: Default
-    RightGun: {fileID: 0}
-    Controller: {fileID: 9100000, guid: e4d38f097ea35254fb4b833d568bb089, type: 2}
 --- !u!114 &486981018631466427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,3 +1740,4 @@ MonoBehaviour:
   SkillObjects:
   - {fileID: 3704043939434660811, guid: 21175f3f79ace26409082c2479477486, type: 3}
   - {fileID: 2659595016875214966, guid: 4813f66904fb44e4b84bb2225a4cddb5, type: 3}
+  - {fileID: 2244550013824835640, guid: 029fc7bb0e145924e957a7942502fd37, type: 3}

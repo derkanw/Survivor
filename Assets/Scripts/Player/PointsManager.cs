@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public enum StatsNames
 {
-    Health, Mana, Rapidity, Agility, Power
+    Health, Rapidity, Agility, Power
 }
 
 public class PointsManager : MonoBehaviour

@@ -6,12 +6,10 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     public event Action<float> ChangedHP;
-    public event Action<float> ChangedMana;
     public event Action<Vector3> Moved;
     public event Action Died;
 
     [SerializeField] private Stat Health;
-    [SerializeField] private Stat Mana;
     [SerializeField] private Stat Rapidity;
     [SerializeField] private Stat Agility;
     [SerializeField] private Stat Power;
@@ -20,25 +18,23 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private Vector3 _position;
     private float _hp;
-    private float _mana;
     private WeaponsManager _weaponsManager;
+    private int _currentSpeedLevel;
+    private int _speedLevel;
+    private float _currentPower;
 
-    public bool SpendMana(float count)
+    public void PowerUp(float power, float time)
     {
-        if (_mana < count)
-            return false;
-        _mana -= count;
-        ChangedMana?.Invoke(_mana / Mana.Value);
-        return true;
+        _currentPower += power;
+        _weaponsManager.SetGunParams(Agility.Value, _currentPower);
+        StartCoroutine(PowerUpEffect(time));
     }
 
-    public void TopUpMana(float incMana)
+    public void SpeedUp(int incSpeed, float time)
     {
-        AudioManager.PlaySound(SoundNames.ManaSound);
-        _mana += incMana;
-        if (_mana > Mana.Value)
-            _mana = Mana.Value;
-        ChangedMana?.Invoke(_mana / Mana.Value);
+        _currentSpeedLevel += incSpeed;
+        Rapidity.Modify(_currentSpeedLevel);
+        StartCoroutine(SpeedUpEffect(time));
     }
 
     public void Heal(float incHP)
@@ -69,11 +65,10 @@ public class Player : MonoBehaviour
                 case StatsNames.Health:
                     Health.Modify(stats[name]);
                     break;
-                case StatsNames.Mana:
-                    Mana.Modify(stats[name]);
-                    break;
                 case StatsNames.Rapidity:
-                    Rapidity.Modify(stats[name]);
+                    _speedLevel = stats[name];
+                    Rapidity.Modify(_speedLevel);
+                    _currentSpeedLevel = _speedLevel;
                     break;
                 case StatsNames.Agility:
                     Agility.Modify(stats[name]);
@@ -88,6 +83,18 @@ public class Player : MonoBehaviour
     public void MoveTo(Vector3 position) => _position = position * Rapidity.Value;
 
     public void LookTo(Vector3 direction) => transform.LookAt(direction);
+
+    private IEnumerator PowerUpEffect(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _weaponsManager.SetGunParams(Agility.Value, Power.Value);
+    }
+
+    private IEnumerator SpeedUpEffect(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Rapidity.Modify(_speedLevel);
+    }
 
     private void FixedUpdate()
     {
@@ -115,7 +122,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Health.Init();
-        Mana.Init();
         Rapidity.Init();
         Agility.Init();
         Power.Init();
@@ -123,7 +129,6 @@ public class Player : MonoBehaviour
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = Health.Value;
-        _mana = Mana.Value;
         _weaponsManager = gameObject.GetComponent<WeaponsManager>();
     }
 }

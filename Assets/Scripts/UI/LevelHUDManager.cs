@@ -6,7 +6,6 @@ public class LevelHUDManager : MonoBehaviour
 {
     [SerializeField] private Image ProgressBar;
     [SerializeField] private Image HealthBar;
-    [SerializeField] private Image ManaBar;
     [SerializeField] private Image ReloadBar;
     [SerializeField] private Text BulletsCount;
     [SerializeField] private Text Points;
@@ -16,6 +15,7 @@ public class LevelHUDManager : MonoBehaviour
     [SerializeField] private List<Image> WeaponsIcons;
     [SerializeField] private GameObject SkillsPoint;
     [SerializeField] private List<Image> SkillsIcons;
+    [SerializeField] private List<Text> SkillsCount;
 
     private float _clipSize;
     private Vector3 _offset;
@@ -23,8 +23,6 @@ public class LevelHUDManager : MonoBehaviour
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
     public void ChangeHealthBar(float count) => HealthBar.fillAmount = count;
-
-    public void ChangeManaBar(float count) => ManaBar.fillAmount = count;
 
     public void ChangeReloadBar(float count) => ReloadBar.fillAmount = count;
 
@@ -47,7 +45,20 @@ public class LevelHUDManager : MonoBehaviour
         SkillsPoint.transform.position = SkillsIcons[index].transform.position + _offset;
     }
 
-    public void ViewSkill(int index, bool value) => SkillsIcons[index].enabled = value;
+    public void ViewSkill(int index, int count)
+    {
+        if (count <= 1)
+            SkillsCount[index].enabled = false;
+        else
+            SkillsCount[index].enabled = true;
+        if (count == 0)
+            SkillsIcons[index].enabled = false;
+        else
+        {
+            SkillsIcons[index].enabled = true;
+            SkillsCount[index].text = count.ToString();
+        }
+    }
 
     private void Start()
     {
