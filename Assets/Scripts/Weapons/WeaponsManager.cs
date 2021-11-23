@@ -4,6 +4,7 @@ using System;
 
 public class WeaponsManager : MonoBehaviour
 {
+    public event Action<int> GetArsenalSize;
     public event Action<int> GetWeaponsCount;
     public event Action<float> ChangedBulletsCount;
     public event Action<float> ChangedClipSize;
@@ -19,6 +20,12 @@ public class WeaponsManager : MonoBehaviour
     private Animator _animator;
     private int _gunsCount;
 
+    public void SetNewWeapon()
+    {
+        ++_gunsCount;
+    }
+
+    public void SaveWeapons() => SaveSystem.Save<int>(Tokens.Weapons, _gunsCount);
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
     public void SetShooting(bool value) => _guns[_currentGun].SetShooting(value);
     public void SetReloading(bool value) => _guns[_currentGun].SetReloading(value);
@@ -55,7 +62,7 @@ public class WeaponsManager : MonoBehaviour
 
     private void Awake()
     {
-        _gunsCount = Arsenal.Length;
+        _gunsCount = SaveSystem.IsExists(Tokens.Weapons) ? SaveSystem.Load<int>(Tokens.Weapons) : 1;
         _guns = new List<BaseGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
@@ -73,6 +80,7 @@ public class WeaponsManager : MonoBehaviour
 
     private void InitArsenal()
     {
+        GetArsenalSize?.Invoke(Arsenal.Length);
         foreach (Arsenal hand in Arsenal)
         {
             if (hand.RightGun != null)
