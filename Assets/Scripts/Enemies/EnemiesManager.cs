@@ -43,7 +43,7 @@ public class EnemiesManager : MonoBehaviour
 
     private void Awake()
     {
-        _groundWidth = 9f;
+        _groundWidth = 24f;
         _playerExists = true;
         EnemiesCount.Init();
         _index = SaveSystem.IsExists(Tokens.EnemyIndex) ? SaveSystem.Load<int>(Tokens.EnemyIndex) : UnityEngine.Random.Range(0, enemies.Count);
@@ -52,7 +52,7 @@ public class EnemiesManager : MonoBehaviour
 
     private void OnChangeKilledCount(BaseEnemy enemy, float points)
     {
-        enemy.EnemyDied += OnChangeKilledCount;
+        enemy.EnemyDied -= OnChangeKilledCount;
         NotifiedEnemies -= enemy.MoveTo;
         PlayerDied -= enemy.Stay;
         LevelUp -= enemy.OnLevelUp;

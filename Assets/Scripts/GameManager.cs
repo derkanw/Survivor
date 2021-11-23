@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += OnPlayerDied;
         _playerParams.Died += MainCamera.Stay;
         _playerParams.Died += Enemies.NotifyEnemies;
-        _playerParams.ChangedMana += _hud.ChangeManaBar;
 
         _weaponsManager = player.GetComponent<WeaponsManager>();
         _weaponsManager.ChangedClipSize += _hud.OnChangedClipSize;
@@ -61,8 +60,8 @@ public class GameManager : MonoBehaviour
 
         _skillsManager = player.GetComponent<SkillsManager>();
         _skillsManager.GetSkillsCount += Input.SetSkillsCount;
-        _skillsManager.SkillExists += _hud.ViewSkill;
-        _skillsManager.SkillExists += Input.DisableSkillsUsing;
+        _skillsManager.ChangedSkillCount += _hud.ViewSkill;
+        _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
 
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
@@ -106,6 +105,8 @@ public class GameManager : MonoBehaviour
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
         LevelUp?.Invoke(_gameLevel);
+
+
     }
 
     private void OnDisable()
@@ -120,15 +121,14 @@ public class GameManager : MonoBehaviour
         _playerParams.Died -= OnPlayerDied;
         _playerParams.Died -= MainCamera.Stay;
         _playerParams.Died -= Enemies.NotifyEnemies;
-        _playerParams.ChangedMana -= _hud.ChangeManaBar;
 
         _weaponsManager.ChangedClipSize -= _hud.OnChangedClipSize;
         _weaponsManager.ChangedBulletsCount -= _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading -= _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount -= Input.SetWeaponCount;
-        _skillsManager.SkillExists -= _hud.ViewSkill;
-        _skillsManager.SkillExists -= Input.DisableSkillsUsing;
-        _skillsManager.GetSkillsCount += Input.SetSkillsCount;
+        _skillsManager.ChangedSkillCount -= _hud.ViewSkill;
+        _skillsManager.ChangedSkillCount -= Input.OnChangedSkillCount;
+        _skillsManager.GetSkillsCount -= Input.SetSkillsCount;
 
         Input.CursorMoved -= _playerParams.LookTo;
         Input.CursorMoved -= _weaponsManager.LookTo;
@@ -198,6 +198,6 @@ public class GameManager : MonoBehaviour
         ++_gameLevel;
         SaveParams();
         Stats.SaveStats();
-        SceneManager.LoadScene(_gameLevel >= LevelsCount ? ("Scenes/MainMenu") : (SceneManager.GetActiveScene().name));
+        SceneManager.LoadScene(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
     }
 }

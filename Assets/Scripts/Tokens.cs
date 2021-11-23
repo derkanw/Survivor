@@ -6,6 +6,7 @@ public class Tokens
     public const string Points = "PointsForNewLevel";
     public const string GameLevel = "GameLevel";
     public const string EnemyIndex = "EnemyIndex";
+    public const string Boxes = "BoxCount";
     public const string MainMenu = "Scenes/MainMenu";
     public const string LevelName = "Scenes/MainLevel";
 }
