@@ -18,7 +18,7 @@ public class IceBullet : MachineBullet
             Instantiate(Effect, transform.position, Quaternion.identity);
             AudioManager.PlaySound(SoundNames.IceExplosion);
             StartCoroutine(enemy.DecreaseSpeed(FreezeIncSpeed, FreezeTime));
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }

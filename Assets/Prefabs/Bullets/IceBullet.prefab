@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5308296696719699524}
   - component: {fileID: 5308296696719699579}
-  - component: {fileID: 5308296696719699578}
   - component: {fileID: -3974309223617568749}
+  - component: {fileID: -1894684296957425111}
   m_Layer: 0
   m_Name: IceBullet
   m_TagString: Bullet
@@ -50,19 +50,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!135 &5308296696719699578
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5308296696719699525}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.025
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-3974309223617568749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +67,20 @@ MonoBehaviour:
   FreezeTime: 8
   FreezeIncSpeed: -10
   Effect: {fileID: 115684, guid: f1eccad3f0e3052408530b91571830d3, type: 3}
+--- !u!136 &-1894684296957425111
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5308296696719699525}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.025
+  m_Height: 0.025
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5308296697699837435
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // TODO: load environment
         Menu.SetActive(true);
         PointsTarget.Init();
 
@@ -59,15 +60,18 @@ public class GameManager : MonoBehaviour
         _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading += _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
+        _weaponsManager.GetWeaponsCount += _hud.ViewWeapons;
 
         _skillsManager = player.GetComponent<SkillsManager>();
         _skillsManager.GetSkillsCount += Input.SetSkillsCount;
         _skillsManager.ChangedSkillCount += _hud.ViewSkill;
         _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
 
-        _weaponLoot = Loot.GetComponent<WeaponLoot>();
-        _weaponLoot.GetNewWeapon += _weaponsManager.SetNewWeapon;
+        var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
+        _weaponLoot = lootUI.GetComponent<WeaponLoot>();
         _weaponsManager.GetArsenalSize += _weaponLoot.SetArsenalSize;
+        _weaponLoot.LootSpawned += Notify;
+
 
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
@@ -103,6 +107,8 @@ public class GameManager : MonoBehaviour
         LevelUp += _hud.OnGameLevelUp;
     }
 
+    private void Notify() => _weaponsManager.SetNewWeapon();
+    
     private void Start()
     {
         _playerLevel = SaveSystem.Load<int>(Tokens.PlayerLevel);
@@ -134,8 +140,7 @@ public class GameManager : MonoBehaviour
         _skillsManager.ChangedSkillCount -= Input.OnChangedSkillCount;
         _skillsManager.GetSkillsCount -= Input.SetSkillsCount;
 
-        _weaponLoot = Loot.GetComponent<WeaponLoot>();
-        _weaponLoot.GetNewWeapon -= _weaponsManager.SetNewWeapon;
+        _weaponLoot.LootSpawned -= _weaponsManager.SetNewWeapon;
         _weaponsManager.GetArsenalSize -= _weaponLoot.SetArsenalSize;
 
         Input.CursorMoved -= _playerParams.LookTo;
@@ -170,6 +175,8 @@ public class GameManager : MonoBehaviour
         LevelUp -= Enemies.OnLevelUp;
         LevelUp -= _hud.OnGameLevelUp;
     }
+
+    // TODO: game state class
 
     private void OnPlayerDied()
     {
@@ -206,7 +213,6 @@ public class GameManager : MonoBehaviour
         ++_gameLevel;
         SaveParams();
         Stats.SaveStats();
-        _weaponsManager.SaveWeapons();
-        _weaponLoot.InitUI(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
+        _weaponLoot.SpawnLoot(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
     }
 }

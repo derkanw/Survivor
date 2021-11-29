@@ -57,15 +57,15 @@ public class EnemiesManager : MonoBehaviour
         PlayerDied -= enemy.Stay;
         LevelUp -= enemy.OnLevelUp;
 
-        ChangedKilledCount?.Invoke(++_killedCount / EnemiesCount.Value);
+        ChangedKilledCount?.Invoke((float)++_killedCount / (int)EnemiesCount.Value); ;
         SetPoints?.Invoke(points);
-        if (_killedCount == EnemiesCount.Value)
+        if (_killedCount == (int)EnemiesCount.Value)
             PlayerWin?.Invoke();
     }
 
     private IEnumerator InitEnemies(int number)
     {
-        while (_playerExists && _currentCount < EnemiesCount.Value)
+        while (_playerExists && _currentCount < (int)EnemiesCount.Value)
         {
             float time = UnityEngine.Random.Range(0f, SpawnTime);
             Vector3 position = new Vector3(UnityEngine.Random.Range(-_groundWidth, _groundWidth), 0, UnityEngine.Random.Range(-_groundWidth, _groundWidth));

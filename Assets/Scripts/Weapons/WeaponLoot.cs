@@ -2,13 +2,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 public class WeaponLoot : MonoBehaviour
 {
-    public event Action GetNewWeapon;
+    public event Action LootSpawned;
     [SerializeField] [Range(0f, 1f)] private float Chance;
     [SerializeField] private Button AcceptButton;
     [SerializeField] private Image Icon;
+    [SerializeField] private List<Sprite> WeaponsIcons;
 
     private string _sceneName;
     private int _index;
@@ -16,14 +18,13 @@ public class WeaponLoot : MonoBehaviour
 
     public void SetArsenalSize(int size) => _count = size;
 
-    public void InitUI(string sceneName)
+    public void SpawnLoot(string sceneName)
     {
-        print(_count);
         if (UnityEngine.Random.Range(0f, 1f) >= (1 - Chance) && _index <= _count - 1)
         {
-            var ui = Instantiate(gameObject, Vector3.zero, Quaternion.identity).GetComponent<WeaponLoot>();
-            ButtonManager.SetUpButton(ui.GetComponent<WeaponLoot>().AcceptButton, LoadNextLevel);
-            //Icon.sprite = null;
+            gameObject.SetActive(true);
+            ButtonManager.SetUpButton(AcceptButton, LoadNextLevel);
+            Icon.sprite = WeaponsIcons[_index - 1];
             _sceneName = sceneName;
         }
         else
@@ -32,8 +33,14 @@ public class WeaponLoot : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        ++_index;
-        GetNewWeapon?.Invoke();
+        SaveSystem.Save<int>(Tokens.LootIndex, ++_index);
+        LootSpawned?.Invoke();
         SceneManager.LoadScene(_sceneName);
+    }
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+        _index = SaveSystem.IsExists(Tokens.LootIndex) ? SaveSystem.Load<int>(Tokens.LootIndex) : 1;
     }
 }

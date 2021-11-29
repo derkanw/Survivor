@@ -23,9 +23,9 @@ public class WeaponsManager : MonoBehaviour
     public void SetNewWeapon()
     {
         ++_gunsCount;
+        SaveSystem.Save<int>(Tokens.Weapons, _gunsCount);
     }
 
-    public void SaveWeapons() => SaveSystem.Save<int>(Tokens.Weapons, _gunsCount);
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
     public void SetShooting(bool value) => _guns[_currentGun].SetShooting(value);
     public void SetReloading(bool value) => _guns[_currentGun].SetReloading(value);
@@ -74,18 +74,18 @@ public class WeaponsManager : MonoBehaviour
         if (_gunsCount > 0)
             SetArsenal(_currentGun);
         GetWeaponsCount?.Invoke(_gunsCount);
+        GetArsenalSize?.Invoke(Arsenal.Length);
     }
 
     private void Update() => ChangedBulletsCount?.Invoke(_guns[_currentGun].GetBulletsCount());
 
     private void InitArsenal()
     {
-        GetArsenalSize?.Invoke(Arsenal.Length);
-        foreach (Arsenal hand in Arsenal)
+        for (int index = 0; index < _gunsCount; ++index)
         {
-            if (hand.RightGun != null)
+            if (Arsenal[index].RightGun != null)
             {
-                GameObject newRightGun = Instantiate(hand.RightGun);
+                GameObject newRightGun = Instantiate(Arsenal[index].RightGun);
                 newRightGun.transform.parent = RightGunBone;
                 newRightGun.transform.localPosition = Vector3.zero;
                 newRightGun.transform.localRotation = Quaternion.Euler(90, 0, 0);

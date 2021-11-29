@@ -45,10 +45,10 @@ public class LevelHUDManager : MonoBehaviour
         SkillsPoint.transform.position = SkillsIcons[index].transform.position + _offset;
     }
 
-    public void HideWeapons(int count)
+    public void ViewWeapons(int count)
     {
-        for (int index = count + 1; index < WeaponsIcons.Count; ++index)
-            WeaponsIcons[index].enabled = false;
+        for (int index = 0; index < WeaponsIcons.Count; ++index)
+            WeaponsIcons[index].enabled = index < count ? true : false;
     }
 
     public void ViewSkill(int index, int count)
@@ -71,6 +71,6 @@ public class LevelHUDManager : MonoBehaviour
         _offset = new Vector3(-20f, -20f, 0);
         SkillsPoint.SetActive(false);
         OnChangedWeapon(0);
-        HideWeapons(0);
+        ViewWeapons(0);
     }
 }
