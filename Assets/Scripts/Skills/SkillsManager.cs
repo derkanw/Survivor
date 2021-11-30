@@ -16,12 +16,9 @@ public class SkillsManager : MonoBehaviour
 
     public void TopUpSkill(SkillsNames name)
     {
-        for (int index = 0; index < _skillsCount; ++index)
-            if (_skills[index].Name == name)
-            {
-                ChangedSkillCount?.Invoke(index, ++_skills[index].Count);
-                return;
-            }
+        var index = GetIndex(name);
+        if (index != -1)
+            ChangedSkillCount?.Invoke(index, ++_skills[index].Count);
     }
 
     public void UseSkill(bool value)
@@ -40,13 +37,16 @@ public class SkillsManager : MonoBehaviour
             if (_skills[i] == null)
                 continue;
             if (i == index)
-            {
-                _skills[i].gameObject.SetActive(true);
                 _currentSkill = index;
-            }
-            else
-                _skills[i].gameObject.SetActive(false);
         }
+    }
+
+    private int GetIndex(SkillsNames name)
+    {
+        for (int index = 0; index < _skillsCount; ++index)
+            if (_skills[index].Name == name)
+                return index;
+        return -1;
     }
 
     private void Start()
@@ -61,20 +61,22 @@ public class SkillsManager : MonoBehaviour
             GameObject obj = Instantiate(SkillObjects[index]);
             obj.transform.parent = _player.transform;
             obj.transform.localPosition = Vector3.zero;
-            obj.SetActive(false);
             _skills.Add(obj.GetComponent<Skill>());
             ChangedSkillCount?.Invoke(index, _skills[index].Count);
             _skills[index].ReloadSkill += SkillReloading;
         }
     }
 
-    private void SkillReloading(float count)
+    private void SkillReloading(float count, SkillsNames name)
     {
-        ChangedSkillReload?.Invoke(_currentSkill, count);
+        var index = GetIndex(name);
+        if (index == -1) return;
+        ChangedSkillReload?.Invoke(index, count);
         if (count <= 0f)
         {
-            ChangedSkillReload?.Invoke(_currentSkill, 1);
-            ChangedSkillCount?.Invoke(_currentSkill, _skills[_currentSkill].Count);
+            ChangedSkillReload?.Invoke(index, 1);
+            print(_skills[index].Count);
+            ChangedSkillCount?.Invoke(index, _skills[index].Count);
         }
     }
 }
