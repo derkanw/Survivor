@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoxesCount:
-    BaseValue: 100
+    BaseValue: 5
     Rate: 0.2
   SpawnTime: 8
   BoxPrefab: {fileID: 1000014038691284, guid: efebddd0b5766bd499be8b63f581de68, type: 3}
