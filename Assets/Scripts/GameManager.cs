@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
         _skillsManager.GetSkillsCount += Input.SetSkillsCount;
         _skillsManager.ChangedSkillCount += _hud.ViewSkill;
         _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
+        _skillsManager.ChangedSkillReload += _hud.ChangeSkillReloadingBar;
 
         var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
         _weaponLoot = lootUI.GetComponent<WeaponLoot>();

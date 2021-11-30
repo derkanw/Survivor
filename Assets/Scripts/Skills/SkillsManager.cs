@@ -4,6 +4,7 @@ using System;
 
 public class SkillsManager : MonoBehaviour
 {
+    public event Action<int, float> ChangedSkillReload;
     public event Action<int, int> ChangedSkillCount;
     public event Action<int> GetSkillsCount;
     [SerializeField] private GameObject[] SkillObjects;
@@ -27,7 +28,6 @@ public class SkillsManager : MonoBehaviour
     {
         if (!value) return;
         _skills[_currentSkill].UseSkill(_player);
-        ChangedSkillCount?.Invoke(_currentSkill, _skills[_currentSkill].Count);
     }
 
     public void SetSkill(int index)
@@ -64,6 +64,17 @@ public class SkillsManager : MonoBehaviour
             obj.SetActive(false);
             _skills.Add(obj.GetComponent<Skill>());
             ChangedSkillCount?.Invoke(index, _skills[index].Count);
+            _skills[index].ReloadSkill += SkillReloading;
+        }
+    }
+
+    private void SkillReloading(float count)
+    {
+        ChangedSkillReload?.Invoke(_currentSkill, count);
+        if (count <= 0f)
+        {
+            ChangedSkillReload?.Invoke(_currentSkill, 1);
+            ChangedSkillCount?.Invoke(_currentSkill, _skills[_currentSkill].Count);
         }
     }
 }
