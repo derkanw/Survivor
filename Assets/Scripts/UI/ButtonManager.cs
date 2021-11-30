@@ -19,6 +19,10 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private Button MenuButton;
     [SerializeField] private Button ResumeButton;
 
+    private bool _canUse;
+
+    public void DisableButtons() => _canUse = false;
+
     public static void SetUpButton(Button button, UnityAction function)
     {
         if (button != null && function != null)
@@ -47,6 +51,7 @@ public class ButtonManager : MonoBehaviour
 
     private void Awake()
     {
+        _canUse = true;
         SetUpButton(PauseButton, PauseLevel);
         SetUpButton(StatsButton, ViewStats);
         SetUpButton(RestartButton, RestartLevel);
@@ -76,12 +81,14 @@ public class ButtonManager : MonoBehaviour
 
     private void PauseLevel()
     {
+        if (!_canUse) return;
         Time.timeScale = 0f;
         Pause?.Invoke();
     }
 
     private void ViewStats()
     {
+        if (!_canUse) return;
         Time.timeScale = 0f;
         LooksStats?.Invoke();
     }
