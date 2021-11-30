@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-    public event Action<float> ReloadSkill;
+    public event Action<float, SkillsNames> ReloadSkill;
     public SkillsNames Name;
     [SerializeField] [Range(0, 5)] private int CountOfUses;
     [SerializeField] [Range(0f, 50f)] private float Value;
@@ -20,14 +20,9 @@ public class Skill : MonoBehaviour
         set => CountOfUses = value;
     }
 
-    public bool UseSkill(Player player)
+    public void UseSkill(Player player)
     {
-        if (Count == 0 || _isReloading) return false;
-        if (EffectTime != 0f)
-        {
-            _isReloading = true;
-            _progress = 0;
-        }
+        if (Count == 0 || _isReloading) return;
         Instantiate(Effect, transform.position, Quaternion.identity).transform.SetParent(player.gameObject.transform);
         switch(Name)
         {
@@ -44,9 +39,15 @@ public class Skill : MonoBehaviour
                     --Count;
                 break;
             default:
-                return false;
+                return;
         }
-        return true;
+        if (EffectTime != 0f)
+        {
+            _isReloading = true;
+            _progress = 0f;
+        }
+        else
+            ReloadSkill?.Invoke(0, Name);
     }
 
     private void Update()
@@ -54,7 +55,7 @@ public class Skill : MonoBehaviour
         if (_isReloading)
         {
             _progress += Time.deltaTime / EffectTime;
-            ReloadSkill?.Invoke(1 - _progress);
+            ReloadSkill?.Invoke(1 - _progress, Name);
             StartCoroutine(Reload());
         }
     }
