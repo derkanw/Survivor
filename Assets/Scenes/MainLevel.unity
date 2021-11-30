@@ -962,6 +962,7 @@ GameObject:
   - component: {fileID: 1688001192}
   - component: {fileID: 1688001191}
   - component: {fileID: 1688001196}
+  - component: {fileID: 1688001197}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1034,20 +1035,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e263d15f5667344baf8415a91668a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelsCount: 5
-  PointsTarget:
-    BaseValue: 20
-    Rate: 0.1
   Stats: {fileID: 1688001191}
   Enemies: {fileID: 1688001195}
   Input: {fileID: 1688001193}
   Pause: {fileID: 1688001192}
-  Menu: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}
+  State: {fileID: 1688001197}
   MainCamera: {fileID: 761619248}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
-  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
-    type: 3}
   Loot: {fileID: 716786037426095080, guid: 89c2f70ff6300904dad581ae3ba23dd3, type: 3}
 --- !u!114 &1688001195
 MonoBehaviour:
@@ -1087,3 +1082,22 @@ MonoBehaviour:
     Rate: 0.2
   SpawnTime: 8
   BoxPrefab: {fileID: 1000014038691284, guid: efebddd0b5766bd499be8b63f581de68, type: 3}
+--- !u!114 &1688001197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688001189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd710c2ae818b647842f6fe504439fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelsCount: 5
+  PointsTarget:
+    BaseValue: 20
+    Rate: 0.1
+  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
+    type: 3}
+  Menu: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}
