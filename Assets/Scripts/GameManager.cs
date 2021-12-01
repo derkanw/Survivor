@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject LevelHUD;
     [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private GameObject Loot;
+    [SerializeField] private GameObject Environment;
 
     private Player _playerParams;
     private WeaponsManager _weaponsManager;
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // TODO: load environment
+        Instantiate(Environment);
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
         _hud = levelHud.GetComponent<LevelHUDManager>();
         _buttonManager = levelHud.GetComponent<ButtonManager>();
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour
         Pause.SaveProgress += State.SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
         Pause.SaveProgress += Enemies.SaveParams;
+        Pause.SaveProgress += _playerParams.SaveParams;
+        Pause.SaveProgress += _skillsManager.SaveParams;
 
         Stats.Resume += Input.ActivateInput;
         Stats.GetPoints += _hud.OnChangedPoints;
@@ -95,13 +98,14 @@ public class GameManager : MonoBehaviour
         State.Disable += OnDisable;
     }
 
-    private void Start() => State.InitDependencies(_weaponLoot, _weaponsManager, Stats);
+    private void Start() => State.InitDependencies(_weaponLoot, _weaponsManager, Stats, _playerParams, _skillsManager);
 
     private void OnDisable()
     {
         Input.CursorMoved -= _playerParams.LookTo;
         Input.ChangedPosition -= _playerParams.MoveTo;
         Stats.GetStats -= _playerParams.OnLevelUp;
+        Pause.SaveProgress -= _playerParams.SaveParams;
 
         _playerParams.Moved -= Enemies.MoveEnemiesTo;
         _playerParams.Died -= Enemies.NotifyEnemies;
@@ -116,5 +120,6 @@ public class GameManager : MonoBehaviour
 
         Input.ChangeSkill -= _skillsManager.SetSkill;
         Input.UseSkill -= _skillsManager.UseSkill;
+        Pause.SaveProgress -= _skillsManager.SaveParams;
     }
 }

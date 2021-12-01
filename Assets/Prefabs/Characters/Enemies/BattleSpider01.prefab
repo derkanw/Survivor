@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 8737800551181183167}
   - component: {fileID: 8971599067539149771}
   - component: {fileID: 5188626230411395385}
+  - component: {fileID: 2726577221205574270}
   m_Layer: 3
   m_Name: BattleSpider01
   m_TagString: Enemy
@@ -237,6 +238,28 @@ MonoBehaviour:
   DeathPoints:
     BaseValue: 5
     Rate: 0.1
+--- !u!195 &2726577221205574270
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6598857572002110082}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.5
+  m_BaseOffset: 0
+  m_WalkableMask: 3
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &6598857572002110084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,6 +2493,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac79e899493771840acea71c6f5170f8, type: 3}
+--- !u!224 &7322458031785083880 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4455623402765379219}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7322458032386055652 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6362202162040994679, guid: ac79e899493771840acea71c6f5170f8,
@@ -2482,9 +2511,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7322458031785083880 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6362202160502859131, guid: ac79e899493771840acea71c6f5170f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 4455623402765379219}
-  m_PrefabAsset: {fileID: 0}

@@ -14,6 +14,14 @@ public class SkillsManager : MonoBehaviour
     private Player _player;
     private List<Skill> _skills;
 
+    public void SaveParams()
+    {
+        int[] data = new int[_skillsCount];
+        for (int index = 0; index < _skillsCount; ++index)
+            data[index] = _skills[index].Count;
+        SaveSystem.Save<int[]>(Tokens.SkillsCount, data);
+    }
+
     public void TopUpSkill(SkillsNames name)
     {
         var index = GetIndex(name);
@@ -55,6 +63,9 @@ public class SkillsManager : MonoBehaviour
         GetSkillsCount?.Invoke(_skillsCount);
         _skills = new List<Skill>(_skillsCount);
         _player = gameObject.GetComponent<Player>();
+        
+        var data = SaveSystem.IsExists(Tokens.SkillsCount) ? SaveSystem.Load<int[]>(Tokens.SkillsCount) : new int[_skillsCount];
+
 
         for (int index = 0; index < _skillsCount; ++index)
         {
@@ -62,6 +73,7 @@ public class SkillsManager : MonoBehaviour
             obj.transform.parent = _player.transform;
             obj.transform.localPosition = Vector3.zero;
             _skills.Add(obj.GetComponent<Skill>());
+            _skills[index].Count = data[index];
             ChangedSkillCount?.Invoke(index, _skills[index].Count);
             _skills[index].ReloadSkill += SkillReloading;
         }
@@ -75,7 +87,6 @@ public class SkillsManager : MonoBehaviour
         if (count <= 0f)
         {
             ChangedSkillReload?.Invoke(index, 1);
-            print(_skills[index].Count);
             ChangedSkillCount?.Invoke(index, _skills[index].Count);
         }
     }

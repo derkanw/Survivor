@@ -19,9 +19,9 @@ public class Player : MonoBehaviour
     private Vector3 _position;
     private float _hp;
     private WeaponsManager _weaponsManager;
-    private int _currentSpeedLevel;
     private int _speedLevel;
-    private float _currentPower;
+
+    public void SaveParams() => SaveSystem.Save<float>(Tokens.HP, _hp);
 
     public void PowerUp(float power, float time)
     {
@@ -66,7 +66,6 @@ public class Player : MonoBehaviour
                 case StatsNames.Rapidity:
                     _speedLevel = stats[name];
                     Rapidity.Modify(_speedLevel);
-                    _currentSpeedLevel = _speedLevel;
                     break;
                 case StatsNames.Agility:
                     Agility.Modify(stats[name]);
@@ -126,7 +125,9 @@ public class Player : MonoBehaviour
 
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
-        _hp = Health.Value;
+        _hp = SaveSystem.IsExists(Tokens.HP) ? SaveSystem.Load<float>(Tokens.HP) : Health.Value;
         _weaponsManager = gameObject.GetComponent<WeaponsManager>();
     }
+
+    private void Start() => ChangedHP?.Invoke(_hp / Health.Value);
 }

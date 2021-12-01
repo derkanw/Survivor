@@ -21,12 +21,16 @@ public class GameState : MonoBehaviour
     private WeaponsManager _weaponsManager;
     private WeaponLoot _weaponLoot;
     private StatsUIManager _stats;
+    private Player _playerParams;
+    private SkillsManager _skills;
 
-    public void InitDependencies(WeaponLoot loot, WeaponsManager manager, StatsUIManager stats)
+    public void InitDependencies(WeaponLoot loot, WeaponsManager manager, StatsUIManager stats, Player player, SkillsManager skills)
     {
         _weaponLoot = loot;
         _weaponsManager = manager;
         _stats = stats;
+        _playerParams = player;
+        _skills = skills;
     }
 
     public void Notify() => _weaponsManager.SetNewWeapon();
@@ -66,6 +70,8 @@ public class GameState : MonoBehaviour
         ++_gameLevel;
         SaveParams();
         _stats.SaveStats();
+        _playerParams.SaveParams();
+        _skills.SaveParams();
         _weaponLoot.SpawnLoot(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
     }
 
