@@ -12,15 +12,15 @@ public class InputSystem : MonoBehaviour
     public event Action<int> ChangeWeapon;
     public event Action<int> ChangeSkill;
 
-    private bool _isPaused;
+    private bool _canUse;
     private int _weaponsCount;
     private int _skillsCount;
     private int _currentWeapon;
-    private int _currentSkill = -1;
+    private int _currentSkill;
     private List<int> _SkillsExists;
 
-    public void OnPause() => _isPaused = true;
-    public void OnResume() => _isPaused = false;
+    public void DisableInput() => _canUse = false;
+    public void ActivateInput() => _canUse = true;
     public void OnChangedSkillCount(int index, int count) => _SkillsExists[index] = count;
     public void SetWeaponCount(int value) => _weaponsCount = value;
     public void SetSkillsCount(int value)
@@ -110,9 +110,15 @@ public class InputSystem : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        _currentSkill = -1;
+        _canUse = true;
+    }
+
     private void Update()
     {
-        if (_isPaused) return;
+        if (!_canUse) return;
         MovePlayer();
         RotatePlayer();
         GetWeaponInput();
