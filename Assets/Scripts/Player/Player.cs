@@ -25,15 +25,13 @@ public class Player : MonoBehaviour
 
     public void PowerUp(float power, float time)
     {
-        _currentPower += power;
-        _weaponsManager.SetGunParams(Agility.Value, _currentPower);
+        _weaponsManager.SetGunParams(Agility.Value, power);
         StartCoroutine(PowerUpEffect(time));
     }
 
     public void SpeedUp(int incSpeed, float time)
     {
-        _currentSpeedLevel += incSpeed;
-        Rapidity.Modify(_currentSpeedLevel);
+        Rapidity.Modify(_speedLevel + incSpeed);
         StartCoroutine(SpeedUpEffect(time));
     }
 

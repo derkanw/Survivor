@@ -26,6 +26,8 @@ public class LevelHUDManager : MonoBehaviour
 
     public void ChangeReloadBar(float count) => ReloadBar.fillAmount = count;
 
+    public void ChangeSkillReloadingBar(int index, float count) => SkillsIcons[index].fillAmount = count;
+
     public void OnChangedBulletsCount(float count) => BulletsCount.text = count + "\\" + _clipSize;
 
     public void OnChangedPoints(int points) => Points.text = points.ToString();
