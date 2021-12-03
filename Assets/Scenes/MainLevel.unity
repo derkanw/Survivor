@@ -286,6 +286,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7372242529297704920, guid: 6b64abd515521a143bba5c7fb849caa5,
+        type: 3}
+      propertyPath: Sounds.Array.data[22].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7053e2658998460449ca95fe9bdd1742, type: 3}
+    - target: {fileID: 7372242529297704920, guid: 6b64abd515521a143bba5c7fb849caa5,
+        type: 3}
+      propertyPath: Sounds.Array.data[22].Volume
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b64abd515521a143bba5c7fb849caa5, type: 3}
 --- !u!1 &395894655
@@ -896,6 +906,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6431233808465330830, guid: 2d3c6b9f50c89e54ba3522574961321f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d3c6b9f50c89e54ba3522574961321f, type: 3}
 --- !u!1 &1586227076
@@ -941,8 +956,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1688001190}
-  - component: {fileID: 1688001195}
   - component: {fileID: 1688001194}
+  - component: {fileID: 1688001195}
   - component: {fileID: 1688001193}
   - component: {fileID: 1688001192}
   - component: {fileID: 1688001191}
@@ -1033,6 +1048,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
   GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
     type: 3}
+  Loot: {fileID: 716786037426095080, guid: 89c2f70ff6300904dad581ae3ba23dd3, type: 3}
 --- !u!114 &1688001195
 MonoBehaviour:
   m_ObjectHideFlags: 0

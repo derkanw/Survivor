@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject LevelHUD;
     [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private GameObject GameOverUI;
+    [SerializeField] private GameObject Loot;
 
     private event Action<int> PlayerLevelUp;
     private event Action<int> LevelUp;
@@ -27,12 +28,14 @@ public class GameManager : MonoBehaviour
     private SkillsManager _skillsManager;
     private LevelHUDManager _hud;
     private ButtonManager _buttonManager;
+    private WeaponLoot _weaponLoot;
     private float _points;
     private int _playerLevel;
     private int _gameLevel;
 
     private void Awake()
     {
+        // TODO: load environment
         Menu.SetActive(true);
         PointsTarget.Init();
 
@@ -57,11 +60,18 @@ public class GameManager : MonoBehaviour
         _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
         _weaponsManager.Reloading += _hud.ChangeReloadBar;
         _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
+        _weaponsManager.GetWeaponsCount += _hud.ViewWeapons;
 
         _skillsManager = player.GetComponent<SkillsManager>();
         _skillsManager.GetSkillsCount += Input.SetSkillsCount;
         _skillsManager.ChangedSkillCount += _hud.ViewSkill;
         _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
+
+        var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
+        _weaponLoot = lootUI.GetComponent<WeaponLoot>();
+        _weaponsManager.GetArsenalSize += _weaponLoot.SetArsenalSize;
+        _weaponLoot.LootSpawned += Notify;
+
 
         Input.CursorMoved += _playerParams.LookTo;
         Input.CursorMoved += _weaponsManager.LookTo;
@@ -97,6 +107,8 @@ public class GameManager : MonoBehaviour
         LevelUp += _hud.OnGameLevelUp;
     }
 
+    private void Notify() => _weaponsManager.SetNewWeapon();
+    
     private void Start()
     {
         _playerLevel = SaveSystem.Load<int>(Tokens.PlayerLevel);
@@ -105,8 +117,6 @@ public class GameManager : MonoBehaviour
         PlayerLevelUp?.Invoke(_playerLevel);
         PointsTarget.Modify(_playerLevel);
         LevelUp?.Invoke(_gameLevel);
-
-
     }
 
     private void OnDisable()
@@ -129,6 +139,9 @@ public class GameManager : MonoBehaviour
         _skillsManager.ChangedSkillCount -= _hud.ViewSkill;
         _skillsManager.ChangedSkillCount -= Input.OnChangedSkillCount;
         _skillsManager.GetSkillsCount -= Input.SetSkillsCount;
+
+        _weaponLoot.LootSpawned -= _weaponsManager.SetNewWeapon;
+        _weaponsManager.GetArsenalSize -= _weaponLoot.SetArsenalSize;
 
         Input.CursorMoved -= _playerParams.LookTo;
         Input.CursorMoved -= _weaponsManager.LookTo;
@@ -163,11 +176,13 @@ public class GameManager : MonoBehaviour
         LevelUp -= _hud.OnGameLevelUp;
     }
 
+    // TODO: game state class
+
     private void OnPlayerDied()
     {
         OnDisable();
         Menu.SetActive(false);
-        var ui = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         SaveSystem.DeleteAll();
     }
 
@@ -198,6 +213,6 @@ public class GameManager : MonoBehaviour
         ++_gameLevel;
         SaveParams();
         Stats.SaveStats();
-        SceneManager.LoadScene(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
+        _weaponLoot.SpawnLoot(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
     }
 }

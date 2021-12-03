@@ -4,6 +4,7 @@ using System;
 
 public class WeaponsManager : MonoBehaviour
 {
+    public event Action<int> GetArsenalSize;
     public event Action<int> GetWeaponsCount;
     public event Action<float> ChangedBulletsCount;
     public event Action<float> ChangedClipSize;
@@ -18,6 +19,12 @@ public class WeaponsManager : MonoBehaviour
     private int _currentGun;
     private Animator _animator;
     private int _gunsCount;
+
+    public void SetNewWeapon()
+    {
+        ++_gunsCount;
+        SaveSystem.Save<int>(Tokens.Weapons, _gunsCount);
+    }
 
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
     public void SetShooting(bool value) => _guns[_currentGun].SetShooting(value);
@@ -55,7 +62,7 @@ public class WeaponsManager : MonoBehaviour
 
     private void Awake()
     {
-        _gunsCount = Arsenal.Length;
+        _gunsCount = SaveSystem.IsExists(Tokens.Weapons) ? SaveSystem.Load<int>(Tokens.Weapons) : 1;
         _guns = new List<BaseGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
@@ -67,17 +74,18 @@ public class WeaponsManager : MonoBehaviour
         if (_gunsCount > 0)
             SetArsenal(_currentGun);
         GetWeaponsCount?.Invoke(_gunsCount);
+        GetArsenalSize?.Invoke(Arsenal.Length);
     }
 
     private void Update() => ChangedBulletsCount?.Invoke(_guns[_currentGun].GetBulletsCount());
 
     private void InitArsenal()
     {
-        foreach (Arsenal hand in Arsenal)
+        for (int index = 0; index < _gunsCount; ++index)
         {
-            if (hand.RightGun != null)
+            if (Arsenal[index].RightGun != null)
             {
-                GameObject newRightGun = Instantiate(hand.RightGun);
+                GameObject newRightGun = Instantiate(Arsenal[index].RightGun);
                 newRightGun.transform.parent = RightGunBone;
                 newRightGun.transform.localPosition = Vector3.zero;
                 newRightGun.transform.localRotation = Quaternion.Euler(90, 0, 0);

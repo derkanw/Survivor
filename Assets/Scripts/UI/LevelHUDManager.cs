@@ -45,6 +45,12 @@ public class LevelHUDManager : MonoBehaviour
         SkillsPoint.transform.position = SkillsIcons[index].transform.position + _offset;
     }
 
+    public void ViewWeapons(int count)
+    {
+        for (int index = 0; index < WeaponsIcons.Count; ++index)
+            WeaponsIcons[index].enabled = index < count ? true : false;
+    }
+
     public void ViewSkill(int index, int count)
     {
         if (count <= 1)
@@ -65,5 +71,6 @@ public class LevelHUDManager : MonoBehaviour
         _offset = new Vector3(-20f, -20f, 0);
         SkillsPoint.SetActive(false);
         OnChangedWeapon(0);
+        ViewWeapons(0);
     }
 }

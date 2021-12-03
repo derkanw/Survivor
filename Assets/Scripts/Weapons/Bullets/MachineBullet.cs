@@ -20,8 +20,8 @@ public class MachineBullet : BaseBullet
         {
             var enemy = target.GetComponent<BaseEnemy>();
             enemy.TakeDamage(Power);
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 
     private void FixedUpdate()
