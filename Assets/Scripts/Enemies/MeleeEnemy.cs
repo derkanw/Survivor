@@ -38,10 +38,8 @@ public class MeleeEnemy : BaseEnemy
     {
         if (_isPlayerExists)
         {
-            Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.LookRotation(targetPos);
-            if (!_isAttacking)
-                _rigidBody.MovePosition(transform.position + targetPos);
+            transform.rotation = Quaternion.LookRotation(_targetPosition);
+                _navMesh.destination = transform.position + _targetPosition;
         }
     }
 }

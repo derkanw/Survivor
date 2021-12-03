@@ -8,21 +8,28 @@ public class ShooterEnemy : BaseEnemy
     [SerializeField] [Range(0f, 50f)] private float ReloadTime;
     [SerializeField] [Range(0f, 20f)] private float ShootingSpeed;
     [SerializeField] [Range(0f, 100f)] private int ClipSize;
-    [SerializeField] [Range(0f, 10f)] private float Distance;
+    [SerializeField] [Range(0f, 10f)] private float ShootDistance;
+    [SerializeField] [Range(0f, 10f)] private float StayDistance;
     [SerializeField] private Transform BulletSpawn;
 
     private int _bulletsCount;
     private bool _close;
+    private Vector3 _offset;
 
     private void InitBullet()
     {
         Instantiate(Effect, BulletSpawn.position, transform.rotation * Quaternion.Euler(90f, 0f, 90f));
         GameObject bullet = Instantiate(BulletPrefab, BulletSpawn.position, Quaternion.identity);
-        bullet.transform.LookAt(_playerPosition);
+        bullet.transform.LookAt(_playerPosition + _offset);
         bullet.GetComponent<BaseBullet>().SetPower(Power.Value);
     }
 
-    private void Awake() => _bulletsCount = ClipSize;
+    private void Awake()
+    {
+        _bulletsCount = ClipSize;
+        _offset = new Vector3(0f, 0.75f, 0f);
+    }
+
     private IEnumerator Attack()
     {
         _isAttacking = true;
@@ -47,14 +54,12 @@ public class ShooterEnemy : BaseEnemy
     {
         if (_isPlayerExists)
         {
-            Vector3 targetPos = _targetPosition * Rapidity.Value * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.LookRotation(targetPos);
-            _close = (_playerPosition - transform.position).magnitude <= Distance;
-            if (!_close)
-                _rigidBody.MovePosition(transform.position + targetPos);
-            else
-                if(!_isAttacking)
-                    StartCoroutine(Attack());
+            transform.rotation = Quaternion.LookRotation(_targetPosition);
+            _close = (_playerPosition - transform.position).magnitude <= ShootDistance;
+            bool mustStay = (_playerPosition - transform.position).magnitude <= StayDistance;
+            _navMesh.destination = mustStay ? transform.position : transform.position + _targetPosition;
+            if (_close && !_isAttacking)
+                StartCoroutine(Attack());
         }
     }
 }

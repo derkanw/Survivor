@@ -11,7 +11,6 @@ public class ButtonManager : MonoBehaviour
     public event Action Resume;
     public event Action Pause;
     public event Action LooksStats;
-    public event Action Restart;
 
     [SerializeField] private Button PauseButton;
     [SerializeField] private Button StatsButton;
@@ -63,7 +62,6 @@ public class ButtonManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Restart?.Invoke();
     }
 
     private void ToMainMenu()

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.AI;
 
 public class BaseEnemy : MonoBehaviour
 {
@@ -16,9 +17,9 @@ public class BaseEnemy : MonoBehaviour
     protected bool _isPlayerExists;
     protected bool _isAttacking;
     protected Animator _animator;
-    protected Rigidbody _rigidBody;
     protected Vector3 _targetPosition;
     protected Vector3 _playerPosition;
+    protected NavMeshAgent _navMesh;
 
     private float _hp;
     private int _level;
@@ -26,13 +27,16 @@ public class BaseEnemy : MonoBehaviour
     public IEnumerator DecreaseSpeed(int inc, float time)
     {
         Rapidity.Modify(inc);
+        _navMesh.speed = Rapidity.Value;
         while (Rapidity.Value < 0)
         {
             inc %= 2;
             Rapidity.Modify(inc);
+            _navMesh.speed = Rapidity.Value;
         }
         yield return new WaitForSeconds(time);
         Rapidity.Modify(_level);
+        _navMesh.speed = Rapidity.Value;
     }
 
     public void OnLevelUp(int level)
@@ -43,6 +47,7 @@ public class BaseEnemy : MonoBehaviour
         DeathPoints.Modify(level);
         _hp = Health.Value;
         _level = level;
+        _navMesh.speed = Rapidity.Value;
     }
 
     public void MoveTo(Vector3 position)
@@ -79,9 +84,10 @@ public class BaseEnemy : MonoBehaviour
         DeathPoints.Init();
 
         _isPlayerExists = true;
-        _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = Health.Value;
+        _navMesh = gameObject.GetComponent<NavMeshAgent>();
+        _navMesh.speed = Rapidity.Value;
     }
 
     protected IEnumerator Died()
