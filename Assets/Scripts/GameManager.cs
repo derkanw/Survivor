@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
         Enemies.ChangedKilledCount += _hud.ChangeBulletBar;
         Enemies.SetPoints += State.OnSetPoints;
         Enemies.PlayerWin += State.LoadNextLevel;
+        Enemies.PlayerWin += Input.DisableInput;
 
         _buttonManager.Pause += Pause.OnPause;
         _buttonManager.Pause += Input.DisableInput;
@@ -106,11 +107,6 @@ public class GameManager : MonoBehaviour
         Input.ChangedPosition -= _playerParams.MoveTo;
         Stats.GetStats -= _playerParams.OnLevelUp;
         Pause.SaveProgress -= _playerParams.SaveParams;
-
-        _playerParams.Moved -= Enemies.MoveEnemiesTo;
-        _playerParams.Died -= Enemies.NotifyEnemies;
-        Pause.SaveProgress -= Enemies.SaveParams;
-        State.LevelUp -= Enemies.OnLevelUp;
 
         _weaponLoot.LootSpawned -= _weaponsManager.SetNewWeapon;
         Input.CursorMoved -= _weaponsManager.LookTo;
