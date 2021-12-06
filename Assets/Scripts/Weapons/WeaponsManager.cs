@@ -15,7 +15,7 @@ public class WeaponsManager : MonoBehaviour
     [SerializeField] private Transform RightGunBone;
     [SerializeField] private Arsenal[] Arsenal;
 
-    private List<BaseGun> _guns;
+    private List<IGun> _guns;
     private int _currentGun;
     private Animator _animator;
     private int _gunsCount;
@@ -32,7 +32,7 @@ public class WeaponsManager : MonoBehaviour
 
     public void SetGunParams(float agility, float power)
     {
-        foreach (BaseGun gun in _guns)
+        foreach (IGun gun in _guns)
             gun.SetParams(agility, power);
     }
 
@@ -47,11 +47,9 @@ public class WeaponsManager : MonoBehaviour
                 continue;
             if (i == index)
             {
-                _guns[i].gameObject.SetActive(true);
                 _currentGun = index;
+                break;
             }
-            else
-                _guns[i].gameObject.SetActive(false);
         }
         _animator.runtimeAnimatorController = Arsenal[index].Controller;
         var gun = _guns[_currentGun];
@@ -63,7 +61,7 @@ public class WeaponsManager : MonoBehaviour
     private void Awake()
     {
         _gunsCount = SaveSystem.IsExists(Tokens.Weapons) ? SaveSystem.Load<int>(Tokens.Weapons) : 1;
-        _guns = new List<BaseGun>(_gunsCount);
+        _guns = new List<IGun>(_gunsCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
     }
@@ -89,8 +87,7 @@ public class WeaponsManager : MonoBehaviour
                 newRightGun.transform.parent = RightGunBone;
                 newRightGun.transform.localPosition = Vector3.zero;
                 newRightGun.transform.localRotation = Quaternion.Euler(90, 0, 0);
-                newRightGun.SetActive(false);
-                BaseGun gun = newRightGun.GetComponent<BaseGun>();
+                IGun gun = newRightGun.GetComponent<IGun>();
                 gun.Reloading += OnReloading;
                 gun.Shooting += OnShooting;
                 ChangedWeapon += gun.StopReloading;
@@ -102,14 +99,4 @@ public class WeaponsManager : MonoBehaviour
     private void OnShooting() => _animator.SetTrigger("Attack");
 
     private void OnReloading(float count) => Reloading?.Invoke(count);
-
-    private void OnDisable()
-    {
-        foreach (BaseGun gun in _guns)
-        {
-            gun.Reloading -= OnReloading;
-            gun.Shooting -= OnShooting;
-            ChangedWeapon -= gun.StopReloading;
-        }
-    }
 }
