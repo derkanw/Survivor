@@ -3,13 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 
-public class MainMenuManager : MonoBehaviour
+public class MenuModel : MonoBehaviour, IMenuModel
 {
     [SerializeField] private Button NewGameButton;
     [SerializeField] private Button ContinueButton;
     [SerializeField] private Button ExitButton;
 
-    public void SetActive(bool value) => ContinueButton.gameObject.SetActive(value);
+    public void SetContinueAbility(bool value) => ContinueButton.gameObject.SetActive(value);
     private void NewGame()
     {
         SaveSystem.DeleteAll();
@@ -29,9 +29,9 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        ButtonManager.SetUpButton(NewGameButton, NewGame);
-        ButtonManager.SetUpButton(ContinueButton, ContinueGame);
-        ButtonManager.SetUpButton(ExitButton, ExitGame);
+        ButtonModel.SetUpButton(NewGameButton, NewGame);
+        ButtonModel.SetUpButton(ContinueButton, ContinueGame);
+        ButtonModel.SetUpButton(ExitButton, ExitGame);
     }
 
     private void Start() => AudioManager.PlaySound(SoundNames.MainTheme, "PersistentSound", true);

@@ -10,8 +10,8 @@ public class StatsButtons : MonoBehaviour
 
     private void Awake()
     {
-        ButtonManager.SetUpButton(LeftButton, DownValue);
-        ButtonManager.SetUpButton(RightButton, UpValue);
+        ButtonModel.SetUpButton(LeftButton, DownValue);
+        ButtonModel.SetUpButton(RightButton, UpValue);
     }
 
     private void DownValue()

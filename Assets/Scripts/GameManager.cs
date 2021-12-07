@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private StatsUIManager Stats;
     [SerializeField] private EnemiesManager Enemies;
-    [SerializeField] private InputSystem Input;
-    [SerializeField] private PauseUIManager Pause;
 
     [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject LevelHUD;
@@ -14,22 +11,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Environment;
 
     private IGameState _state;
+    private IInputSystem _input;
+    private ILevelView _hud;
+    private IButtonModel _buttonModel;
+    private IPauseModel _pause;
+    private IStatsModel _stats;
+    private IGunLoot _gunLoot;
 
     private Player _playerParams;
     private IGunService _gunService;
     private SkillsManager _skillsManager;
-    private ILevelView _hud;
-    private ButtonManager _buttonManager;
-    private IGunLoot _gunLoot;
 
     private void Awake()
     {
         _state = gameObject.GetComponent<IGameState>();
+        _stats = gameObject.GetComponent<IStatsModel>();
+        _pause = gameObject.GetComponent<IPauseModel>();
+        _input = gameObject.GetComponent<IInputSystem>();
 
         Instantiate(Environment);
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
         _hud = levelHud.GetComponent<ILevelView>();
-        _buttonManager = levelHud.GetComponent<ButtonManager>();
+        _buttonModel = levelHud.GetComponent<IButtonModel>();
 
         var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
         _gunLoot = lootUI.GetComponent<IGunLoot>();
@@ -45,80 +48,80 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += MainCamera.Stay;
         _playerParams.Died += Enemies.NotifyEnemies;
         _playerParams.Died += _state.OnPlayerDied;
-        _playerParams.Died += _buttonManager.DisableButtons;
-        _playerParams.Died += Input.DisableInput;
+        _playerParams.Died += _buttonModel.DisableButtons;
+        _playerParams.Died += _input.DisableInput;
 
         _gunService.ChangedClipSize += _hud.OnChangedClipSize;
         _gunService.ChangedBulletCount += _hud.OnChangedBulletCount;
         _gunService.Reloading += _hud.ChangeReloadBar;
         _gunService.GetGunCount += _hud.ViewGuns;
-        _gunService.GetGunCount += Input.SetGunCount;
+        _gunService.GetGunCount += _input.SetGunCount;
         _gunService.GetArsenalSize += _gunLoot.SetArsenalSize;
 
         _gunLoot.LootSpawned += _state.Notify;
 
-        _skillsManager.GetSkillsCount += Input.SetSkillCount;
-        _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
+        _skillsManager.GetSkillsCount += _input.SetSkillCount;
+        _skillsManager.ChangedSkillCount += _input.OnChangedSkillCount;
         _skillsManager.ChangedSkillCount += _hud.ViewSkill;
         _skillsManager.ChangedSkillReload += _hud.ChangeSkillReloadingBar;
 
         Enemies.ChangedKilledCount += _hud.ChangeBulletBar;
         Enemies.SetPoints += _state.OnSetPoints;
         Enemies.PlayerWin += _state.LoadNextLevel;
-        Enemies.PlayerWin += Input.DisableInput;
+        Enemies.PlayerWin += _input.DisableInput;
 
-        _buttonManager.Pause += Pause.OnPause;
-        _buttonManager.Pause += Input.DisableInput;
-        _buttonManager.LooksStats += Input.DisableInput;
-        _buttonManager.LooksStats += Stats.OnLooksStats;
+        _buttonModel.Pause += _pause.OnPause;
+        _buttonModel.Pause += _input.DisableInput;
+        _buttonModel.LooksStats += _input.DisableInput;
+        _buttonModel.LooksStats += _stats.OnLooksStats;
 
-        Pause.Resume += Input.ActivateInput;
-        Pause.SaveProgress += _state.SaveParams;
-        Pause.SaveProgress += Stats.SaveStats;
-        Pause.SaveProgress += Enemies.SaveParams;
-        Pause.SaveProgress += _playerParams.SaveParams;
-        Pause.SaveProgress += _skillsManager.SaveParams;
+        _pause.Resume += _input.ActivateInput;
+        _pause.SaveProgress += _state.SaveParams;
+        _pause.SaveProgress += _stats.SaveParams;
+        _pause.SaveProgress += Enemies.SaveParams;
+        _pause.SaveProgress += _playerParams.SaveParams;
+        _pause.SaveProgress += _skillsManager.SaveParams;
 
-        Stats.Resume += Input.ActivateInput;
-        Stats.GetPoints += _hud.OnChangedPoints;
-        Stats.GetStats += _playerParams.OnLevelUp;
+        _stats.Resume += _input.ActivateInput;
+        _stats.GetPoints += _hud.OnChangedPoints;
+        _stats.GetStats += _playerParams.OnLevelUp;
 
-        Input.ChangedPosition += _playerParams.MoveTo;
-        Input.CursorMoved += _playerParams.LookTo;
-        Input.CursorMoved += _gunService.LookTo;
-        Input.CursorClicked += _gunService.SetShooting;
-        Input.Reloading += _gunService.SetReloading;
-        Input.ChangeGun += _gunService.SetArsenal;
-        Input.ChangeGun += _hud.OnChangedGun;
-        Input.ChangeSkill += _hud.OnChangedSkill;
-        Input.ChangeSkill += _skillsManager.SetSkill;
-        Input.UseSkill += _skillsManager.UseSkill;
+        _input.ChangedPosition += _playerParams.MoveTo;
+        _input.CursorMoved += _playerParams.LookTo;
+        _input.CursorMoved += _gunService.LookTo;
+        _input.CursorClicked += _gunService.SetShooting;
+        _input.Reloading += _gunService.SetReloading;
+        _input.ChangeGun += _gunService.SetArsenal;
+        _input.ChangeGun += _hud.OnChangedGun;
+        _input.ChangeSkill += _hud.OnChangedSkill;
+        _input.ChangeSkill += _skillsManager.SetSkill;
+        _input.UseSkill += _skillsManager.UseSkill;
 
         _state.LevelUp += Enemies.OnLevelUp;
         _state.LevelUp += _hud.OnGameLevelUp;
         _state.PlayerLevelUp += _hud.OnPlayerLevelUp;
         _state.ChangePoints += _hud.OnChangedPoints;
-        _state.ChangePoints += Stats.OnChangedPoints;
+        _state.ChangePoints += _stats.OnChangedPoints;
         _state.Disable += OnDisable;
     }
 
-    private void Start() => _state.InitDependencies(_gunLoot, _gunService, Stats, _playerParams, _skillsManager);
+    private void Start() => _state.InitDependencies(_gunLoot, _gunService, _stats, _playerParams, _skillsManager);
 
     private void OnDisable()
     {
-        Input.CursorMoved -= _playerParams.LookTo;
-        Input.ChangedPosition -= _playerParams.MoveTo;
-        Stats.GetStats -= _playerParams.OnLevelUp;
-        Pause.SaveProgress -= _playerParams.SaveParams;
+        _input.CursorMoved -= _playerParams.LookTo;
+        _input.ChangedPosition -= _playerParams.MoveTo;
+        _stats.GetStats -= _playerParams.OnLevelUp;
+        _pause.SaveProgress -= _playerParams.SaveParams;
 
         _gunLoot.LootSpawned -= _gunService.SetNewGun;
-        Input.CursorMoved -= _gunService.LookTo;
-        Input.CursorClicked -= _gunService.SetShooting;
-        Input.Reloading -= _gunService.SetReloading;
-        Input.ChangeGun -= _gunService.SetArsenal;
+        _input.CursorMoved -= _gunService.LookTo;
+        _input.CursorClicked -= _gunService.SetShooting;
+        _input.Reloading -= _gunService.SetReloading;
+        _input.ChangeGun -= _gunService.SetArsenal;
 
-        Input.ChangeSkill -= _skillsManager.SetSkill;
-        Input.UseSkill -= _skillsManager.UseSkill;
-        Pause.SaveProgress -= _skillsManager.SaveParams;
+        _input.ChangeSkill -= _skillsManager.SetSkill;
+        _input.UseSkill -= _skillsManager.UseSkill;
+        _pause.SaveProgress -= _skillsManager.SaveParams;
     }
 }

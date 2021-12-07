@@ -12,7 +12,7 @@ public class GameState : MonoBehaviour, IGameState
     [SerializeField] private uint LevelCount;
     [SerializeField] private Stat PointsTarget;
     [SerializeField] private GameObject GameOverUI;
-    [SerializeField] private MainMenuManager Menu;
+    [SerializeField] private GameObject MenuUI;
 
     private float _points;
     private int _playerLevel;
@@ -20,11 +20,12 @@ public class GameState : MonoBehaviour, IGameState
 
     private IGunService _gunService;
     private IGunLoot _gunLoot;
-    private StatsUIManager _stats;
+    private IStatsModel _stats;
     private Player _playerParams;
     private SkillsManager _skills;
+    private IMenuModel _menu;
 
-    public void InitDependencies(IGunLoot loot, IGunService manager, StatsUIManager stats, Player player, SkillsManager skills)
+    public void InitDependencies(IGunLoot loot, IGunService manager, IStatsModel stats, Player player, SkillsManager skills)
     {
         _gunLoot = loot;
         _gunService = manager;
@@ -38,7 +39,7 @@ public class GameState : MonoBehaviour, IGameState
     public void OnPlayerDied()
     {
         Disable?.Invoke();
-        Menu.SetActive(false);
+        _menu.SetContinueAbility(false);
         Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         SaveSystem.DeleteAll();
     }
@@ -69,7 +70,7 @@ public class GameState : MonoBehaviour, IGameState
     {
         ++_gameLevel;
         SaveParams();
-        _stats.SaveStats();
+        _stats.SaveParams();
         _playerParams.SaveParams();
         _skills.SaveParams();
         _gunLoot.SpawnLoot(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
@@ -79,12 +80,12 @@ public class GameState : MonoBehaviour, IGameState
     private void Awake()
     {
         PointsTarget.Init();
-        Menu.SetActive(true);
+        _menu = MenuUI.GetComponent<IMenuModel>();
+        _menu.SetContinueAbility(true);
     }
 
     private void Start()
     {
-        _playerLevel = SaveSystem.Load<int>(Tokens.PlayerLevel);
         _gameLevel = SaveSystem.Load<int>(Tokens.GameLevel);
         _points = SaveSystem.Load<float>(Tokens.Points);
         PlayerLevelUp?.Invoke(_playerLevel);

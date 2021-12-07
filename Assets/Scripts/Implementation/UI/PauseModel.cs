@@ -1,14 +1,14 @@
 using UnityEngine;
 using System;
 
-public class PauseUIManager : MonoBehaviour
+public class PauseModel : MonoBehaviour, IPauseModel
 {
     public event Action Resume;
     public event Action SaveProgress;
 
     [SerializeField] private GameObject PauseUI;
     private GameObject _pauseUI;
-    private ButtonManager _manager;
+    private IButtonModel _buttonModel;
 
     public void OnPause() => _pauseUI.SetActive(true);
     public void OnGoToMenu() => SaveProgress?.Invoke();
@@ -17,20 +17,14 @@ public class PauseUIManager : MonoBehaviour
     {
         _pauseUI = Instantiate(PauseUI, Vector3.zero, Quaternion.identity);
         _pauseUI.SetActive(false);
-        _manager = _pauseUI.GetComponent<ButtonManager>();
-        _manager.Resume += OnResume;
-        _manager.GoToMenu += OnGoToMenu;
+        _buttonModel = _pauseUI.GetComponent<IButtonModel>();
+        _buttonModel.Resume += OnResume;
+        _buttonModel.GoToMenu += OnGoToMenu;
     }
 
     private void OnResume()
     {
         _pauseUI.SetActive(false);
         Resume?.Invoke();
-    }
-
-    private void OnDestroy()
-    {
-        _manager.Resume -= OnResume;
-        _manager.GoToMenu -= OnGoToMenu;
     }
 }

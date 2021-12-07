@@ -23,7 +23,7 @@ public class GunLoot : MonoBehaviour, IGunLoot
         if (UnityEngine.Random.Range(0f, 1f) >= (1 - Chance) && _index <= _count - 1)
         {
             gameObject.SetActive(true);
-            ButtonManager.SetUpButton(AcceptButton, LoadNextLevel);
+            ButtonModel.SetUpButton(AcceptButton, LoadNextLevel);
             Icon.sprite = WeaponIcons[_index - 1];
             _sceneName = sceneName;
         }

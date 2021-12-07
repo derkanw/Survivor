@@ -2,12 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum StatsNames
-{
-    Health, Rapidity, Agility, Power
-}
-
-public class PointsManager : MonoBehaviour
+public class PointsService : MonoBehaviour, IPointsService
 {
     [SerializeField] private Text PointsField;
     [SerializeField] private List<Text> Values;

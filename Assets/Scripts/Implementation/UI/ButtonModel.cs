@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonManager : MonoBehaviour
+public class ButtonModel : MonoBehaviour, IButtonModel
 {
     public event Action GoToMenu;
     public event Action Resume;
