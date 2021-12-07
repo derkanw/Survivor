@@ -73,6 +73,7 @@ public class GameState : MonoBehaviour
         _playerParams.SaveParams();
         _skills.SaveParams();
         _weaponLoot.SpawnLoot(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
+        Destroy(_playerParams.gameObject);
     }
 
     private void Awake()

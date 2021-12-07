@@ -6,5 +6,9 @@ public abstract class BaseBullet : MonoBehaviour
     public void SetPower(float incPower) => Power *= incPower;
     protected abstract void Move();
 
-    private void OnCollisionEnter(Collision collision) => Destroy(gameObject);
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Player"))
+            Destroy(gameObject);
+    }
 }

@@ -43,7 +43,7 @@ public class EnemiesManager : MonoBehaviour
 
     private void Awake()
     {
-        _groundWidth = 5f;
+        _groundWidth = 20f;
         _playerExists = true;
         EnemiesCount.Init();
         _index = SaveSystem.IsExists(Tokens.EnemyIndex) ? SaveSystem.Load<int>(Tokens.EnemyIndex) : UnityEngine.Random.Range(0, enemies.Count);
