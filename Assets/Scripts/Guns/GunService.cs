@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class WeaponsManager : MonoBehaviour
+public class GunService : MonoBehaviour, IGunService
 {
     public event Action<int> GetArsenalSize;
-    public event Action<int> GetWeaponsCount;
-    public event Action<float> ChangedBulletsCount;
+    public event Action<int> GetGunCount;
+    public event Action<float> ChangedBulletCount;
     public event Action<float> ChangedClipSize;
     public event Action<float> Reloading;
 
@@ -18,12 +18,12 @@ public class WeaponsManager : MonoBehaviour
     private List<IGun> _guns;
     private int _currentGun;
     private Animator _animator;
-    private int _gunsCount;
+    private int _gunCount;
 
-    public void SetNewWeapon()
+    public void SetNewGun()
     {
-        ++_gunsCount;
-        SaveSystem.Save<int>(Tokens.Weapons, _gunsCount);
+        ++_gunCount;
+        SaveSystem.Save<int>(Tokens.Guns, _gunCount);
     }
 
     public void LookTo(Vector3 direction) => _guns[_currentGun].LookTo(direction);
@@ -60,8 +60,8 @@ public class WeaponsManager : MonoBehaviour
 
     private void Awake()
     {
-        _gunsCount = SaveSystem.IsExists(Tokens.Weapons) ? SaveSystem.Load<int>(Tokens.Weapons) : 1;
-        _guns = new List<IGun>(_gunsCount);
+        _gunCount = SaveSystem.IsExists(Tokens.Guns) ? SaveSystem.Load<int>(Tokens.Guns) : 1;
+        _guns = new List<IGun>(_gunCount);
         _animator = gameObject.GetComponent<Animator>();
         InitArsenal();
     }
@@ -69,17 +69,17 @@ public class WeaponsManager : MonoBehaviour
     private void Start()
     {
         _currentGun = 0;
-        if (_gunsCount > 0)
+        if (_gunCount > 0)
             SetArsenal(_currentGun);
-        GetWeaponsCount?.Invoke(_gunsCount);
+        GetGunCount?.Invoke(_gunCount);
         GetArsenalSize?.Invoke(Arsenal.Length);
     }
 
-    private void Update() => ChangedBulletsCount?.Invoke(_guns[_currentGun].GetBulletsCount());
+    private void Update() => ChangedBulletCount?.Invoke(_guns[_currentGun].GetBulletCount());
 
     private void InitArsenal()
     {
-        for (int index = 0; index < _gunsCount; ++index)
+        for (int index = 0; index < _gunCount; ++index)
         {
             if (Arsenal[index].RightGun != null)
             {

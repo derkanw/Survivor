@@ -4,13 +4,13 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 
-public class WeaponLoot : MonoBehaviour
+public class GunLoot : MonoBehaviour, IGunLoot
 {
     public event Action LootSpawned;
     [SerializeField] [Range(0f, 1f)] private float Chance;
     [SerializeField] private Button AcceptButton;
     [SerializeField] private Image Icon;
-    [SerializeField] private List<Sprite> WeaponsIcons;
+    [SerializeField] private List<Sprite> WeaponIcons;
 
     private string _sceneName;
     private int _index;
@@ -24,7 +24,7 @@ public class WeaponLoot : MonoBehaviour
         {
             gameObject.SetActive(true);
             ButtonManager.SetUpButton(AcceptButton, LoadNextLevel);
-            Icon.sprite = WeaponsIcons[_index - 1];
+            Icon.sprite = WeaponIcons[_index - 1];
             _sceneName = sceneName;
         }
         else

@@ -20,12 +20,12 @@ public abstract class BaseGun : MonoBehaviour, IGun
     private bool _isShooting;
     private bool _isCursorClicked;
     private bool _isReloadingClicked;
-    private float _bulletsCount;
+    private float _bulletCount;
     private float _reloadProgress;
 
     public void SetShooting(bool value) => _isCursorClicked = value;
     public void SetReloading(bool value) => _isReloadingClicked = value;
-    public float GetBulletsCount() => _bulletsCount;
+    public float GetBulletCount() => _bulletCount;
     public float GetClipSize() => ClipSize;
     
     public void LookTo(Vector3 direction) => _direction = direction;
@@ -48,12 +48,12 @@ public abstract class BaseGun : MonoBehaviour, IGun
     private IEnumerator Shoot()
     {
         _isShooting = true;
-        while (_bulletsCount != 0 && _isCursorClicked)
+        while (_bulletCount != 0 && _isCursorClicked)
         {
             Shooting?.Invoke();
             yield return new WaitForSeconds(0.5f);
             InitBullet();
-            --_bulletsCount;
+            --_bulletCount;
             yield return new WaitForSeconds(ShootingSpeed);
         }
         _isShooting = false;
@@ -64,7 +64,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
         _isReloading = true;
         while (_reloadProgress < 1f)
             yield return new WaitForEndOfFrame();
-        _bulletsCount = ClipSize;
+        _bulletCount = ClipSize;
         _isReloading = false;
         _isShooting = false;
     }
@@ -72,7 +72,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
     private void Start()
     {
         Clear();
-        _bulletsCount = ClipSize;
+        _bulletCount = ClipSize;
         _incPower = 1;
         _offset = gameObject.transform.GetChild(0);
     }

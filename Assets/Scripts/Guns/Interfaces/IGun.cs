@@ -9,7 +9,7 @@ public interface IGun
     public void SetShooting(bool value);
     public void SetReloading(bool value);
     public void SetParams(float incAgility, float incPower);
-    public float GetBulletsCount();
+    public float GetBulletCount();
     public float GetClipSize();
     public void LookTo(Vector3 direction);
     public void StopReloading();

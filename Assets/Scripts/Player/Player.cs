@@ -18,14 +18,14 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private Vector3 _position;
     private float _hp;
-    private WeaponsManager _weaponsManager;
+    private IGunService _gunService;
     private int _speedLevel;
 
     public void SaveParams() => SaveSystem.Save<float>(Tokens.HP, _hp);
 
     public void PowerUp(float power, float time)
     {
-        _weaponsManager.SetGunParams(Agility.Value, power);
+        _gunService.SetGunParams(Agility.Value, power);
         StartCoroutine(PowerUpEffect(time));
     }
 
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
                     Power.Modify(stats[name]);
                     break;
             }
-        _weaponsManager.SetGunParams(Agility.Value, Power.Value);
+        _gunService.SetGunParams(Agility.Value, Power.Value);
     }
 
     public void MoveTo(Vector3 position) => _position = position * Rapidity.Value;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     private IEnumerator PowerUpEffect(float time)
     {
         yield return new WaitForSeconds(time);
-        _weaponsManager.SetGunParams(Agility.Value, Power.Value);
+        _gunService.SetGunParams(Agility.Value, Power.Value);
     }
 
     private IEnumerator SpeedUpEffect(float time)
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
         _rigidBody = gameObject.GetComponent<Rigidbody>();
         _animator = gameObject.GetComponent<Animator>();
         _hp = SaveSystem.IsExists(Tokens.HP) ? SaveSystem.Load<float>(Tokens.HP) : Health.Value;
-        _weaponsManager = gameObject.GetComponent<WeaponsManager>();
+        _gunService = gameObject.GetComponent<IGunService>();
     }
 
     private void Start() => ChangedHP?.Invoke(_hp / Health.Value);

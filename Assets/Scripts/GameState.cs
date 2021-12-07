@@ -9,7 +9,7 @@ public class GameState : MonoBehaviour
     public event Action<int> ChangePoints;
     public event Action Disable;
 
-    [SerializeField] private uint LevelsCount;
+    [SerializeField] private uint LevelCount;
     [SerializeField] private Stat PointsTarget;
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private MainMenuManager Menu;
@@ -18,22 +18,22 @@ public class GameState : MonoBehaviour
     private int _playerLevel;
     private int _gameLevel;
 
-    private WeaponsManager _weaponsManager;
-    private WeaponLoot _weaponLoot;
+    private IGunService _gunService;
+    private IGunLoot _gunLoot;
     private StatsUIManager _stats;
     private Player _playerParams;
     private SkillsManager _skills;
 
-    public void InitDependencies(WeaponLoot loot, WeaponsManager manager, StatsUIManager stats, Player player, SkillsManager skills)
+    public void InitDependencies(IGunLoot loot, IGunService manager, StatsUIManager stats, Player player, SkillsManager skills)
     {
-        _weaponLoot = loot;
-        _weaponsManager = manager;
+        _gunLoot = loot;
+        _gunService = manager;
         _stats = stats;
         _playerParams = player;
         _skills = skills;
     }
 
-    public void Notify() => _weaponsManager.SetNewWeapon();
+    public void Notify() => _gunService.SetNewGun();
 
     public void OnPlayerDied()
     {
@@ -72,7 +72,7 @@ public class GameState : MonoBehaviour
         _stats.SaveStats();
         _playerParams.SaveParams();
         _skills.SaveParams();
-        _weaponLoot.SpawnLoot(_gameLevel >= LevelsCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
+        _gunLoot.SpawnLoot(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
         Destroy(_playerParams.gameObject);
     }
 

@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd710c2ae818b647842f6fe504439fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelsCount: 5
+  LevelCount: 10
   PointsTarget:
     BaseValue: 20
     Rate: 0.1

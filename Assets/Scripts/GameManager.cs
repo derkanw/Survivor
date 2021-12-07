@@ -15,11 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Environment;
 
     private Player _playerParams;
-    private WeaponsManager _weaponsManager;
+    private IGunService _gunService;
     private SkillsManager _skillsManager;
     private LevelHUDManager _hud;
     private ButtonManager _buttonManager;
-    private WeaponLoot _weaponLoot;
+    private IGunLoot _gunLoot;
 
     private void Awake()
     {
@@ -29,11 +29,11 @@ public class GameManager : MonoBehaviour
         _buttonManager = levelHud.GetComponent<ButtonManager>();
 
         var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
-        _weaponLoot = lootUI.GetComponent<WeaponLoot>();
+        _gunLoot = lootUI.GetComponent<IGunLoot>();
 
         var player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         _playerParams = player.GetComponent<Player>();
-        _weaponsManager = player.GetComponent<WeaponsManager>();
+        _gunService = player.GetComponent<IGunService>();
         _skillsManager = player.GetComponent<SkillsManager>();
 
         _playerParams.ChangedHP += _hud.ChangeHealthBar;
@@ -45,14 +45,14 @@ public class GameManager : MonoBehaviour
         _playerParams.Died += _buttonManager.DisableButtons;
         _playerParams.Died += Input.DisableInput;
 
-        _weaponsManager.ChangedClipSize += _hud.OnChangedClipSize;
-        _weaponsManager.ChangedBulletsCount += _hud.OnChangedBulletsCount;
-        _weaponsManager.Reloading += _hud.ChangeReloadBar;
-        _weaponsManager.GetWeaponsCount += _hud.ViewWeapons;
-        _weaponsManager.GetWeaponsCount += Input.SetWeaponCount;
-        _weaponsManager.GetArsenalSize += _weaponLoot.SetArsenalSize;
+        _gunService.ChangedClipSize += _hud.OnChangedClipSize;
+        _gunService.ChangedBulletCount += _hud.OnChangedBulletsCount;
+        _gunService.Reloading += _hud.ChangeReloadBar;
+        _gunService.GetGunCount += _hud.ViewWeapons;
+        _gunService.GetGunCount += Input.SetWeaponCount;
+        _gunService.GetArsenalSize += _gunLoot.SetArsenalSize;
 
-        _weaponLoot.LootSpawned += State.Notify;
+        _gunLoot.LootSpawned += State.Notify;
 
         _skillsManager.GetSkillsCount += Input.SetSkillsCount;
         _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
@@ -82,10 +82,10 @@ public class GameManager : MonoBehaviour
 
         Input.ChangedPosition += _playerParams.MoveTo;
         Input.CursorMoved += _playerParams.LookTo;
-        Input.CursorMoved += _weaponsManager.LookTo;
-        Input.CursorClicked += _weaponsManager.SetShooting;
-        Input.Reloading += _weaponsManager.SetReloading;
-        Input.ChangeWeapon += _weaponsManager.SetArsenal;
+        Input.CursorMoved += _gunService.LookTo;
+        Input.CursorClicked += _gunService.SetShooting;
+        Input.Reloading += _gunService.SetReloading;
+        Input.ChangeWeapon += _gunService.SetArsenal;
         Input.ChangeWeapon += _hud.OnChangedWeapon;
         Input.ChangeSkill += _hud.OnChangedSkill;
         Input.ChangeSkill += _skillsManager.SetSkill;
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         State.Disable += OnDisable;
     }
 
-    private void Start() => State.InitDependencies(_weaponLoot, _weaponsManager, Stats, _playerParams, _skillsManager);
+    private void Start() => State.InitDependencies(_gunLoot, _gunService, Stats, _playerParams, _skillsManager);
 
     private void OnDisable()
     {
@@ -108,11 +108,11 @@ public class GameManager : MonoBehaviour
         Stats.GetStats -= _playerParams.OnLevelUp;
         Pause.SaveProgress -= _playerParams.SaveParams;
 
-        _weaponLoot.LootSpawned -= _weaponsManager.SetNewWeapon;
-        Input.CursorMoved -= _weaponsManager.LookTo;
-        Input.CursorClicked -= _weaponsManager.SetShooting;
-        Input.Reloading -= _weaponsManager.SetReloading;
-        Input.ChangeWeapon -= _weaponsManager.SetArsenal;
+        _gunLoot.LootSpawned -= _gunService.SetNewGun;
+        Input.CursorMoved -= _gunService.LookTo;
+        Input.CursorClicked -= _gunService.SetShooting;
+        Input.Reloading -= _gunService.SetReloading;
+        Input.ChangeWeapon -= _gunService.SetArsenal;
 
         Input.ChangeSkill -= _skillsManager.SetSkill;
         Input.UseSkill -= _skillsManager.UseSkill;
