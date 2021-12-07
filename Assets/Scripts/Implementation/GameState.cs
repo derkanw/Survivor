@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameState : MonoBehaviour
+public class GameState : MonoBehaviour, IGameState
 {
     public event Action<int> PlayerLevelUp;
     public event Action<int> LevelUp;

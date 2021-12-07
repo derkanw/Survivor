@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class AudioList : MonoBehaviour
+public class AudioList : MonoBehaviour, IAudioList
 {
-    public Sound[] Sounds;
-    private static AudioList _instance;
+    [SerializeField] private Sound[] SoundsList;
+    private static IAudioList _instance;
 
-    public AudioList List
+    public Sound[] Sounds { get => SoundsList; }
+
+    public IAudioList List
     {
         get => _instance;
         private set => _instance = value;

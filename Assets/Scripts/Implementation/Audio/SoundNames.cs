@@ -1,11 +1,8 @@
 public enum SoundNames
 {
     PlayerMove,
-    PlayerHit,
-    PlayerDie,
     PlayerLevel,
     EnemyHit,
-    EnemyDie,
     EnemyAttack,
     EnemyShoot,
     Equip,
@@ -16,11 +13,9 @@ public enum SoundNames
     FlameGun,
     GrenadeLauncher,
     GrenadeExplosion,
-    HealSound,
-    ManaSound,
+    UseSkill,
     MainTheme,
     ButtonHover,
     ButtonClick,
-    DoorOpen,
     ChestOpen
 }

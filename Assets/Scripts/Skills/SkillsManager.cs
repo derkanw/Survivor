@@ -19,7 +19,7 @@ public class SkillsManager : MonoBehaviour
         int[] data = new int[_skillsCount];
         for (int index = 0; index < _skillsCount; ++index)
             data[index] = _skills[index].Count;
-        SaveSystem.Save<int[]>(Tokens.SkillsCount, data);
+        SaveSystem.Save<int[]>(Tokens.SkillCount, data);
     }
 
     public void TopUpSkill(SkillsNames name)
@@ -64,7 +64,7 @@ public class SkillsManager : MonoBehaviour
         _skills = new List<Skill>(_skillsCount);
         _player = gameObject.GetComponent<Player>();
         
-        var data = SaveSystem.IsExists(Tokens.SkillsCount) ? SaveSystem.Load<int[]>(Tokens.SkillsCount) : new int[_skillsCount];
+        var data = SaveSystem.IsExists(Tokens.SkillCount) ? SaveSystem.Load<int[]>(Tokens.SkillCount) : new int[_skillsCount];
 
 
         for (int index = 0; index < _skillsCount; ++index)

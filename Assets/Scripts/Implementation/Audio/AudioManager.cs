@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager _instance;
-    private static AudioList _list;
+    private static IAudioList _list;
     private static readonly HashSet<SoundNames> _persistantSounds = new HashSet<SoundNames>();
     private static Dictionary<SoundNames, float> _soundsTimer;
 
@@ -67,7 +67,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-        _list = gameObject.GetComponent<AudioList>().List;
+        _list = gameObject.GetComponent<IAudioList>().List;
         _soundsTimer = new Dictionary<SoundNames, float>();
     }
 }

@@ -23,6 +23,7 @@ public class Skill : MonoBehaviour
     public void UseSkill(Player player)
     {
         if (Count == 0 || _isReloading) return;
+        AudioManager.PlaySound(SoundNames.UseSkill);
         Instantiate(Effect, transform.position, Quaternion.identity).transform.SetParent(player.gameObject.transform);
         switch(Name)
         {

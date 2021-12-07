@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemiesManager Enemies;
     [SerializeField] private InputSystem Input;
     [SerializeField] private PauseUIManager Pause;
-    [SerializeField] private GameState State;
 
     [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject LevelHUD;
@@ -14,18 +13,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Loot;
     [SerializeField] private GameObject Environment;
 
+    private IGameState _state;
+
     private Player _playerParams;
     private IGunService _gunService;
     private SkillsManager _skillsManager;
-    private LevelHUDManager _hud;
+    private ILevelView _hud;
     private ButtonManager _buttonManager;
     private IGunLoot _gunLoot;
 
     private void Awake()
     {
+        _state = gameObject.GetComponent<IGameState>();
+
         Instantiate(Environment);
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
-        _hud = levelHud.GetComponent<LevelHUDManager>();
+        _hud = levelHud.GetComponent<ILevelView>();
         _buttonManager = levelHud.GetComponent<ButtonManager>();
 
         var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
@@ -41,27 +44,27 @@ public class GameManager : MonoBehaviour
         _playerParams.Moved += Enemies.MoveEnemiesTo;
         _playerParams.Died += MainCamera.Stay;
         _playerParams.Died += Enemies.NotifyEnemies;
-        _playerParams.Died += State.OnPlayerDied;
+        _playerParams.Died += _state.OnPlayerDied;
         _playerParams.Died += _buttonManager.DisableButtons;
         _playerParams.Died += Input.DisableInput;
 
         _gunService.ChangedClipSize += _hud.OnChangedClipSize;
-        _gunService.ChangedBulletCount += _hud.OnChangedBulletsCount;
+        _gunService.ChangedBulletCount += _hud.OnChangedBulletCount;
         _gunService.Reloading += _hud.ChangeReloadBar;
-        _gunService.GetGunCount += _hud.ViewWeapons;
-        _gunService.GetGunCount += Input.SetWeaponCount;
+        _gunService.GetGunCount += _hud.ViewGuns;
+        _gunService.GetGunCount += Input.SetGunCount;
         _gunService.GetArsenalSize += _gunLoot.SetArsenalSize;
 
-        _gunLoot.LootSpawned += State.Notify;
+        _gunLoot.LootSpawned += _state.Notify;
 
-        _skillsManager.GetSkillsCount += Input.SetSkillsCount;
+        _skillsManager.GetSkillsCount += Input.SetSkillCount;
         _skillsManager.ChangedSkillCount += Input.OnChangedSkillCount;
         _skillsManager.ChangedSkillCount += _hud.ViewSkill;
         _skillsManager.ChangedSkillReload += _hud.ChangeSkillReloadingBar;
 
         Enemies.ChangedKilledCount += _hud.ChangeBulletBar;
-        Enemies.SetPoints += State.OnSetPoints;
-        Enemies.PlayerWin += State.LoadNextLevel;
+        Enemies.SetPoints += _state.OnSetPoints;
+        Enemies.PlayerWin += _state.LoadNextLevel;
         Enemies.PlayerWin += Input.DisableInput;
 
         _buttonManager.Pause += Pause.OnPause;
@@ -70,7 +73,7 @@ public class GameManager : MonoBehaviour
         _buttonManager.LooksStats += Stats.OnLooksStats;
 
         Pause.Resume += Input.ActivateInput;
-        Pause.SaveProgress += State.SaveParams;
+        Pause.SaveProgress += _state.SaveParams;
         Pause.SaveProgress += Stats.SaveStats;
         Pause.SaveProgress += Enemies.SaveParams;
         Pause.SaveProgress += _playerParams.SaveParams;
@@ -85,21 +88,21 @@ public class GameManager : MonoBehaviour
         Input.CursorMoved += _gunService.LookTo;
         Input.CursorClicked += _gunService.SetShooting;
         Input.Reloading += _gunService.SetReloading;
-        Input.ChangeWeapon += _gunService.SetArsenal;
-        Input.ChangeWeapon += _hud.OnChangedWeapon;
+        Input.ChangeGun += _gunService.SetArsenal;
+        Input.ChangeGun += _hud.OnChangedGun;
         Input.ChangeSkill += _hud.OnChangedSkill;
         Input.ChangeSkill += _skillsManager.SetSkill;
         Input.UseSkill += _skillsManager.UseSkill;
 
-        State.LevelUp += Enemies.OnLevelUp;
-        State.LevelUp += _hud.OnGameLevelUp;
-        State.PlayerLevelUp += _hud.OnPlayerLevelUp;
-        State.ChangePoints += _hud.OnChangedPoints;
-        State.ChangePoints += Stats.OnChangedPoints;
-        State.Disable += OnDisable;
+        _state.LevelUp += Enemies.OnLevelUp;
+        _state.LevelUp += _hud.OnGameLevelUp;
+        _state.PlayerLevelUp += _hud.OnPlayerLevelUp;
+        _state.ChangePoints += _hud.OnChangedPoints;
+        _state.ChangePoints += Stats.OnChangedPoints;
+        _state.Disable += OnDisable;
     }
 
-    private void Start() => State.InitDependencies(_gunLoot, _gunService, Stats, _playerParams, _skillsManager);
+    private void Start() => _state.InitDependencies(_gunLoot, _gunService, Stats, _playerParams, _skillsManager);
 
     private void OnDisable()
     {
@@ -112,7 +115,7 @@ public class GameManager : MonoBehaviour
         Input.CursorMoved -= _gunService.LookTo;
         Input.CursorClicked -= _gunService.SetShooting;
         Input.Reloading -= _gunService.SetReloading;
-        Input.ChangeWeapon -= _gunService.SetArsenal;
+        Input.ChangeGun -= _gunService.SetArsenal;
 
         Input.ChangeSkill -= _skillsManager.SetSkill;
         Input.UseSkill -= _skillsManager.UseSkill;

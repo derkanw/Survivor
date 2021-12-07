@@ -2,33 +2,33 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class InputSystem : MonoBehaviour
+public class InputSystem : MonoBehaviour, IInputSystem
 {
     public event Action<Vector3> CursorMoved;
     public event Action<Vector3> ChangedPosition;
     public event Action<bool> CursorClicked;
     public event Action<bool> Reloading;
     public event Action<bool> UseSkill;
-    public event Action<int> ChangeWeapon;
+    public event Action<int> ChangeGun;
     public event Action<int> ChangeSkill;
 
     private bool _canUse;
-    private int _weaponsCount;
-    private int _skillsCount;
-    private int _currentWeapon;
+    private int _gunCount;
+    private int _skillCount;
+    private int _currentGun;
     private int _currentSkill;
-    private List<int> _SkillsExists;
+    private List<int> _skillsExist;
 
     public void DisableInput() => _canUse = false;
     public void ActivateInput() => _canUse = true;
-    public void OnChangedSkillCount(int index, int count) => _SkillsExists[index] = count;
-    public void SetWeaponCount(int value) => _weaponsCount = value;
-    public void SetSkillsCount(int value)
+    public void OnChangedSkillCount(int index, int count) => _skillsExist[index] = count;
+    public void SetGunCount(int value) => _gunCount = value;
+    public void SetSkillCount(int value)
     {
-        _skillsCount = value;
-        _SkillsExists = new List<int>(_skillsCount);
-        for (int index = 0; index < _skillsCount; ++index)
-            _SkillsExists.Add(0);
+        _skillCount = value;
+        _skillsExist = new List<int>(_skillCount);
+        for (int index = 0; index < _skillCount; ++index)
+            _skillsExist.Add(0);
     }
 
     private void RotatePlayer()
@@ -51,62 +51,62 @@ public class InputSystem : MonoBehaviour
 
     private void GetSkillInput()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5) && _skillsCount >= 1)
+        if (Input.GetKeyDown(KeyCode.Alpha5) && _skillCount >= 1)
         {
             _currentSkill = 0;
             ChangeSkill?.Invoke(_currentSkill);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6) && _skillsCount >= 2)
+        if (Input.GetKeyDown(KeyCode.Alpha6) && _skillCount >= 2)
         {
             _currentSkill = 1;
             ChangeSkill?.Invoke(_currentSkill);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7) && _skillsCount >= 3)
+        if (Input.GetKeyDown(KeyCode.Alpha7) && _skillCount >= 3)
         {
             _currentSkill = 2;
             ChangeSkill?.Invoke(_currentSkill);
         }
     }
 
-    private void GetWeaponInput()
+    private void GetGunInput()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            if (_currentWeapon < _weaponsCount - 1)
-                ++_currentWeapon;
+            if (_currentGun < _gunCount - 1)
+                ++_currentGun;
             else
-                _currentWeapon = 0;
-            ChangeWeapon?.Invoke(_currentWeapon);
+                _currentGun = 0;
+            ChangeGun?.Invoke(_currentGun);
         }
             
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            if(_currentWeapon > 0)
-                --_currentWeapon;
+            if(_currentGun > 0)
+                --_currentGun;
             else
-                _currentWeapon = _weaponsCount - 1;
-            ChangeWeapon?.Invoke(_currentWeapon);
+                _currentGun = _gunCount - 1;
+            ChangeGun?.Invoke(_currentGun);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && _weaponsCount >= 1)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && _gunCount >= 1)
         {
-            _currentWeapon = 0;
-            ChangeWeapon?.Invoke(_currentWeapon);
+            _currentGun = 0;
+            ChangeGun?.Invoke(_currentGun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && _weaponsCount >= 2)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && _gunCount >= 2)
         {
-            _currentWeapon = 1;
-            ChangeWeapon?.Invoke(_currentWeapon);
+            _currentGun = 1;
+            ChangeGun?.Invoke(_currentGun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && _weaponsCount >= 3)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && _gunCount >= 3)
         {
-            _currentWeapon = 2;
-            ChangeWeapon?.Invoke(_currentWeapon);
+            _currentGun = 2;
+            ChangeGun?.Invoke(_currentGun);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && _weaponsCount >= 4)
+        if (Input.GetKeyDown(KeyCode.Alpha4) && _gunCount >= 4)
         {
-            _currentWeapon = 3;
-            ChangeWeapon?.Invoke(_currentWeapon);
+            _currentGun = 3;
+            ChangeGun?.Invoke(_currentGun);
         }
     }
 
@@ -121,11 +121,11 @@ public class InputSystem : MonoBehaviour
         if (!_canUse) return;
         MovePlayer();
         RotatePlayer();
-        GetWeaponInput();
+        GetGunInput();
         Reloading?.Invoke(Input.GetKeyDown(KeyCode.R));
         CursorClicked?.Invoke(Input.GetKey(KeyCode.Mouse0));
         GetSkillInput();
-        if (_currentSkill >= 0 && _SkillsExists[_currentSkill] > 0)
+        if (_currentSkill >= 0 && _skillsExist[_currentSkill] > 0)
             UseSkill?.Invoke(Input.GetKeyDown(KeyCode.Q));
     }
 }
