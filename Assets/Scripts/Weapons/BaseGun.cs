@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public abstract class BaseGun : MonoBehaviour
+public abstract class BaseGun : MonoBehaviour, IGun
 {
     public event Action<float> Reloading;
     public event Action Shooting;
