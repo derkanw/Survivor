@@ -547,7 +547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e263d15f5667344baf8415a91668a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemies: {fileID: 1688001195}
   MainCamera: {fileID: 761619248}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}

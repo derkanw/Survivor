@@ -66,16 +66,18 @@ public class GameState : MonoBehaviour, IGameState
         Disable?.Invoke();
     }
 
-    public void LoadNextLevel()
+    public void PrepareNextLevel()
     {
         ++_gameLevel;
         SaveParams();
         _stats.SaveParams();
         _playerParams.SaveParams();
         _skills.SaveParams();
-        _gunLoot.SpawnLoot(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
+        _gunLoot.SpawnLoot();
         Destroy(((Player)_playerParams).gameObject);
     }
+
+    public void ChangeScene() => SceneManager.LoadScene(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
 
     private void Awake()
     {

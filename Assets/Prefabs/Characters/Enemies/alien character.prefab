@@ -2105,7 +2105,7 @@ MonoBehaviour:
     BaseValue: 1
     Rate: 0.1
   DeathPoints:
-    BaseValue: 10
+    BaseValue: 6
     Rate: 0.1
   AttackSpeed: 3
   TimeOffset: 0

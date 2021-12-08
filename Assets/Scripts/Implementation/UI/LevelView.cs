@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class LevelView : MonoBehaviour, ILevelView
 {
+    public event Action SceneFinished;
+
     [SerializeField] private Image ProgressBar;
     [SerializeField] private Image HealthBar;
     [SerializeField] private Image ReloadBar;
@@ -16,9 +19,12 @@ public class LevelView : MonoBehaviour, ILevelView
     [SerializeField] private GameObject SkillPoint;
     [SerializeField] private List<Image> SkillIcons;
     [SerializeField] private List<Text> SkillCount;
+    [SerializeField] private Animator FadedPanel;
 
     private float _clipSize;
     private Vector3 _offset;
+
+    public void FadeOut() => FadedPanel.SetTrigger("FadeOut");
 
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
@@ -67,6 +73,8 @@ public class LevelView : MonoBehaviour, ILevelView
             SkillCount[index].text = count.ToString();
         }
     }
+
+    private void EndScene() => SceneFinished?.Invoke();
 
     private void Start()
     {

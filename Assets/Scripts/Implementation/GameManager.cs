@@ -30,7 +30,9 @@ public class GameManager : MonoBehaviour
         _enemies = gameObject.GetComponent<IEnemyService>();
 
         Instantiate(Environment);
+
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
+        levelHud.GetComponent<Canvas>().sortingOrder = levelHud.transform.childCount + 1;
         _hud = levelHud.GetComponent<ILevelView>();
         _buttonModel = levelHud.GetComponent<IButtonModel>();
 
@@ -59,6 +61,9 @@ public class GameManager : MonoBehaviour
         _gunService.GetArsenalSize += _gunLoot.SetArsenalSize;
 
         _gunLoot.LootSpawned += _state.Notify;
+        _gunLoot.LevelEnd += _hud.FadeOut;
+
+        _hud.SceneFinished += _state.ChangeScene;
 
         _skillService.GetSkillCount += _input.SetSkillCount;
         _skillService.ChangedSkillCount += _input.OnChangedSkillCount;
@@ -67,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         _enemies.ChangedKilledCount += _hud.ChangeBulletBar;
         _enemies.SetPoints += _state.OnSetPoints;
-        _enemies.PlayerWin += _state.LoadNextLevel;
+        _enemies.PlayerWin += _state.PrepareNextLevel;
         _enemies.PlayerWin += _input.DisableInput;
 
         _buttonModel.Pause += _pause.ViewModel;

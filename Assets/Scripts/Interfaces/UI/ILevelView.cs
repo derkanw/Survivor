@@ -1,5 +1,9 @@
-﻿public interface ILevelView
+﻿using System;
+
+public interface ILevelView
 {
+    public event Action SceneFinished;
+    public void FadeOut();
     public void ChangeBulletBar(float count);
     public void ChangeHealthBar(float count);
     public void ChangeReloadBar(float count);
