@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour, IGameState
     private float _points;
     private int _playerLevel;
     private int _gameLevel;
+    private int _order;
 
     private IGunService _gunService;
     private IGunLoot _gunLoot;
@@ -40,7 +41,8 @@ public class GameState : MonoBehaviour, IGameState
     {
         Disable?.Invoke();
         _menu.SetContinueAbility(false);
-        Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        var endUI = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        endUI.GetComponent<Canvas>().sortingOrder = _order;
         SaveSystem.DeleteAll();
     }
 
@@ -84,6 +86,7 @@ public class GameState : MonoBehaviour, IGameState
         PointsTarget.Init();
         _menu = MenuUI.GetComponent<IMenuModel>();
         _menu.SetContinueAbility(true);
+        _order = 2;
     }
 
     private void Start()

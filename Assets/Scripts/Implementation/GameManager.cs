@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         Instantiate(Environment);
 
         var levelHud = Instantiate(LevelHUD, Vector3.zero, Quaternion.identity);
-        levelHud.GetComponent<Canvas>().sortingOrder = levelHud.transform.childCount + 1;
+        levelHud.GetComponent<Canvas>().sortingOrder = 1;
         _hud = levelHud.GetComponent<ILevelView>();
         _buttonModel = levelHud.GetComponent<IButtonModel>();
 
