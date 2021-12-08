@@ -457,6 +457,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3984367224601259662, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6117321817817611757, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
         type: 3}
       propertyPath: m_Name
