@@ -7,7 +7,7 @@ public interface IGameState
     public event Action<int> ChangePoints;
     public event Action Disable;
 
-    public void InitDependencies(IGunLoot loot, IGunService manager, IStatsModel stats, Player player, SkillsManager skills);
+    public void InitDependencies(IGunLoot loot, IGunService manager, IStatsModel stats, IPlayer player, ISkillService skills);
     public void Notify();
     public void OnPlayerDied();
     public void OnSetPoints(float points);

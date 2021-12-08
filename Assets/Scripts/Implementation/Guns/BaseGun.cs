@@ -14,7 +14,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
 
     [SerializeField] [Range(0f, 50f)] private float ReloadTime;
     [SerializeField] [Range(0f, 20f)] private float ShootingSpeed;
-    [SerializeField][Range(0f, 100f)] private float ClipSize;
+    [SerializeField] [Range(0f, 100f)] private float ClipSize;
 
     private bool _isReloading;
     private bool _isShooting;
@@ -22,6 +22,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
     private bool _isReloadingClicked;
     private float _bulletCount;
     private float _reloadProgress;
+    private float _timeOffset;
 
     public void SetShooting(bool value) => _isCursorClicked = value;
     public void SetReloading(bool value) => _isReloadingClicked = value;
@@ -51,7 +52,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
         while (_bulletCount != 0 && _isCursorClicked)
         {
             Shooting?.Invoke();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(_timeOffset);
             InitBullet();
             --_bulletCount;
             yield return new WaitForSeconds(ShootingSpeed);
@@ -75,6 +76,7 @@ public abstract class BaseGun : MonoBehaviour, IGun
         _bulletCount = ClipSize;
         _incPower = 1;
         _offset = gameObject.transform.GetChild(0);
+        _timeOffset = 0.5f;
     }
 
     private void Clear()

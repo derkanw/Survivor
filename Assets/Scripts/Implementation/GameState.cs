@@ -21,11 +21,11 @@ public class GameState : MonoBehaviour, IGameState
     private IGunService _gunService;
     private IGunLoot _gunLoot;
     private IStatsModel _stats;
-    private Player _playerParams;
-    private SkillsManager _skills;
+    private IPlayer _playerParams;
+    private ISkillService _skills;
     private IMenuModel _menu;
 
-    public void InitDependencies(IGunLoot loot, IGunService manager, IStatsModel stats, Player player, SkillsManager skills)
+    public void InitDependencies(IGunLoot loot, IGunService manager, IStatsModel stats, IPlayer player, ISkillService skills)
     {
         _gunLoot = loot;
         _gunService = manager;
@@ -74,7 +74,7 @@ public class GameState : MonoBehaviour, IGameState
         _playerParams.SaveParams();
         _skills.SaveParams();
         _gunLoot.SpawnLoot(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
-        Destroy(_playerParams.gameObject);
+        Destroy(((Player)_playerParams).gameObject);
     }
 
     private void Awake()

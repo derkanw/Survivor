@@ -14,7 +14,7 @@ public class StatsModel : MonoBehaviour, IStatsModel
 
     public void OnChangedPoints(int points) => _pointsService.Points = points;
 
-    public void OnLooksStats() => _statsList.SetActive(true);
+    public void ViewModel() => _statsList.SetActive(true);
 
     public void SaveParams()
     {

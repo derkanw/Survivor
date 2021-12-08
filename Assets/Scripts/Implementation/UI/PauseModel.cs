@@ -10,8 +10,8 @@ public class PauseModel : MonoBehaviour, IPauseModel
     private GameObject _pauseUI;
     private IButtonModel _buttonModel;
 
-    public void OnPause() => _pauseUI.SetActive(true);
-    public void OnGoToMenu() => SaveProgress?.Invoke();
+    public void ViewModel() => _pauseUI.SetActive(true);
+    private void SaveParams() => SaveProgress?.Invoke();
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class PauseModel : MonoBehaviour, IPauseModel
         _pauseUI.SetActive(false);
         _buttonModel = _pauseUI.GetComponent<IButtonModel>();
         _buttonModel.Resume += OnResume;
-        _buttonModel.GoToMenu += OnGoToMenu;
+        _buttonModel.GoToMenu += SaveParams;
     }
 
     private void OnResume()

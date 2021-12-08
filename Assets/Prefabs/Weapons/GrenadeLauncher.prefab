@@ -50,6 +50,7 @@ MonoBehaviour:
   ReloadTime: 10
   ShootingSpeed: 3
   ClipSize: 5
+  YOffset: 0.5
   WeaponEffect: {fileID: 450044020708499364, guid: 93a162fc463d2d842a8c25e141618684,
     type: 3}
 --- !u!1 &6939666238999656741
@@ -152,6 +153,7 @@ MonoBehaviour:
   ReloadTime: 10
   ShootingSpeed: 3
   ClipSize: 5
+  YOffset: 0
   WeaponEffect: {fileID: 450044020708499364, guid: 93a162fc463d2d842a8c25e141618684,
     type: 3}
 --- !u!1 &7822695914516921281
