@@ -233,11 +233,13 @@ MonoBehaviour:
     BaseValue: 1
     Rate: 0.1
   Power:
-    BaseValue: 5
+    BaseValue: 12
     Rate: 0.05
   DeathPoints:
     BaseValue: 5
     Rate: 0.1
+  AttackSpeed: 4
+  TimeOffset: 0.8
 --- !u!195 &2726577221205574270
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -2107,11 +2107,12 @@ MonoBehaviour:
   DeathPoints:
     BaseValue: 10
     Rate: 0.1
+  AttackSpeed: 3
+  TimeOffset: 0
   BulletPrefab: {fileID: 1673417451854274901, guid: b713a5c5dba8ab14ab7d6b803c657ee5,
     type: 3}
   Effect: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
   ReloadTime: 8
-  ShootingSpeed: 3
   ClipSize: 10
   ShootDistance: 8
   StayDistance: 1

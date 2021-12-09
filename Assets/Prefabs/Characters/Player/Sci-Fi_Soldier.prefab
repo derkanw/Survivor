@@ -1658,16 +1658,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health:
     BaseValue: 40
-    Rate: 0.05
+    Rate: 0.1
   Rapidity:
     BaseValue: 3
     Rate: 0.05
   Agility:
     BaseValue: 1
-    Rate: -0.1
+    Rate: 0.05
   Power:
     BaseValue: 1
-    Rate: 0.1
+    Rate: 0.05
 --- !u!54 &4321600416890167494
 Rigidbody:
   m_ObjectHideFlags: 0

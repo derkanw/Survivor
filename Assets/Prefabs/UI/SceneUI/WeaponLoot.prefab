@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 716786037426095085}
   - component: {fileID: 716786037426095086}
   - component: {fileID: 716786037426095087}
-  - component: {fileID: 4294569114280747428}
+  - component: {fileID: 2402563301063036708}
   m_Layer: 5
   m_Name: WeaponLoot
   m_TagString: Untagged
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4294569114280747428
+--- !u!114 &2402563301063036708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   Chance: 0.8
   AcceptButton: {fileID: 8511389159169070416}
   Icon: {fileID: 3725893671661035617}
-  WeaponsIcons:
+  WeaponIcons:
   - {fileID: 21300000, guid: 8945fc5db7dc6044db378f1382ece111, type: 3}
   - {fileID: 21300000, guid: 3e652a597824bd44d91fd93f87e3857d, type: 3}
   - {fileID: 21300000, guid: 38332853b7d949c429a8fb4d9b928603, type: 3}

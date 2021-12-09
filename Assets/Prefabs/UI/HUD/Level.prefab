@@ -202,22 +202,22 @@ MonoBehaviour:
   ProgressBar: {fileID: 4757303905574857382}
   HealthBar: {fileID: 2216345857558410038}
   ReloadBar: {fileID: 2585061025122802678}
-  BulletsCount: {fileID: 2585061025405377912}
+  BulletCount: {fileID: 2585061025405377912}
   Points: {fileID: 8856632004775546879}
   PlayerLevel: {fileID: 2216345858080481215}
   GameLevel: {fileID: 4757303904404421481}
-  WeaponsPoint: {fileID: 2798988738928672178}
-  WeaponsIcons:
+  GunPoint: {fileID: 2798988738928672178}
+  GunIcons:
   - {fileID: 2286807975929370143}
   - {fileID: 3319456809258625198}
   - {fileID: 3177168428091034065}
   - {fileID: 9192934076830206668}
-  SkillsPoint: {fileID: 4762742768321383891}
-  SkillsIcons:
+  SkillPoint: {fileID: 1904620625097351445}
+  SkillIcons:
   - {fileID: 4815317559142282811}
   - {fileID: 1960366025452439043}
   - {fileID: 1893048853877252713}
-  SkillsCount:
+  SkillCount:
   - {fileID: 7604010181814969352}
   - {fileID: 7926452453533931935}
   - {fileID: 4247230107386267997}
@@ -3858,15 +3858,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae1d1ee1bab059845bcde88598d0dfd3, type: 3}
---- !u!1 &4762742768321383891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2136746014020260199, guid: ae1d1ee1bab059845bcde88598d0dfd3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6899398620096994484}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5219415891925269120 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1716013724919686708, guid: ae1d1ee1bab059845bcde88598d0dfd3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6899398620096994484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1904620625097351445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5030806809342705057, guid: ae1d1ee1bab059845bcde88598d0dfd3,
     type: 3}
   m_PrefabInstance: {fileID: 6899398620096994484}
   m_PrefabAsset: {fileID: 0}

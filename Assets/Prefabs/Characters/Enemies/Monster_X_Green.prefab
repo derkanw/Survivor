@@ -1503,6 +1503,8 @@ MonoBehaviour:
   DeathPoints:
     BaseValue: 7
     Rate: 0.1
+  AttackSpeed: 5
+  TimeOffset: 0.8
 --- !u!54 &2709249023204134316
 Rigidbody:
   m_ObjectHideFlags: 0
