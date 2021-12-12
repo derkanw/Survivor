@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class Starter : MonoBehaviour
 {
     [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject LevelHUD;
