@@ -44,7 +44,8 @@ public class Player : MonoBehaviour, IPlayer
     }
 
     public void TakeDamage(float power)
-    {
+    {  
+        //if (!_canTakeDamage) return; after PlayerWin
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour, IPlayer
 
     private IEnumerator PlayerDied()
     {
+        //died до, коротину во вьюшке добавить на эти 2 секунды
         _animator.SetTrigger("Death");
         yield return new WaitForSeconds(2f);
         Died?.Invoke();

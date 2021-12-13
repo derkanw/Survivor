@@ -4,6 +4,7 @@ public class Starter : MonoBehaviour
 {
     [SerializeField] private CameraMovement MainCamera;
     [SerializeField] private GameObject LevelHUD;
+    [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private GameObject Loot;
     [SerializeField] private GameObject Environment;
@@ -15,6 +16,7 @@ public class Starter : MonoBehaviour
     private IButtonModel _buttonModel;
     private IPauseModel _pause;
     private IStatsModel _stats;
+    private IGameOverModel _gameOver;
     private IGunLoot _gunLoot;
 
     private IPlayer _playerParams;
@@ -36,6 +38,9 @@ public class Starter : MonoBehaviour
         _hud = levelHud.GetComponent<ILevelView>();
         _buttonModel = levelHud.GetComponent<IButtonModel>();
 
+        var endUI = Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
+        _gameOver = endUI.GetComponent<IGameOverModel>();
+
         var lootUI = Instantiate(Loot, Vector3.zero, Quaternion.identity);
         _gunLoot = lootUI.GetComponent<IGunLoot>();
 
@@ -52,6 +57,7 @@ public class Starter : MonoBehaviour
         _playerParams.Died += _state.OnPlayerDied;
         _playerParams.Died += _buttonModel.DisableButtons;
         _playerParams.Died += _input.DisableInput;
+        _playerParams.Died += _gameOver.Activate;
 
         _gunService.ChangedClipSize += _hud.OnChangedClipSize;
         _gunService.ChangedBulletCount += _hud.OnChangedBulletCount;
@@ -63,7 +69,11 @@ public class Starter : MonoBehaviour
         _gunLoot.LootSpawned += _state.Notify;
         _gunLoot.LevelEnd += _hud.FadeOut;
 
+        _gameOver.LevelEnd += _hud.FadeOut;
+
         _hud.SceneFinished += _state.ChangeScene;
+        _hud.SceneFinished += _pause.ChangeScene;
+        _hud.SceneFinished += _gameOver.ChangeScene;
 
         _skillService.GetSkillCount += _input.SetSkillCount;
         _skillService.ChangedSkillCount += _input.OnChangedSkillCount;
@@ -81,11 +91,12 @@ public class Starter : MonoBehaviour
         _buttonModel.LooksStats += _stats.ViewModel;
 
         _pause.Resume += _input.ActivateInput;
-        _pause.SaveProgress += _state.SaveParams;
-        _pause.SaveProgress += _stats.SaveParams;
-        _pause.SaveProgress += _enemies.SaveParams;
-        _pause.SaveProgress += _playerParams.SaveParams;
-        _pause.SaveProgress += _skillService.SaveParams;
+        _pause.LevelEnd += _state.SaveParams;
+        _pause.LevelEnd += _stats.SaveParams;
+        _pause.LevelEnd += _enemies.SaveParams;
+        _pause.LevelEnd += _playerParams.SaveParams;
+        _pause.LevelEnd += _skillService.SaveParams;
+        _pause.LevelEnd += _hud.FadeOut;
 
         _stats.Resume += _input.ActivateInput;
         _stats.GetPoints += _hud.OnChangedPoints;
@@ -117,7 +128,7 @@ public class Starter : MonoBehaviour
         _input.CursorMoved -= _playerParams.LookTo;
         _input.ChangedPosition -= _playerParams.MoveTo;
         _stats.GetStats -= _playerParams.OnLevelUp;
-        _pause.SaveProgress -= _playerParams.SaveParams;
+        _pause.LevelEnd -= _playerParams.SaveParams;
 
         _gunLoot.LootSpawned -= _gunService.SetNewGun;
         _input.CursorMoved -= _gunService.LookTo;
@@ -127,6 +138,6 @@ public class Starter : MonoBehaviour
 
         _input.ChangeSkill -= _skillService.SetSkill;
         _input.UseSkill -= _skillService.UseSkill;
-        _pause.SaveProgress -= _skillService.SaveParams;
+        _pause.LevelEnd -= _skillService.SaveParams;
     }
 }

@@ -549,6 +549,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 761619248}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
+  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
+    type: 3}
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
   Loot: {fileID: 716786037426095080, guid: 89c2f70ff6300904dad581ae3ba23dd3, type: 3}
   Environment: {fileID: 3935257511476831377, guid: 5a8f59607e403874cbb4114221e5f31e,
@@ -607,8 +609,6 @@ MonoBehaviour:
   PointsTarget:
     BaseValue: 20
     Rate: 0.1
-  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
-    type: 3}
   MenuUI: {fileID: 3984367224601259662, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}
 --- !u!1001 &1967931696
 PrefabInstance:
