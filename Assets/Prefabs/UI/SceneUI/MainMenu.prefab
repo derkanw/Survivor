@@ -198,6 +198,7 @@ MonoBehaviour:
   NewGameButton: {fileID: 186926023298125314}
   ContinueButton: {fileID: 3149497441310147530}
   ExitButton: {fileID: 794527410917123450}
+  FadedPanel: {fileID: 0}
 --- !u!95 &5484943257615223513
 Animator:
   serializedVersion: 3

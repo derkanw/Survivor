@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameOverModel : MonoBehaviour, IGameOverModel
@@ -11,7 +12,6 @@ public class GameOverModel : MonoBehaviour, IGameOverModel
     public void ChangeScene() => _buttonModel.ChangeScene();
 
     public void Activate() => gameObject.SetActive(true);
-
 
     private void Awake()
     {

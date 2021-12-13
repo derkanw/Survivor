@@ -72,7 +72,7 @@ public class GameState : MonoBehaviour, IGameState
         _playerParams.SaveParams();
         _skills.SaveParams();
         _gunLoot.SpawnLoot();
-        Destroy(((Player)_playerParams).gameObject);
+        _playerParams.DestroyPlayer();
     }
 
     public void ChangeScene() => SceneManager.LoadScene(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);

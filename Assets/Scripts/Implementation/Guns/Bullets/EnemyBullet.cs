@@ -8,7 +8,7 @@ public class EnemyBullet : MachineBullet
         var target = collider.gameObject;
         if (target.CompareTag("Player"))
         {
-            var player = target.GetComponent<Player>();
+            var player = target.GetComponent<IPlayer>();
             player.TakeDamage(Power);
             Destroy(gameObject);
         }
