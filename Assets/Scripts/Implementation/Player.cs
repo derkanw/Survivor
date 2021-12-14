@@ -50,7 +50,6 @@ public class Player : MonoBehaviour, IPlayer
 
     public void TakeDamage(float power)
     {  
-        //if (!_canTakeDamage) return; after PlayerWin
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);

@@ -574,7 +574,7 @@ MonoBehaviour:
   - {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 3}
   SpawnTime: 6
   EnemiesCount:
-    BaseValue: 1
+    BaseValue: 10
     Rate: 0.5
 --- !u!114 &1688001196
 MonoBehaviour:
