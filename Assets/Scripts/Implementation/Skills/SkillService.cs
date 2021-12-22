@@ -12,7 +12,7 @@ public class SkillService : MonoBehaviour, ISkillService
 
     private int _skillCount;
     private int _currentSkill;
-    private Player _player;
+    private IPlayer _player;
     private List<Skill> _skills;
 
     public void SaveParams()
@@ -63,7 +63,7 @@ public class SkillService : MonoBehaviour, ISkillService
         _skillCount = SkillObjects.Length;
         GetSkillCount?.Invoke(_skillCount);
         _skills = new List<Skill>(_skillCount);
-        _player = gameObject.GetComponent<Player>();
+        _player = gameObject.GetComponent<IPlayer>();
         
         var data = SaveSystem.IsExists(Tokens.SkillCount) ? SaveSystem.Load<int[]>(Tokens.SkillCount) : new int[_skillCount];
 
@@ -71,7 +71,7 @@ public class SkillService : MonoBehaviour, ISkillService
         for (int index = 0; index < _skillCount; ++index)
         {
             GameObject obj = Instantiate(SkillObjects[index]);
-            obj.transform.parent = _player.transform;
+            obj.transform.parent = _player.BeParent();
             obj.transform.localPosition = Vector3.zero;
             _skills.Add(obj.GetComponent<Skill>());
             _skills[index].Count = data[index];

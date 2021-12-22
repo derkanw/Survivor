@@ -12,5 +12,6 @@ public interface IGameState
     public void OnPlayerDied();
     public void OnSetPoints(float points);
     public void SaveParams();
-    public void LoadNextLevel();
+    public void PrepareNextLevel();
+    public void ChangeScene();
 }

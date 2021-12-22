@@ -20,8 +20,13 @@ public class Player : MonoBehaviour, IPlayer
     private float _hp;
     private IGunService _gunService;
     private int _speedLevel;
+    private float _timeOffset;
+
+    public Transform BeParent() => gameObject.transform;
 
     public void SaveParams() => SaveSystem.Save<float>(Tokens.HP, _hp);
+
+    public void DestroyPlayer() => Destroy(gameObject);
 
     public void PowerUp(float power, float time)
     {
@@ -44,7 +49,7 @@ public class Player : MonoBehaviour, IPlayer
     }
 
     public void TakeDamage(float power)
-    {
+    {  
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
         _hp -= power;
         ChangedHP?.Invoke(_hp / Health.Value);
@@ -110,9 +115,9 @@ public class Player : MonoBehaviour, IPlayer
 
     private IEnumerator PlayerDied()
     {
-        _animator.SetTrigger("Death");
-        yield return new WaitForSeconds(2f);
         Died?.Invoke();
+        _animator.SetTrigger("Death");
+        yield return new WaitForSeconds(_timeOffset);
         Destroy(gameObject);
     }
 
@@ -127,6 +132,7 @@ public class Player : MonoBehaviour, IPlayer
         _animator = gameObject.GetComponent<Animator>();
         _hp = SaveSystem.IsExists(Tokens.HP) ? SaveSystem.Load<float>(Tokens.HP) : Health.Value;
         _gunService = gameObject.GetComponent<IGunService>();
+        _timeOffset = 2f;
     }
 
     private void Start() => ChangedHP?.Invoke(_hp / Health.Value);

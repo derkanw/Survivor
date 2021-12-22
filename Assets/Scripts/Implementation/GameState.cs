@@ -9,9 +9,8 @@ public class GameState : MonoBehaviour, IGameState
     public event Action<int> ChangePoints;
     public event Action Disable;
 
-    [SerializeField] private uint LevelCount;
+    [SerializeField] private int LevelCount;
     [SerializeField] private Stat PointsTarget;
-    [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject MenuUI;
 
     private float _points;
@@ -40,7 +39,6 @@ public class GameState : MonoBehaviour, IGameState
     {
         Disable?.Invoke();
         _menu.SetContinueAbility(false);
-        Instantiate(GameOverUI, Vector3.zero, Quaternion.identity);
         SaveSystem.DeleteAll();
     }
 
@@ -66,16 +64,18 @@ public class GameState : MonoBehaviour, IGameState
         Disable?.Invoke();
     }
 
-    public void LoadNextLevel()
+    public void PrepareNextLevel()
     {
         ++_gameLevel;
         SaveParams();
         _stats.SaveParams();
         _playerParams.SaveParams();
         _skills.SaveParams();
-        _gunLoot.SpawnLoot(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
-        Destroy(((Player)_playerParams).gameObject);
+        _gunLoot.SpawnLoot();
+        _playerParams.DestroyPlayer();
     }
+
+    public void ChangeScene() => SceneManager.LoadScene(_gameLevel >= LevelCount ? Tokens.MainMenu : SceneManager.GetActiveScene().name);
 
     private void Awake()
     {

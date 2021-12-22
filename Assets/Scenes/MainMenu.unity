@@ -124,6 +124,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!95 &529486412 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5484943257615223513, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1781959863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &715766330
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3984367224601259662, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6117321817817611757, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
         type: 3}
       propertyPath: m_Name
@@ -487,6 +498,11 @@ PrefabInstance:
       propertyPath: ExitButton
       value: 
       objectReference: {fileID: 1781959864}
+    - target: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
+        type: 3}
+      propertyPath: FadedPanel
+      value: 
+      objectReference: {fileID: 529486412}
     - target: {fileID: 8866194297206941507, guid: f49cc75c038b7f648b22aa2f1b3a8a6e,
         type: 3}
       propertyPath: NewGameButton

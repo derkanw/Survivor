@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ButtonModel : MonoBehaviour, IButtonModel
 {
+    public event Action Restart;
     public event Action GoToMenu;
     public event Action Resume;
     public event Action Pause;
@@ -19,6 +20,13 @@ public class ButtonModel : MonoBehaviour, IButtonModel
     [SerializeField] private Button ResumeButton;
 
     private bool _canUse;
+    private string _sceneName;
+
+    public void ChangeScene()
+    {
+        if (String.IsNullOrWhiteSpace(_sceneName)) return;
+        SceneManager.LoadScene(_sceneName);
+    }
 
     public void DisableButtons() => _canUse = false;
 
@@ -61,14 +69,15 @@ public class ButtonModel : MonoBehaviour, IButtonModel
     private void RestartLevel()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Restart?.Invoke();
+        _sceneName = SceneManager.GetActiveScene().name;
     }
 
     private void ToMainMenu()
     {
         Time.timeScale = 1f;
         GoToMenu?.Invoke();
-        SceneManager.LoadScene(Tokens.MainMenu);
+        _sceneName = Tokens.MainMenu;
     }
 
     private void ResumeLevel()

@@ -11,7 +11,7 @@ public class BomberEnemy : BaseEnemy
         Instantiate(Effect, transform.position, Quaternion.identity);
         AudioManager.PlaySound(SoundNames.GrenadeExplosion);
         if (target != null)
-            target.GetComponent<Player>().TakeDamage(Power.Value);
+            target.GetComponent<IPlayer>().TakeDamage(Power.Value);
         yield return new WaitForSeconds(TimeOffset);
         StartCoroutine(Died());
     }

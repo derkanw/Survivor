@@ -11,7 +11,7 @@ public class MeleeEnemy : BaseEnemy
             yield return new WaitForSeconds(TimeOffset);
             AudioManager.PlaySound(SoundNames.EnemyAttack);
             if (target != null)
-                target.GetComponent<Player>().TakeDamage(Power.Value);
+                target.GetComponent<IPlayer>().TakeDamage(Power.Value);
             yield return new WaitForSeconds(AttackSpeed);
             _isAttacking = false;
         }

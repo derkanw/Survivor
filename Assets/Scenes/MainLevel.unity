@@ -547,9 +547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e263d15f5667344baf8415a91668a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemies: {fileID: 1688001195}
   MainCamera: {fileID: 761619248}
   LevelHUD: {fileID: 181313351049014485, guid: 65cd306eb44c54b49a238340e0aeaa7a, type: 3}
+  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
+    type: 3}
   PlayerPrefab: {fileID: 100096, guid: 398da42bc4f6f6e44852a9f96c6c4e41, type: 3}
   Loot: {fileID: 716786037426095080, guid: 89c2f70ff6300904dad581ae3ba23dd3, type: 3}
   Environment: {fileID: 3935257511476831377, guid: 5a8f59607e403874cbb4114221e5f31e,
@@ -573,7 +574,7 @@ MonoBehaviour:
   - {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 3}
   SpawnTime: 6
   EnemiesCount:
-    BaseValue: 1
+    BaseValue: 10
     Rate: 0.5
 --- !u!114 &1688001196
 MonoBehaviour:
@@ -608,6 +609,4 @@ MonoBehaviour:
   PointsTarget:
     BaseValue: 20
     Rate: 0.1
-  GameOverUI: {fileID: 7105399310955707810, guid: 1e80921d6b82458478e72ac423703148,
-    type: 3}
   MenuUI: {fileID: 3984367224601259662, guid: f49cc75c038b7f648b22aa2f1b3a8a6e, type: 3}

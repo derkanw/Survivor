@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 7105399310955707812}
   - component: {fileID: 7105399310955707811}
   - component: {fileID: 2582281204483819267}
+  - component: {fileID: 8677173410308515868}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -266,12 +267,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2048, y: 1152}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -311,6 +312,18 @@ MonoBehaviour:
   RestartButton: {fileID: 1321493214827020994}
   MenuButton: {fileID: 2888693718013639809}
   ResumeButton: {fileID: 0}
+--- !u!114 &8677173410308515868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105399310955707810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f69c012f9ea2e4d9198227a08ec916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4780467437487106579
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class Skill : MonoBehaviour, ISkill
     {
         if (Count == 0 || _isReloading) return;
         AudioManager.PlaySound(SoundNames.UseSkill);
-        Instantiate(Effect, transform.position, Quaternion.identity).transform.SetParent(((Player)player).gameObject.transform);
+        Instantiate(Effect, transform.position, Quaternion.identity).transform.SetParent(player.BeParent());
         switch(Name)
         {
             case SkillsNames.Health:

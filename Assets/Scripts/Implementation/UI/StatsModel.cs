@@ -11,6 +11,7 @@ public class StatsModel : MonoBehaviour, IStatsModel
     [SerializeField] private GameObject StatsList;
     private GameObject _statsList;
     private IPointsService _pointsService;
+    private int _order;
 
     public void OnChangedPoints(int points) => _pointsService.Points = points;
 
@@ -24,8 +25,10 @@ public class StatsModel : MonoBehaviour, IStatsModel
 
     private void Start()
     {
+        _order = 2;
         _statsList = Instantiate(StatsList, Vector3.zero, Quaternion.identity);
         _statsList.SetActive(false);
+        _statsList.GetComponent<Canvas>().sortingOrder = _order;
         _statsList.GetComponent<IButtonModel>().Resume += OnResume;
         _pointsService = _statsList.GetComponent<IPointsService>();
         _pointsService.Points = SaveSystem.Load<int>(Tokens.StatsPoints);

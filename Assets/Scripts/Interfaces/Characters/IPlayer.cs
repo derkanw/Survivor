@@ -14,4 +14,6 @@ public interface IPlayer : IMovable, IDamageable
     public void SpeedUp(int incSpeed, float time);
     public void PowerUp(float power, float time);
     public void SaveParams();
+    public void DestroyPlayer();
+    public Transform BeParent();
 }

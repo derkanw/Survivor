@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class LevelView : MonoBehaviour, ILevelView
 {
+    public event Action SceneFinished;
+
     [SerializeField] private Image ProgressBar;
     [SerializeField] private Image HealthBar;
     [SerializeField] private Image ReloadBar;
@@ -11,14 +14,16 @@ public class LevelView : MonoBehaviour, ILevelView
     [SerializeField] private Text Points;
     [SerializeField] private Text PlayerLevel;
     [SerializeField] private Text GameLevel;
-    [SerializeField] private GameObject GunPoint;
+    [SerializeField] private List<Image> GunPoints;
     [SerializeField] private List<Image> GunIcons;
-    [SerializeField] private GameObject SkillPoint;
+    [SerializeField] private List<Image> SkillPoints;
     [SerializeField] private List<Image> SkillIcons;
     [SerializeField] private List<Text> SkillCount;
+    [SerializeField] private Animator FadedPanel;
 
     private float _clipSize;
-    private Vector3 _offset;
+
+    public void FadeOut() => FadedPanel.SetTrigger("FadeOut");
 
     public void ChangeBulletBar(float count) => ProgressBar.fillAmount = count;
 
@@ -38,14 +43,9 @@ public class LevelView : MonoBehaviour, ILevelView
 
     public void OnChangedClipSize(float size) => _clipSize = size;
 
-    public void OnChangedGun(int index) => GunPoint.transform.position = GunIcons[index].transform.position + _offset;
+    public void OnChangedGun(int index) => ViewCornes(GunPoints, index);
 
-    public void OnChangedSkill(int index)
-    {
-        if (SkillPoint.activeSelf == false)
-            SkillPoint.SetActive(true);
-        SkillPoint.transform.position = SkillIcons[index].transform.position + _offset;
-    }
+    public void OnChangedSkill(int index) => ViewCornes(SkillPoints, index);
 
     public void ViewGuns(int count)
     {
@@ -68,11 +68,19 @@ public class LevelView : MonoBehaviour, ILevelView
         }
     }
 
+    private void EndScene() => SceneFinished?.Invoke();
+
+    private void ViewCornes(List<Image> corners, int index = -1)
+    {
+        for (int i = 0; i < corners.Count; ++i)
+            corners[i].enabled = i == index;
+    }
+
     private void Start()
     {
-        _offset = new Vector3(-20f, -20f, 0);
-        SkillPoint.SetActive(false);
         OnChangedGun(0);
+        ViewCornes(SkillPoints);
+        ViewCornes(GunPoints, 0);
         ViewGuns(0);
     }
 }
